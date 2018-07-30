@@ -11,7 +11,11 @@ This page walks through Matlab and Github setup and then provides an introductio
 
 Install Matlab
 ======
-You can [install Matlab](https://www.mathworks.com/) from the Mathworks website.
+You can install Matlab from the [Mathworks website](https://www.mathworks.com/). Free trial versions are available. You will need two toolboxes: The statistics and machine learning toolbox and the signal processing toolbox.  
+
+Install Statistical Parametric Mapping (SPM)
+======
+Our toolboxes use SPM's image reading and writing functions, and the spm_orthviews viewer. SPM is a [free download from their site](https://www.fil.ion.ucl.ac.uk/spm/)
 
 Set up CAN Lab tools from Github
 ======
@@ -22,9 +26,9 @@ First, go to the [Github CANlab tools site](https://github.com/canlab/CanlabCore
 ![canlabcore repo view](/docs/images/canlabcore.png)
 
 Using the green "Clone or Download" drop down you can either download a zip file of the repository or clone using git with
-a web URL for the repository (these are options 1 and 2 above, respectively).
+a web URL for the repository (these are options 1 and 2 above, respectively). You can download other repositories this way, or use the quick-start walkthrough below.
 
-Walkthrough
+Quick-start Walkthrough
 ======
 There is a Matlab script in the [CanlabCore repository](https://github.com/canlab/CanlabCore) that will help download the repositories you need from Github and add them to your Matlab path.  This walkthough shows you how to do it:
 
