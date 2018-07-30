@@ -13,7 +13,7 @@ The CANlab imaging analysis tools consist of a set of linked [Github repositorie
 
 This page contains examples consisting of walkthroughs, results, and figures that demonstrate what the code can do and how to do it.
 
-Object-oriented features and philosophy:
+Object-oriented features and philosophy
 ======
 
   - Store image data in a flat (2-d), space-efficient voxels x images matrix

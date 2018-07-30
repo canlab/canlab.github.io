@@ -3,20 +3,18 @@ permalink: /
 title: "CANlab toolbox repositories"
 excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. Here is a list"
 author_profile: true
-redirect_from:
-  - /about/  # not sure what to put here
-  - /about.html # not sure what to put here
+
 ---
 {% include base_path %}
 
 Repositories
 ======
 The CANlab imaging analysis tools consist of a set of linked Github repositories. Several of these are needed for interactive data analysis using our [object-oriented framework](/objectoriented/), including [CanlabCore](https://github.com/canlab/CanlabCore), [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples), and [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks).
-Other toolboxes are semi-stand-alone but require [CanlabCore](https://github.com/canlab/CanlabCore).
+Other toolboxes are semi-stand-alone but require CanlabCore.
 
-CANlab Core Tools                             https://github.com/canlab/CanlabCore
-CANlab Neuroimaging_Pattern_Masks repository  https://github.com/canlab/Neuroimaging_Pattern_Masks
-CANlab_help_examples                          https://github.com/canlab/CANlab_help_examples
+[CANlab Core Tools](https://github.com/canlab/CanlabCore)   Object-oriented fMRI analysis tools, used in other toolboxes
+[CANlab Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks)   Masks, predictive signature patterns, and meta-analysis maps
+[CANlab_help_examples](https://github.com/canlab/CANlab_help_examples)    Walkthroughs and batch script system for 2nd-level analysis
 
 M3 Multilevel mediation toolbox               https://github.com/canlab/MediationToolbox
 CANlab robust regression toolbox              https://github.com/canlab/RobustToolbox
