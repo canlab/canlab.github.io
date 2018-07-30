@@ -5,3 +5,15 @@ main:
 
   - title: "Second-Level Analysis"
     url: /second/
+
+  - title: "Overview"
+    url: /overview/
+
+  - title: "Setup"
+    url: /overview/
+
+  - title: "Interactive fMRI analysis"
+    url: /objectoriented/
+
+  - title: "Batch system"
+    url: /batch/

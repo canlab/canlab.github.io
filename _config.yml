@@ -7,13 +7,13 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "CAN Lab"
+title                    : "CANlab"
 title_separator          : "-"
-name                     : &name "Cognitive and Affective Neuroscience Lab"
+name                     : &name "CANlab fMRI analysis tools"
 description              : &description "Pain and Emotion at CU Boulder"
-url                      : https://lslipski.github.io/CanlabCore #   the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://https://canlab.github.io #   the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/about"
-repository               : "https://github.com/Lslipski/CANlab_help_examples"
+repository               : "https://github.com/canlab"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
@@ -78,9 +78,9 @@ analytics:
 
 # Site Author
 author:
-  name             : "CAN Lab"
+  name             : "CANlab"
   avatar           : "siips1.png"
-  bio              : "We investigate the brain pathways that underlie the generation and regulation of pain and emotion."
+  bio              : "A collection of tools for interactive analysis of neuroimaging data"
   location         : "Boulder, CO"
   employer         :
   googlescholar    :
@@ -104,7 +104,7 @@ author:
   stackoverflow    :
   steam            :
   tumblr           :
-  twitter          :
+  twitter          :"https://www.twitter.com/torwager"
   vine             :
   weibo            :
   xing             :
