@@ -79,7 +79,7 @@ analytics:
 # Site Author
 author:
   name             : "CANlab"
-  avatar           : "siips1.png"
+  avatar           : "canlab_logo_mountains.png"
   bio              : "A collection of tools for interactive analysis of neuroimaging data"
   location         : "Boulder, CO"
   employer         :
@@ -104,7 +104,7 @@ author:
   stackoverflow    :
   steam            :
   tumblr           :
-  twitter          : "https://www.twitter.com/torwager"
+  twitter          : "torwager"
   vine             :
   weibo            :
   xing             :

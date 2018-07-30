@@ -7,7 +7,7 @@ main:
     url: /overview/
 
   - title: "Interactive fMRI"
-    url: /objectoriented/canlab_help_1_installing_tools.html
+    url: /objectoriented/
 
   - title: "Batch system"
     url: /batch/
