@@ -1,18 +1,12 @@
 # main links links
 main:
-  - title: "Setup and System Requirements"
+  - title: "Setup"
     url: /setup/
-
-  - title: "Second-Level Analysis"
-    url: /second/
 
   - title: "Overview"
     url: /overview/
 
-  - title: "Setup"
-    url: /overview/
-
-  - title: "Interactive fMRI analysis"
+  - title: "Interactive fMRI"
     url: /objectoriented/
 
   - title: "Batch system"
