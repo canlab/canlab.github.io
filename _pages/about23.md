@@ -3,19 +3,17 @@ permalink: /
 title: "CANlab neuroimaging analysis tools"
 excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. This site serves as the point of entry for using these tools."
 author_profile: true
-#redirect_from:
-#  - /about/
-#  - /about.html
+redirect_from:
+  - /about/
+  - /about.html
 ---
 {% include base_path %}
 
-The CANlab imaging analysis tools consist of a set of linked [Github repositories](/repositories.md).
-
-They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.  
+The CANlab imaging analysis tools consist of a set of linked [Github repositories](/repositories.md). They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.  
 
 This page contains examples consisting of walkthroughs, results, and figures that demonstrate what the code can do and how to do it.
 
-Object-oriented features and philosophy
+Object-oriented features and philosophy:
 ======
 
   - Store image data in a flat (2-d), space-efficient voxels x images matrix
