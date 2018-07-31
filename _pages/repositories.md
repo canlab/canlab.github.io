@@ -21,11 +21,6 @@ The CANlab imaging analysis tools consist of a set of linked Github repositories
 Several of these are needed for interactive data analysis using our [object-oriented framework](/objectoriented/), including [CanlabCore](https://github.com/canlab/CanlabCore), [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples), and [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks).
 Other toolboxes are semi-stand-alone but require CanlabCore.
 
-| Repository                                   | Description                                         |
-| -------------------------------------------- | --------------------------------------------------- |
-| M3 Multilevel mediation toolbox              | https://github.com/canlab/MediationToolbox          |
-| CANlab robust regression toolbox             | https://github.com/canlab/RobustToolbox             |
-| MKDA coordinate-based meta-analysis toolbox  | https://github.com/canlab/Canlab_MKDA_MetaAnalysis  |
 
 Other CANlab repositories contain code and data for experiments and procedures:
 
