@@ -9,16 +9,22 @@ author_profile: true
 
 The CANlab imaging analysis tools consist of a set of linked Github repositories.
 
+| Repository            | Description                                                                 |
+| --------          | --------------------------------------------------------------------------- |
+| [CanlabCore](https://github.com/canlab/CanlabCore)        | Object-oriented fMRI analysis tools, used in other toolboxes |
+| [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples)   | Walkthroughs and batch script system for 2nd-level analysis                         |
+| [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks)             | Masks, predictive signature patterns, and meta-analysis maps     |
+| region            | Stores data grouped by region/network, treating region as a unit of analysis|
+| fmridisplay       | Container for handles for brain slices and surfaces, allowing visualization |
+
 Several of these are needed for interactive data analysis using our [object-oriented framework](/objectoriented/), including [CanlabCore](https://github.com/canlab/CanlabCore), [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples), and [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks).
 Other toolboxes are semi-stand-alone but require CanlabCore.
 
-* [CANlab Core Tools](https://github.com/canlab/CanlabCore)   Object-oriented fMRI analysis tools, used in other toolboxes
-* [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks)   Masks, predictive signature patterns, and meta-analysis maps
-* [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples)    Walkthroughs and batch script system for 2nd-level analysis
-
-* M3 Multilevel mediation toolbox               https://github.com/canlab/MediationToolbox
-* CANlab robust regression toolbox              https://github.com/canlab/RobustToolbox
-* MKDA coordinate-based meta-analysis toolbox   https://github.com/canlab/Canlab_MKDA_MetaAnalysis
+| Repository                                   | Description                                         |
+| -------------------------------------------- | --------------------------------------------------- |
+| M3 Multilevel mediation toolbox              | https://github.com/canlab/MediationToolbox          |
+| CANlab robust regression toolbox             | https://github.com/canlab/RobustToolbox             |
+| MKDA coordinate-based meta-analysis toolbox  | https://github.com/canlab/Canlab_MKDA_MetaAnalysis  |
 
 Other CANlab repositories contain code and data for experiments and procedures:
 
