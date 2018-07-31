@@ -1,5 +1,5 @@
 ---
-permalink: /
+permalink: /repositories/
 title: "CANlab toolbox repositories"
 excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. Here is a list"
 author_profile: true
@@ -7,7 +7,9 @@ author_profile: true
 ---
 {% include base_path %}
 
-The CANlab imaging analysis tools consist of a set of linked Github repositories. Several of these are needed for interactive data analysis using our [object-oriented framework](/objectoriented/), including [CanlabCore](https://github.com/canlab/CanlabCore), [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples), and [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks).
+The CANlab imaging analysis tools consist of a set of linked Github repositories.
+
+Several of these are needed for interactive data analysis using our [object-oriented framework](/objectoriented/), including [CanlabCore](https://github.com/canlab/CanlabCore), [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples), and [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks).
 Other toolboxes are semi-stand-alone but require CanlabCore.
 
 [CANlab Core Tools](https://github.com/canlab/CanlabCore)   Object-oriented fMRI analysis tools, used in other toolboxes

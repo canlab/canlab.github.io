@@ -17,7 +17,7 @@ Install Statistical Parametric Mapping (SPM)
 ======
 Our toolboxes use SPM's image reading and writing functions, and the spm_orthviews viewer. SPM is a [free download from their site](https://www.fil.ion.ucl.ac.uk/spm/)
 
-Set up CAN Lab tools from Github
+Install CANlab core tools from Github
 ======
 There are two options for this step: 1) Download a .zip file with the code, or 2) Install Github on your computer and Clone
 the repository (recommended).  With the 2nd option you will get updates, but it requires more steps and some knowledge of how Github works.
@@ -37,7 +37,14 @@ There is a Matlab script in the [CanlabCore repository](https://github.com/canla
 
 Repositories
 ======
-The CANlab imaging analysis tools consist of a set of linked repositories. Several of these are needed for interactive data analysis using our [object-oriented framework](/objectoriented/), including [CanlabCore](https://github.com/canlab/CanlabCore), [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples), and [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks).
+The CANlab imaging analysis tools consist of a set of linked repositories.
+Links and descriptions are on the [repositories page](/repositories.md)
+
+
+
+
+
+Several of these are needed for interactive data analysis using our [object-oriented framework](/objectoriented/), including [CanlabCore](https://github.com/canlab/CanlabCore), [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples), and [Neuroimaging_Pattern_Masks](https://github.com/canlab/Neuroimaging_Pattern_Masks).
 Other toolboxes are semi-stand-alone but require [CanlabCore](https://github.com/canlab/CanlabCore).
 
 CANlab Core Tools                             https://github.com/canlab/CanlabCore
