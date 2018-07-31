@@ -1,11 +1,11 @@
 ---
-permalink: /
+permalink: /objectoriented/
 title: "Object-oriented analysis"
 excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. This site serves as the point of entry for using these tools."
 author_profile: true
-redirect_from:
-  * /objectoriented/
-  * /objectoriented.md
+# redirect_from:
+#  * /objectoriented/
+#  * /objectoriented.md
 ---
 {% include base_path %}
 
@@ -15,7 +15,7 @@ They enable interactive data analysis for fMRI and other types of neuroimaging d
 
 ## Interactive analysis: Philosophy and principles
 
-Interactive analysis using objects has a number of advantages. See the main [CANlab intro page](/about/) for more on the philosophy behind this approach. 
+Interactive analysis using objects has a number of advantages. See the main [CANlab intro page](/about/) for more on the philosophy behind this approach.
 
 ## Walkthroughs and batch scripts
 
