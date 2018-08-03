@@ -226,8 +226,7 @@ reloading and results-on-demand later.
 
 | Script             | Function                                                     |
 | ------------       | ------------------------------------------------------------ |
-| a_set_up_paths_always_run_first.m         |           Always run this first before you run other scripts.
-    Runs: a2_set_default_options
+| a_set_up_paths_always_run_first.m         |           Always run this first before you run other scripts. Runs: a2_set_default_options |
 | prep_1b_prep_behavioral_data.m / prep_1b_example2.m  | Optional: Run these load and attach behavioral data from files | (e.g., from Excel) |            
 | prep_1_set_conditions_contrasts_colors.m      |       Modify to specify image file subdirectories, wildcards to locate images, condition names |
 | prep_2_load_image_data_and_save.m             |       Load image data into fmri_data objects and save |
@@ -274,20 +273,20 @@ correctly and you have reloaded data with a_set_up_paths_always_run_first + b_re
 | Script             | Function                                                     |
 | ------------       | ------------------------------------------------------------ |
 | b2_show_data_vs_underlay.m           |                Show first condition image over canonical brain to check registration and coverage. |
-| Contrasts:  |         |
+| **Contrasts:**           |
 | c_univariate_contrast_maps.m         |                Show voxel-wise maps for all contrasts, FDR-corrected and uncorrected; tables |
 | c3_univariate_contrast_maps_scaleddata.m   |          Show voxel-wise contrast maps for scaled/cleaned data |
-
 | c4_univ_contrast_wedge_plot_and_lateralization_test.m  |  Test contrasts and lateralization across 16 large-scale rsFMRI networks with L/R divisions |
 | c5_univ_contrast_wedge_plot_and_lateralization_test_scaled_data.m | Test contrasts and lateralization with scaled data |
-
+| **Support Vector Machines:**           |
 | c2_SVM_contrasts.m                      |             Show SVM results (from prep_3b_run_SVMs_on_contrasts_and_save) |
 | c2_SVM_contrasts_masked.m               |             Show SVM results (from prep_3b_run_SVMs_on_contrasts_masked) |
-| c2a_second_level_regression.m           |             Show regression results (from  prep_3a_run_second_level_regression_and_save)  |
 | c2b_SVM_betweenperson_contrasts.m        |            Show SVM results (from prep_3d_run_SVM_betweenperson_contrasts)  |
 | c2c_SVM_between_condition_contrasts.m       |         Show SVM results (run-on-demand, no prep script yet)  |
+| **Multivariate regression:**           |
+| c2a_second_level_regression.m           |             Show regression results (from  prep_3a_run_second_level_regression_and_save)  |
 | c2d_lassoPCR_contrasts.m                    |         Multivariate cross-validated regression results (for, e.g., linear contrasts across multiple conditions)  |
- |           |
+| **Pre-defined signatures:**           |
 | d1_pain_signature_responses_dotproduct.m     |        Test and report extracted 'signature' responses (from |prep_4_apply_signatures_and_save)  |
 | d2_pain_signature_responses.m                |        Test and report extracted 'signature' responses with cosine_similarity metric (from prep_4_apply_signatures_and_save)  |
 | d3_plot_nps_subregions.m                |             Test and report Neurologic Pain Signature subregions (from prep_4_apply_signatures_and_save)  |
@@ -303,15 +302,15 @@ correctly and you have reloaded data with a_set_up_paths_always_run_first + b_re
 | d12_kragel_emotion_signature_responses.m  |
 | d13_kragel_emotion_riverplots.m  |
 | d14_kragel_emotion_signature_similarity_barplots.m  |
-
+| **Pre-defined networks:**           |
 | f2_bucknerlab_network_barplots.m             |        Contrasts analyzed according to 7 Buckner Lab cortical networks from Yeo et al. 2011               |
 | f2_bucknerlab_network_wedgeplots.m  |
 | g2_bucknerlab_network_riverplots.m  |
-
+| **Group differences:**           |
 | h2_group_differences_emosignatures.m         |        Group differences in signatures, using 'Group' variable in DAT. See prep_1b_prep_behavioral_data.m |
 | h3_kragel_patterns_group_differences.m  |
 | h_group_differences.m |
-
+| **Parcels and meta-analysis patterns:**           |
 | j1_display_parcels.m  |
 | k2_neurosynth_cogcontrol_pattern_and_region_analyses.m  |
 | k_emotionmeta_pattern_and_region_analyses.m     |     For contrasts, pattern of interest and region-of-interest   analyses defined based on Silvers, Buhle et al. emotion regulation meta-analysis  |
