@@ -241,7 +241,7 @@ reloading and results-on-demand later.
 | Script             | Function                                                     |
 | ------------       | ------------------------------------------------------------ |
 | a_set_up_paths_always_run_first.m         |           Always run this first before you run other scripts. Runs: a2_set_default_options |
-| prep_1b_prep_behavioral_data.m / prep_1b_example2.m  | Optional: Run these load and attach behavioral data from files | (e.g., from Excel) |            
+| prep_1b_prep_behavioral_data.m / prep_1b_example2.m  | Optional: Run these load and attach behavioral data from files (e.g., from Excel) |            
 | prep_1_set_conditions_contrasts_colors.m      |       Modify to specify image file subdirectories, wildcards to locate images, condition names |
 | prep_2_load_image_data_and_save.m             |       Load image data into fmri_data objects and save |
 | prep_3_calc_univariate_contrast_maps_and_save.m   |   Apply contrasts to fmri_data objects |
@@ -250,7 +250,7 @@ reloading and results-on-demand later.
 | prep_3c_run_SVMs_on_contrasts_masked.m         |      [Optional] run cross-val SVMs on within-person contrasts, within a mask |
 | prep_3d_run_SVM_betweenperson_contrasts.m     |       [Optional] run cross-val SVMs across conditions, assuming subjects nested within conditions (e.g., if diff conditions are diff subjects) |
 | prep_4_apply_signatures_and_save.m            |       Apply CANlab signature patterns and attach output (values) to saved DAT structure |
-| prep_5_apply_shen_parcellation_and_save.m      |      [Optional] Extract data from each condition/contrast averaged | over each parcel, save file with values |
+| prep_5_apply_shen_parcellation_and_save.m      |      [Optional] Extract data from each condition/contrast averaged over each parcel, save file with values |
 | prep_5b_apply_spmanatomy_parcellation_and_save.m  |   [Optional] Extract data from each condition/contrast averaged over each parcel, save file with values |
 | prep_6_apply_kragel_emotion_signatures_and_save.m  |  [Optional] Apply Kragel emotion signature patterns and attach output (values) to DAT |
 
@@ -301,7 +301,7 @@ correctly and you have reloaded data with a_set_up_paths_always_run_first + b_re
 | c2a_second_level_regression.m           |             Show regression results (from  prep_3a_run_second_level_regression_and_save)  |
 | c2d_lassoPCR_contrasts.m                    |         Multivariate cross-validated regression results (for, e.g., linear contrasts across multiple conditions)  |
 | **Pre-defined signatures:**           |
-| d1_pain_signature_responses_dotproduct.m     |        Test and report extracted 'signature' responses (from |prep_4_apply_signatures_and_save)  |
+| d1_pain_signature_responses_dotproduct.m     |        Test and report extracted 'signature' responses (from prep_4_apply_signatures_and_save)  |
 | d2_pain_signature_responses.m                |        Test and report extracted 'signature' responses with cosine_similarity metric (from prep_4_apply_signatures_and_save)  |
 | d3_plot_nps_subregions.m                |             Test and report Neurologic Pain Signature subregions (from prep_4_apply_signatures_and_save)  |
 | d3_plot_nps_subregions_bars.m  |
@@ -364,8 +364,8 @@ z_batch_meta_analysis_mask_analyses.m`
 * Files with these variables are saved automatically when you
   run the prep scripts.  
 
-      meta-data are saved in image_names_and_setup.mat
-      image data are saved in data_objects.mat
+  meta-data are saved in image_names_and_setup.mat
+  image data are saved in data_objects.mat
 
   They are loaded automatically when you run
   `b_reload_saved_matfiles.m`
