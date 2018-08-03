@@ -192,12 +192,14 @@ This section contains a more detailed overview of the workflow, and the various 
 _________________________________________________________________________
 
 Run:
+
 | Entry                                 |                                                              |
 | -------------------------------       | ------------------------------------------------------------ |
 |`a_set_up_new_analysis_folder_and_scripts`    |        Creates local folders and copies in relevant scripts |
 
 ### *Step 2:* Edit these files in you local analysis folder and save:
 _________________________________________________________________________
+
 | Entry              |                                                              |
 | ------------       | ------------------------------------------------------------ |
 | `study_info.json`                  |                   File with study/author meta-data, for reports and archive |
@@ -209,6 +211,15 @@ _________________________________________________________________________
 |`prep_1c_normalize_to_MNI.m`                    |      Optional script to modify and use only if data are not yet in MNI space; otherwise ignore |
 |
 |`prep_0_batch_run_once.m`  |    Batch script to run a whole sequence of prep_* files. |
+
+### Table 1
+
+| Entry            | Item   |                                                              |
+| --------         | ------ | ------------------------------------------------------------ |
+| [John Doe](#)    | 2016   | Description of the item in the list                          |
+| [Jane Doe](#)    | 2019   | Description of the item in the list                          |
+| [Doe Doe](#)     | 2022   | Description of the item in the list                          |
+
 
 ### *Step 3:* Load and prepare contrast images and analyses:
 _________________________________________________________________________
