@@ -10,11 +10,10 @@ main:
     url: /objectoriented/
 
   - title: "Walkthroughs"
-   url: /Walkthroughs/
+    url: /Walkthroughs/
 
   - title: "Batch system"
     url: /batch/
-
 
   # - title: "Portfolio"
   #  url: /portfolio/
