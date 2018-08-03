@@ -9,11 +9,15 @@ main:
   - title: "Interactive fMRI"
     url: /objectoriented/
 
+  - title: "Walkthroughs"
+   url: /Walkthroughs/
+
   - title: "Batch system"
     url: /batch/
 
-  - title: "Portfolio"
-    url: /portfolio/
 
-  - title: "Sitemap"
-    url: /sitemap/
+  # - title: "Portfolio"
+  #  url: /portfolio/
+
+  # - title: "Sitemap"
+  #  url: /sitemap/
