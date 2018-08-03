@@ -8,6 +8,7 @@ redirect_from:
 {% include base_path %}
 
 This page walks through Matlab and Github setup and then provides an introduction to CAN Lab object-oriented tools.
+Here is a [Quick start walkthrough](canlab_help_1_installing_tools.html). 
 
 ## Install Matlab
 

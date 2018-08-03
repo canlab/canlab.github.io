@@ -11,32 +11,21 @@ author_profile: true
 
 The CANlab imaging analysis tools consist of a set of linked [Github repositories](/repositories.md).
 
-They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.  
-
-[install](canlab_help_1_installing_tools.html)
-[install](/canlab_help_1_installing_tools.html)
-[install](/pages/canlab_help_1_installing_tools.html)
-[install](/_pages/canlab_help_1_installing_tools.html)
-
-[batch workflow](canlab_second_level_batch_scripts.html)
-[batch workflow](/canlab_second_level_batch_scripts.html)
-[batch workflow](/pages/canlab_second_level_batch_scripts.html)
-[batch workflow](/_pages/canlab_second_level_batch_scripts.html)
-
-canlab_second_level_batch_scripts.html
-
+They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.
 
 ## Interactive analysis: Philosophy and principles
 
 Interactive analysis using objects has a number of advantages. See the main [CANlab intro page](/) for more on the philosophy behind this approach.
 
-## Walkthroughs and batch scripts
+## Locations of walkthroughs and batch scripts
 
-A series of step-by-step analysis walkthroughs are in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `example_help_files` folder.
+[install](canlab_help_1_installing_tools.html). How to install the tools.
+
+Other step-by-step analysis walkthroughs are in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `example_help_files` folder.
 
 These are executable Matlab files (.m files) that can be run. They can also be published to HTML files (see canlab_help_publish.m). A set of HTML files with figures and printouts of these help examples is in the `published_html` folder.
 
-A system of batch scripts is in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `Second_level_analysis_template_scripts` folder.
+A system of batch scripts is in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `Second_level_analysis_template_scripts` folder. See [batch workflow](canlab_second_level_batch_scripts.html) for a walkthrough of the batch scripts.
 
 
 ## types of objects
