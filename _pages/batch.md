@@ -13,6 +13,20 @@ The batchg system, specialized for second-level neuroimaging data analysis, is i
 
 See [batch workflow](canlab_second_level_batch_scripts.html) for a walkthough of the batch scripts. The walkthrough is also presented below.
 
+| Sections on this page                                                  |
+| ---------------------------------------------------------------------- |
+|WHAT THESE TEMPLATE SCRIPTS ARE AND WHAT THEY DO
+|DEPENDENCIES
+|FEATURES
+|QUICK START: SETTING UP A NEW ANALYSIS FOR A NEW DATASET
+|RUNNING ANALYSES AND GENERATING REPORTS
+|Step 1: Create a folder and run the setup script
+|Step 2: Edit files in you local analysis folder and save
+|Step 3: Load and prepare contrast images and analyses
+|Step 4: Run scripts to generate on-demand results
+|Step 5: Run batch scripts to publish date-stamped HTML reports
+|MORE INFO ABOUT HOW FILES AND VARIABLES ARE STORED
+
 ## Batch scripts: Philosophy
 
 This page describes a system of batch scripts located in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `Second_level_analysis_template_scripts` folder.  The batch system is designed to facilitate second-level analysis across a series of activation estimate or contrast images from a group of participants.
@@ -209,7 +223,7 @@ _________________________________________________________________________
 | `study_info.json`                  |                   File with study/author meta-data, for reports and archive |
 | `a_set_up_paths_always_run_first.m` |                  Modify to specify your local analysis folder name |
 | `a2_set_default_options.m`           |                 Options used in various other scripts; change if desired, or not |
-| `prep_1b_prep_behavioral_data.m` / `prep_1b_example2.m` | Optional: Modify one of these to load and attach behavioral data from files (e.g., from Excel)      |      
+| `prep_1b_prep_behavioral_data.m` / `prep_1b_example2.m` | Optional: Modify one of these to load and attach behavioral data from files, e.g., from Excel     |      
 |
 |`prep_1_set_conditions_contrasts_colors.m`   |         Modify: Specify image file subdirs, wildcards to locate images, condition names and contrasts across conditions |
 |`prep_1c_normalize_to_MNI.m`                    |      Optional script to modify and use only if data are not yet in MNI space; otherwise ignore |
