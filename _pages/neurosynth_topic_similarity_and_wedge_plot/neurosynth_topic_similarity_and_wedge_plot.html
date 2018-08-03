@@ -1,0 +1,201 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>neurosynth_topic_similarity_and_wedge_plot</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-02"><meta name="DC.source" content="neurosynth_topic_similarity_and_wedge_plot.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Run neurosynth similarity</a></li><li><a href="#3">Aggregate results for plot</a></li></ul></div><pre class="codeinput"><span class="comment">% test_dat = load_image_set('npsplus', 'noverbose');</span>
+<span class="comment">%  image_obj = get_wh_image(test_dat, 1);</span>
+
+test_dat = load_image_set(<span class="string">'emotionreg'</span>, <span class="string">'noverbose'</span>);
+ image_obj = mean(test_dat);
+
+
+<span class="comment">% If data file is not found:</span>
+<span class="comment">% cd('/Users/tor/Google_Drive/CanlabDataRepository/Neuroimaging_Autolabeler')</span>
+<span class="comment">% g =genpath(pwd); addpath(g); savepath</span>
+</pre><h2 id="2">Run neurosynth similarity</h2><pre class="codeinput">[image_by_feature_correlations, top_feature_tables] = neurosynth_feature_labels( image_obj, <span class="string">'images_are_replicates'</span>, false, <span class="string">'noverbose'</span>);
+
+<span class="comment">% Example for NPS:</span>
+<span class="comment">%     testr_low      words_low      testr_high      words_high</span>
+<span class="comment">%     _________    _____________    __________    _______________</span>
+<span class="comment">%</span>
+<span class="comment">%     -0.22531     'object'         0.27001       'pain'</span>
+<span class="comment">%      -0.2179     'recognition'    0.26484       'stimulation'</span>
+<span class="comment">%     -0.21431     'objects'        0.26199       'heat'</span>
+<span class="comment">%     -0.21123     'visual'         0.25992       'noxious'</span>
+<span class="comment">%     -0.20244     'reading'        0.25942       'painful'</span>
+<span class="comment">%     -0.20204     'perceptual'     0.24892       'sensation'</span>
+<span class="comment">%     -0.19627     'words'           0.2354       'nociceptive'</span>
+<span class="comment">%     -0.19202     'read'           0.23043       'somatosensory'</span>
+<span class="comment">%     -0.18744     'semantic'       0.22025       'temperature'</span>
+<span class="comment">%     -0.18732     'memory'         0.20817       'sensory'</span>
+</pre><pre class="codeoutput">Input image 1
+fullpath_was_empty
+_____________________________________________________________________
+    testr_low       words_low       testr_high     words_high 
+    _________    _______________    __________    ____________
+
+    -0.23326     'stimulation'        0.2495      'monitoring'
+    -0.19523     'frequency'         0.24703      'control'   
+    -0.17128     'noise'             0.24036      'memory'    
+    -0.16888     'male'              0.23539      'working'   
+    -0.15396     'adaptation'        0.22153      'demand'    
+    -0.15345     'female'            0.22031      'demands'   
+    -0.15209     'somatosensory'     0.21877      'executive' 
+    -0.15023     'images'            0.21601      'correct'   
+    -0.14991     'animal'            0.21213      'knowledge' 
+    -0.13918     'sensory'           0.19795      'conflict'  
+
+</pre><h2 id="3">Aggregate results for plot</h2><pre class="codeinput">lowwords = [top_feature_tables{1}.words_low(:)]';
+disp(lowwords)
+
+highwords = [top_feature_tables{1}.words_high(:)]';
+disp(highwords)
+
+r_low = top_feature_tables{1}.testr_low;
+r_high = top_feature_tables{1}.testr_high;
+
+r_to_plot = [r_high; r_low];
+textlabels = [ highwords lowwords];
+</pre><pre class="codeoutput">  Columns 1 through 5
+
+    'stimulation'    'frequency'    'noise'    'male'    'adaptation'
+
+  Columns 6 through 10
+
+    'female'    'somatosensory'    'images'    'animal'    'sensory'
+
+  Columns 1 through 6
+
+    'monitoring'    'control'    'memory'    'working'    'demand'    'demands'
+
+  Columns 7 through 10
+
+    'executive'    'correct'    'knowledge'    'conflict'
+
+</pre><pre class="codeinput">create_figure(<span class="string">'wedge_plot'</span>);
+
+<span class="comment">%hh = tor_wedge_plot(r_to_plot, textlabels, 'outer_circle_radius', .3, 'colors', {[1 .7 0] [.4 0 .8]}, 'nofigure');</span>
+
+hh = tor_wedge_plot(r_to_plot, textlabels, <span class="string">'outer_circle_radius'</span>, .3, <span class="string">'colors'</span>, {[1 .7 0] [.4 0 .8]}, <span class="string">'bicolor'</span>, <span class="string">'nofigure'</span>);
+</pre><img vspace="5" hspace="5" src="neurosynth_topic_similarity_and_wedge_plot_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% test_dat = load_image_set('npsplus', 'noverbose');
+%  image_obj = get_wh_image(test_dat, 1);
+
+test_dat = load_image_set('emotionreg', 'noverbose');
+ image_obj = mean(test_dat);
+
+
+% If data file is not found:
+% cd('/Users/tor/Google_Drive/CanlabDataRepository/Neuroimaging_Autolabeler')
+% g =genpath(pwd); addpath(g); savepath
+
+%% Run neurosynth similarity
+
+[image_by_feature_correlations, top_feature_tables] = neurosynth_feature_labels( image_obj, 'images_are_replicates', false, 'noverbose');
+
+% Example for NPS: 
+%     testr_low      words_low      testr_high      words_high   
+%     _________    _____________    __________    _______________
+% 
+%     -0.22531     'object'         0.27001       'pain'         
+%      -0.2179     'recognition'    0.26484       'stimulation'  
+%     -0.21431     'objects'        0.26199       'heat'         
+%     -0.21123     'visual'         0.25992       'noxious'      
+%     -0.20244     'reading'        0.25942       'painful'      
+%     -0.20204     'perceptual'     0.24892       'sensation'    
+%     -0.19627     'words'           0.2354       'nociceptive'  
+%     -0.19202     'read'           0.23043       'somatosensory'
+%     -0.18744     'semantic'       0.22025       'temperature'  
+%     -0.18732     'memory'         0.20817       'sensory'      
+
+%% Aggregate results for plot
+
+lowwords = [top_feature_tables{1}.words_low(:)]';
+disp(lowwords)
+
+highwords = [top_feature_tables{1}.words_high(:)]';
+disp(highwords)
+
+r_low = top_feature_tables{1}.testr_low;
+r_high = top_feature_tables{1}.testr_high;
+
+r_to_plot = [r_high; r_low];
+textlabels = [ highwords lowwords];
+
+
+%%
+
+create_figure('wedge_plot');
+
+%hh = tor_wedge_plot(r_to_plot, textlabels, 'outer_circle_radius', .3, 'colors', {[1 .7 0] [.4 0 .8]}, 'nofigure');
+
+hh = tor_wedge_plot(r_to_plot, textlabels, 'outer_circle_radius', .3, 'colors', {[1 .7 0] [.4 0 .8]}, 'bicolor', 'nofigure');
+
+
+##### SOURCE END #####
+--></body></html>
