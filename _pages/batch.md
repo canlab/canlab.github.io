@@ -192,20 +192,23 @@ This section contains a more detailed overview of the workflow, and the various 
 _________________________________________________________________________
 
 Run:
-`a_set_up_new_analysis_folder_and_scripts`            Creates local folders and copies in relevant scripts
+| Entry                                 |                                                              |
+| -------------------------------       | ------------------------------------------------------------ |
+|`a_set_up_new_analysis_folder_and_scripts`    |        Creates local folders and copies in relevant scripts |
 
 ### *Step 2:* Edit these files in you local analysis folder and save:
 _________________________________________________________________________
-
-`study_info.json`                                     File with study/author meta-data, for reports and archive
-`a_set_up_paths_always_run_first.m`                   Modify to specify your local analysis folder name
-`a2_set_default_options.m`                            Options used in various other scripts; change if desired, or not
-`prep_1b_prep_behavioral_data.m` / `prep_1b_example2.m` Optional: Modify one of these to load and attach behavioral data from files (e.g., from Excel)            
-
-`prep_1_set_conditions_contrasts_colors.m`            Modify: Specify image file subdirs, wildcards to locate images, condition names and contrasts across conditions
-`prep_1c_normalize_to_MNI.m`                          Optional script to modify and use only if data are not yet in MNI space; otherwise ignore
-
-`prep_0_batch_run_once.m`
+| Entry              |                                                              |
+| ------------       | ------------------------------------------------------------ |
+| `study_info.json`                  |                   File with study/author meta-data, for reports and archive |
+| `a_set_up_paths_always_run_first.m` |                  Modify to specify your local analysis folder name |
+| `a2_set_default_options.m`           |                 Options used in various other scripts; change if desired, or not |
+| `prep_1b_prep_behavioral_data.m` / `prep_1b_example2.m` | Optional: Modify one of these to load and attach behavioral data from files (e.g., from Excel)      |      
+|
+|`prep_1_set_conditions_contrasts_colors.m`   |         Modify: Specify image file subdirs, wildcards to locate images, condition names and contrasts across conditions |
+|`prep_1c_normalize_to_MNI.m`                    |      Optional script to modify and use only if data are not yet in MNI space; otherwise ignore |
+|
+|`prep_0_batch_run_once.m`  |    Batch script to run a whole sequence of prep_* files. |
 
 ### *Step 3:* Load and prepare contrast images and analyses:
 _________________________________________________________________________
