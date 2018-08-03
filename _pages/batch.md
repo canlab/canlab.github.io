@@ -241,7 +241,7 @@ reloading and results-on-demand later.
 | Script             | Function                                                     |
 | ------------       | ------------------------------------------------------------ |
 | a_set_up_paths_always_run_first.m         |           Always run this first before you run other scripts. Runs: a2_set_default_options |
-| prep_1b_prep_behavioral_data.m / prep_1b_example2.m  | Optional: Run these load and attach behavioral data from files (e.g., from Excel) |            
+| prep_1b_prep_behavioral_data.m / prep_1b_example2.m  | Optional: Run these load and attach behavioral data from files, e.g., from Excel |            
 | prep_1_set_conditions_contrasts_colors.m      |       Modify to specify image file subdirectories, wildcards to locate images, condition names |
 | prep_2_load_image_data_and_save.m             |       Load image data into fmri_data objects and save |
 | prep_3_calc_univariate_contrast_maps_and_save.m   |   Apply contrasts to fmri_data objects |
@@ -250,7 +250,7 @@ reloading and results-on-demand later.
 | prep_3c_run_SVMs_on_contrasts_masked.m         |      [Optional] run cross-val SVMs on within-person contrasts, within a mask |
 | prep_3d_run_SVM_betweenperson_contrasts.m     |       [Optional] run cross-val SVMs across conditions, assuming subjects nested within conditions (e.g., if diff conditions are diff subjects) |
 | prep_4_apply_signatures_and_save.m            |       Apply CANlab signature patterns and attach output (values) to saved DAT structure |
-| prep_5_apply_shen_parcellation_and_save.m      |      [Optional] Extract data from each condition/contrast averaged over each parcel, save file with values |
+| prep_5_apply_shen_parcellation_and_save.m      |      [Optional] Extract data from each condition or contrast averaged over each parcel, save file with values |
 | prep_5b_apply_spmanatomy_parcellation_and_save.m  |   [Optional] Extract data from each condition/contrast averaged over each parcel, save file with values |
 | prep_6_apply_kragel_emotion_signatures_and_save.m  |  [Optional] Apply Kragel emotion signature patterns and attach output (values) to DAT |
 
