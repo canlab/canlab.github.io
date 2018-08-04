@@ -26,6 +26,8 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [5. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
 
+[7. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+
 [neurosynth_topic_similarity_and_wedge_plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
 
 [more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
