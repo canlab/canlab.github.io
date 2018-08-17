@@ -44,3 +44,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 [the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
 
 [time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
+
+## Meta-analysis
+
+[coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
