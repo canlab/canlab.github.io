@@ -66,7 +66,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">HOW TO WRITE FMRI_DATA TO IMAGE FILE ON DISK</a></li><li><a href="#2">1) load sample mask</a></li><li><a href="#3">grab one image from those 7</a></li><li><a href="#4">write to file</a></li><li><a href="#5">read back in and view to check its correct</a></li><li><a href="#6">2) load sample statistical image</a></li><li><a href="#7">threshold at an arbitrary threshold.  This will create a statistic_image</a></li><li><a href="#8">write to file</a></li><li><a href="#9">read back in and view to check its correct</a></li></ul></div><h2 id="1">HOW TO WRITE FMRI_DATA TO IMAGE FILE ON DISK</h2><pre class="codeinput"><span class="comment">% canlabcore fmri data objects can be easily written to standard image file</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">HOW TO WRITE FMRI_DATA TO IMAGE FILE ON DISK</a></li><li><a href="#2">1) load sample mask</a></li><li><a href="#3">grab one image from those 7</a></li><li><a href="#4">write to file</a></li><li><a href="#5">read back in and view to check its correct</a></li><li><a href="#6">2) load sample statistical image</a></li><li><a href="#7">threshold at an arbitrary threshold.  This will create a statistic_image</a></li><li><a href="#8">write to file</a></li><li><a href="#9">read back in and view to check its correct</a></li></ul></div>
+    <h2 id="2">Dependencies:</h2><pre class="codeinput"><span class="comment">% Matlab statistics toolbox</span>
+  <span class="comment">% Matlab signal processing toolbox</span>
+  <span class="comment">% Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/</span>
+  <span class="comment">% For full functionality, the full suite of CANlab toolboxes is recommended. See here: <a href="https://canlab.github.io/_pages/canlab_help_1_installing_tools.html">Installing Tools</a></span></pre>
+
+  <h2 id="1">HOW TO WRITE FMRI_DATA TO IMAGE FILE ON DISK</h2><pre class="codeinput"><span class="comment">% canlabcore fmri data objects can be easily written to standard image file</span>
 <span class="comment">% formats.  The main function for this is write()</span>
 
 <span class="comment">% this walkthrough shows how to do this for 1) a mask image, and 2) a</span>
