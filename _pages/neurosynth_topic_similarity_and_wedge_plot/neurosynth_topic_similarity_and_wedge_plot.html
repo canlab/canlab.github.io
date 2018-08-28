@@ -66,7 +66,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Run neurosynth similarity</a></li><li><a href="#3">Aggregate results for plot</a></li></ul></div><pre class="codeinput"><span class="comment">% test_dat = load_image_set('npsplus', 'noverbose');</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Run neurosynth similarity</a></li><li><a href="#3">Aggregate results for plot</a></li></ul></div>
+    <h2 id="2">Dependencies:</h2><pre class="codeinput"><span class="comment">% Matlab statistics toolbox</span>
+    <span class="comment">% Matlab signal processing toolbox</span>
+    <span class="comment">% Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/</span>
+    <span class="comment">% For full functionality, the full suite of CANlab toolboxes is recommended. See here: <a href="https://canlab.github.io/_pages/canlab_help_1_installing_tools.html">Installing Tools</a></span></pre>
+
+ <pre class="codeinput"><span class="comment">% test_dat = load_image_set('npsplus', 'noverbose');</span>
 <span class="comment">%  image_obj = get_wh_image(test_dat, 1);</span>
 
 test_dat = load_image_set(<span class="string">'emotionreg'</span>, <span class="string">'noverbose'</span>);
