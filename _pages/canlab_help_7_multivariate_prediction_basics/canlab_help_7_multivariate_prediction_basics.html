@@ -169,7 +169,7 @@ ratings = reshape(image_obj.Y, 6, 33)';
 
 temperatures = image_obj.additional_info.temperatures;
 </pre><h2 id="4">Plot the ratings</h2><p>-------------------------------------------------------------------------</p><pre class="codeinput">create_figure(<span class="string">'ratings'</span>);
-lineplot_columns(bmrkdata.ratings, <span class="string">'color'</span>, [.7 .3 .3], <span class="string">'markerfacecolor'</span>, [1 .5 0]);
+lineplot_columns(ratings, <span class="string">'color'</span>, [.7 .3 .3], <span class="string">'markerfacecolor'</span>, [1 .5 0]);
 xlabel(<span class="string">'Temperature'</span>);
 ylabel(<span class="string">'Rating'</span>);
 </pre><img vspace="5" hspace="5" src="canlab_help_7_multivariate_prediction_basics_01.png" alt=""> <h2 id="5">Prediction</h2><p>There are many options</p><pre class="codeinput"><span class="comment">% Base model: Linear, whole brain prediction</span>
@@ -245,7 +245,7 @@ ylabel(<span class="string">'Observed pain'</span>);
 
 <span class="comment">% Consider that each subject has their own line:</span>
 
-<span class="keyword">for</span> i = 1:n
+<span class="keyword">for</span> i = 1:n_subjects
     YY{i} = stats.Y(subject_id == i);
     Yfit{i} = stats.yfit(subject_id == i);
 <span class="keyword">end</span>
@@ -330,7 +330,7 @@ axial montage: 34538 voxels displayed, 189169 not displayed on these slices
 
 create_figure(<span class="string">'scatterplots'</span>);
 
-<span class="keyword">for</span> i = 1:n
+<span class="keyword">for</span> i = 1:n_subjects
     YY{i} = stats.Y(subject_id == i);
     Yfit{i} = stats.yfit(subject_id == i);
 <span class="keyword">end</span>
@@ -668,7 +668,7 @@ o2 = title_montage(o2, 5, 'Predictive model weights');
 
 create_figure('scatterplots');
 
-for i = 1:n
+for i = 1:n_subjects
     YY{i} = stats.Y(subject_id == i);
     Yfit{i} = stats.yfit(subject_id == i);
 end
