@@ -66,7 +66,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1></h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">load an atlas</a></li><li><a href="#2">visualize the atlas regions</a></li><li><a href="#3">select regions of interest</a></li><li><a href="#4">load a dataset to extract data from for an ROI analysis</a></li><li><a href="#5">extract data from each atlas region</a></li><li><a href="#6">Do a group ROI analysis and make a "violin plot" (or barplot) for each region</a></li></ul></div><h2 id="1">load an atlas</h2><p>'atlas' objects are a class of objects specially designed for brain atlases. Here is more information on this class (also try &gt;&gt; doc atlas)</p><pre class="codeinput">help <span class="string">atlas</span>
+  </style></head><body><div class="content"><h1></h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">load an atlas</a></li><li><a href="#2">visualize the atlas regions</a></li><li><a href="#3">select regions of interest</a></li><li><a href="#4">load a dataset to extract data from for an ROI analysis</a></li><li><a href="#5">extract data from each atlas region</a></li><li><a href="#6">Do a group ROI analysis and make a "violin plot" (or barplot) for each region</a></li></ul></div>
+  <h2 id="2">Dependencies:</h2><pre class="codeinput"><span class="comment">% Matlab statistics toolbox</span>
+  <span class="comment">% Matlab signal processing toolbox</span>
+  <span class="comment">% Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/</span>
+  <span class="comment">% For full functionality, the full suite of CANlab toolboxes is recommended. See here: <a href="https://canlab.github.io/_pages/canlab_help_1_installing_tools.html">Installing Tools</a></span></pre>
+  
+  <h2 id="1">load an atlas</h2><p>'atlas' objects are a class of objects specially designed for brain atlases. Here is more information on this class (also try &gt;&gt; doc atlas)</p><pre class="codeinput">help <span class="string">atlas</span>
 
 <span class="comment">% The function load_atlas in the CANlab toolbox loads a number of named</span>
 <span class="comment">% atlases included with the toolbox.  Here is a list of named atlases:</span>
