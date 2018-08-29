@@ -22,7 +22,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [3. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
 
-[3. atlases and ROI analysis](canlab_help_3b_atlases_and_labeling/canlab_help_3b_atlases_and_labeling.html)
+[3b. atlases and ROI analysis](canlab_help_3b_atlases_and_labeling/canlab_help_3b_atlases_and_labeling.html)
 
 [4. threshold statistic images and write to files ](canlab_help_4_write_data_to_image_file_format/canlab_help_4_write_data_to_image_file_format.html)
 
@@ -30,7 +30,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [7. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
-[neurosynth_topic_similarity_and_wedge_plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+
 
 [more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
@@ -38,6 +38,11 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
 
+## Network-based plots and spatial similarity
+
+[Neurosynth topic similarity and wedge plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+
+[Riverplot cerebellar atlas example](canlab_help_8_riverplot_cerebellar_atlas_example/canlab_help_8_riverplot_cerebellar_atlas_example.html)
 
 ## Behavioral data and Plots
 
