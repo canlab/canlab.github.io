@@ -66,7 +66,14 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Step 1: Make a new analysis directory to save results, and go there</a></li><li><a href="#3">Step 2: Load image data and behavioral variables</a></li><li><a href="#4">Step 4: Load and display mask</a></li><li><a href="#5">Step 7 : Run mediation</a></li><li><a href="#6">Step 8: Get and save results figures, tables, and report</a></li></ul></div><pre class="codeinput">close <span class="string">all</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Step 1: Make a new analysis directory to save results, and go there</a></li><li><a href="#3">Step 2: Load image data and behavioral variables</a></li><li><a href="#4">Step 4: Load and display mask</a></li><li><a href="#5">Step 7 : Run mediation</a></li><li><a href="#6">Step 8: Get and save results figures, tables, and report</a></li></ul></div>
+  
+	<h2 id="2">Dependencies:</h2><pre class="codeinput"><span class="comment">% Matlab statistics toolbox</span>
+	<span class="comment">% Matlab signal processing toolbox</span>
+	<span class="comment">% Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/</span>
+	<span class="comment">% For full functionality, the full suite of CANlab toolboxes is recommended. See here: <a href="https://canlab.github.io/_pages/canlab_help_1_installing_tools.html">Installing Tools</a></span></pre>
+
+<pre class="codeinput">close <span class="string">all</span>
 clear <span class="string">all</span>
 
 <span class="comment">% This script is explained in detail in the powerpoint titled</span>

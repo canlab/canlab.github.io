@@ -66,7 +66,14 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Perform a voxel-wise t-test</h1><!--introduction--><p>Edited/commented by Bogdan Petre on 9/14/2016, Tor Wager July 2018</p><p>In this example we perform a second level analysis on first level statistical parametric maps. Specifically we use a t-test to obtain an ordinary least squares estimate for the group level parameter.</p><p>The example uses the emotion regulation data provided with CANlab_Core_Tools. This dataset consists of a set of contrast images for 30 subjects from a first level analysis. The contrast is [reappraise neg vs. look neg], reappraisal of negative images vs. looking at matched negative images.</p><p>These data were published in: Wager, T. D., Davidson, M. L., Hughes, B. L., Lindquist, M. A., Ochsner, K. N.. (2008). Prefrontal-subcortical pathways mediating successful emotion regulation. Neuron, 59, 1037-50.</p><p>By the end of this example we will have regenerated the results of figure 2A of this paper.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Executive summary of the whole analysis</a></li><li><a href="#2">Load sample data</a></li><li><a href="#3">Do a t-test</a></li><li><a href="#4">Visualize the results</a></li><li><a href="#5">Print a table of results</a></li><li><a href="#6">Write the t-map to disk</a></li></ul></div><h2 id="1">Executive summary of the whole analysis</h2><p>As a summary, here is a complete set of commands to load the data and run the entire analysis:</p><pre>   img_obj = load_image_set('emotionreg');         % Load a dataset
+  </style></head><body><div class="content"><h1>Perform a voxel-wise t-test</h1><!--introduction--><p>Edited/commented by Bogdan Petre on 9/14/2016, Tor Wager July 2018</p><p>In this example we perform a second level analysis on first level statistical parametric maps. Specifically we use a t-test to obtain an ordinary least squares estimate for the group level parameter.</p><p>The example uses the emotion regulation data provided with CANlab_Core_Tools. This dataset consists of a set of contrast images for 30 subjects from a first level analysis. The contrast is [reappraise neg vs. look neg], reappraisal of negative images vs. looking at matched negative images.</p><p>These data were published in: Wager, T. D., Davidson, M. L., Hughes, B. L., Lindquist, M. A., Ochsner, K. N.. (2008). Prefrontal-subcortical pathways mediating successful emotion regulation. Neuron, 59, 1037-50.</p><p>By the end of this example we will have regenerated the results of figure 2A of this paper.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Executive summary of the whole analysis</a></li><li><a href="#2">Load sample data</a></li><li><a href="#3">Do a t-test</a></li><li><a href="#4">Visualize the results</a></li><li><a href="#5">Print a table of results</a></li><li><a href="#6">Write the t-map to disk</a></li></ul></div>
+  <h2 id="2">Dependencies:</h2>
+  <pre class="codeinput"><span class="comment">% Matlab statistics toolbox</span>
+  <span class="comment">% Matlab signal processing toolbox</span>
+  <span class="comment">% Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/</span>
+  <span class="comment">% For full functionality, the full suite of CANlab toolboxes is recommended. See here: <a href="https://canlab.github.io/_pages/canlab_help_1_installing_tools.html">Installing Tools</a></span>
+  </pre>
+  <h2 id="1">Executive summary of the whole analysis</h2><p>As a summary, here is a complete set of commands to load the data and run the entire analysis:</p><pre>   img_obj = load_image_set('emotionreg');         % Load a dataset
    t = ttest(img_obj);                             % Do a group t-test
    t = threshold(t, .05, 'fdr', 'k', 10);          % Threshold with FDR q &lt; .05 and extent threshold of 10 contiguous voxels</pre><pre>   % Show regions and print a table with labeled regions:
    montage(t);  drawnow, snapnow;                  % Show results on a slice display
@@ -222,7 +229,7 @@ ans =
 <span class="comment">% voxels). It does many things that other object types do, and inter-operates</span>
 <span class="comment">% with them closely.  See methods(region) for more info.</span>
 
-<span class="comment">% Create a region objecft called "r", with contiguous blobs from the</span>
+<span class="comment">% Create a region object called "r", with contiguous blobs from the</span>
 <span class="comment">% thresholded t-map:</span>
 
 r = region(t);

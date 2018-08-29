@@ -66,7 +66,15 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Load dataset with images and print descriptives</a></li><li><a href="#3">Collect some variables we need</a></li><li><a href="#4">Plot the ratings</a></li><li><a href="#5">Prediction</a></li><li><a href="#6">Run the Base model</a></li><li><a href="#7">Plot the results</a></li><li><a href="#8">Summarize within-person classification accuracy</a></li><li><a href="#9">Visualize weight map</a></li><li><a href="#10">Bootstrap weights: Get most reliable weights and p-values for voxels</a></li><li><a href="#11">Try normalizing/scaling data</a></li><li><a href="#12">Try selecting an a priori 'network of interest'</a></li><li><a href="#13">re-run prediction and plot</a></li><li><a href="#14">Other ideas</a></li></ul></div><pre class="codeinput"><span class="comment">% About this dataset</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Load dataset with images and print descriptives</a></li><li><a href="#3">Collect some variables we need</a></li><li><a href="#4">Plot the ratings</a></li><li><a href="#5">Prediction</a></li><li><a href="#6">Run the Base model</a></li><li><a href="#7">Plot the results</a></li><li><a href="#8">Summarize within-person classification accuracy</a></li><li><a href="#9">Visualize weight map</a></li><li><a href="#10">Bootstrap weights: Get most reliable weights and p-values for voxels</a></li><li><a href="#11">Try normalizing/scaling data</a></li><li><a href="#12">Try selecting an a priori 'network of interest'</a></li><li><a href="#13">re-run prediction and plot</a></li><li><a href="#14">Other ideas</a></li></ul></div>
+    
+    <h2 id="2">Dependencies:</h2><pre class="codeinput"><span class="comment">% Matlab statistics toolbox</span>
+    <span class="comment">% Matlab signal processing toolbox</span>
+    <span class="comment">% Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/</span>
+    <span class="comment">% For full functionality, the full suite of CANlab toolboxes is recommended. See here: <a href="https://canlab.github.io/_pages/canlab_help_1_installing_tools.html">Installing Tools</a></span></pre>
+
+  
+<pre class="codeinput"><span class="comment">% About this dataset</span>
 <span class="comment">% -------------------------------------------------------------------------</span>
 <span class="comment">%</span>
 <span class="comment">% This dataset includes 33 participants, with brain responses to six levels</span>
@@ -161,7 +169,7 @@ ratings = reshape(image_obj.Y, 6, 33)';
 
 temperatures = image_obj.additional_info.temperatures;
 </pre><h2 id="4">Plot the ratings</h2><p>-------------------------------------------------------------------------</p><pre class="codeinput">create_figure(<span class="string">'ratings'</span>);
-lineplot_columns(bmrkdata.ratings, <span class="string">'color'</span>, [.7 .3 .3], <span class="string">'markerfacecolor'</span>, [1 .5 0]);
+lineplot_columns(ratings, <span class="string">'color'</span>, [.7 .3 .3], <span class="string">'markerfacecolor'</span>, [1 .5 0]);
 xlabel(<span class="string">'Temperature'</span>);
 ylabel(<span class="string">'Rating'</span>);
 </pre><img vspace="5" hspace="5" src="canlab_help_7_multivariate_prediction_basics_01.png" alt=""> <h2 id="5">Prediction</h2><p>There are many options</p><pre class="codeinput"><span class="comment">% Base model: Linear, whole brain prediction</span>
@@ -237,7 +245,7 @@ ylabel(<span class="string">'Observed pain'</span>);
 
 <span class="comment">% Consider that each subject has their own line:</span>
 
-<span class="keyword">for</span> i = 1:n
+<span class="keyword">for</span> i = 1:n_subjects
     YY{i} = stats.Y(subject_id == i);
     Yfit{i} = stats.yfit(subject_id == i);
 <span class="keyword">end</span>
@@ -322,7 +330,7 @@ axial montage: 34538 voxels displayed, 189169 not displayed on these slices
 
 create_figure(<span class="string">'scatterplots'</span>);
 
-<span class="keyword">for</span> i = 1:n
+<span class="keyword">for</span> i = 1:n_subjects
     YY{i} = stats.Y(subject_id == i);
     Yfit{i} = stats.yfit(subject_id == i);
 <span class="keyword">end</span>
@@ -660,7 +668,7 @@ o2 = title_montage(o2, 5, 'Predictive model weights');
 
 create_figure('scatterplots');
 
-for i = 1:n
+for i = 1:n_subjects
     YY{i} = stats.Y(subject_id == i);
     Yfit{i} = stats.yfit(subject_id == i);
 end

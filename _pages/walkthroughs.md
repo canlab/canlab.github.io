@@ -28,15 +28,19 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [5. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
 
-[7. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+[6. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
+<<<<<<< HEAD
 
+=======
+[7. neurosynth_topic_similarity_and_wedge_plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+>>>>>>> 82b889ac18d274777a3cd9e7f347d5e13a314ab5
 
-[more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
+[8. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
 ## Mediation analysis
 
-[mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
+[9. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
 
 ## Network-based plots and spatial similarity
 
@@ -46,10 +50,10 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 ## Behavioral data and Plots
 
-[the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
+[10. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
 
-[time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
+[11. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
 
 ## Meta-analysis
 
-[coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
+[12. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
