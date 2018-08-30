@@ -34,25 +34,22 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [7. Neurosynth topic similarity and wedge plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
 
-[8. Riverplot cerebellar atlas example](canlab_help_8_riverplot_cerebellar_atlas_example/canlab_help_8_riverplot_cerebellar_atlas_example.html)
+[8. Riverplot cerebellar atlas example](canlab_help_8_riverplot_cerebellar_atlas_example.m/canlab_help_8_riverplot_cerebellar_atlas_example.html)
 
-[8. Riverplot cerebellar atlas example](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+[9. Multivariate Prediction Basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
-[canlab_help_8_riverplot_cerebellar_atlas_example](canlab_help_8_riverplot_cerebellar_atlas_example/canlab_help_8_riverplot_cerebellar_atlas_example.html)
-
-
-[9. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
+[10. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
 ## Mediation analysis
 
-[10. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
+[11. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
 
 ## Behavioral data and Plots
 
-[11. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
+[12. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
 
-[12. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
+[13. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
 
 ## Meta-analysis
 
-[13. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
+[14. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
