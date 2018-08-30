@@ -36,6 +36,11 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [8. Riverplot cerebellar atlas example](canlab_help_8_riverplot_cerebellar_atlas_example/canlab_help_8_riverplot_cerebellar_atlas_example.html)
 
+[8. Riverplot cerebellar atlas example](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+
+[canlab_help_8_riverplot_cerebellar_atlas_example](canlab_help_8_riverplot_cerebellar_atlas_example/canlab_help_8_riverplot_cerebellar_atlas_example.html)
+
+
 [9. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
 ## Mediation analysis
