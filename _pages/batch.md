@@ -9,12 +9,13 @@ author_profile: true
 ---
 {% include base_path %}
 
-The batchg system, specialized for second-level neuroimaging data analysis, is in [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples).  
+The batch system, specialized for second-level neuroimaging data analysis, is in [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples).  
 
 See [batch workflow](canlab_second_level_batch_scripts.html) for a walkthough of the batch scripts. The walkthrough is also presented below.
 
 | Sections on this page                                                  |
 | ---------------------------------------------------------------------- |
+|Philosophy
 |WHAT THESE TEMPLATE SCRIPTS ARE AND WHAT THEY DO
 |DEPENDENCIES
 |FEATURES
@@ -199,6 +200,8 @@ paths and folder names will be set.
 of analysis scripts and saves the results in an html file (as well as
 individual figures) in the 'results' subfolder.
 
+![batch flowchart image](/images/canlab_batch_flowchart.png)
+
 -------------------------------------------------------------------------
 
 OVERVIEW OF SCRIPTS IN THE FOLDER AND WORKFLOW
@@ -342,15 +345,22 @@ z_batch_publish_analyses.m
 This batch script runs both the data load batch and all results:
 z_batch_publish_everything.m
 
-These batch scripts are run in 'publish' scripsts. You can run them on
+These batch scripts are run in 'publish' scripts. You can run them on
 their own, too, but 'set up paths' and 'reload' first.
 
 `z_batch_load_and_prep.m
+
 z_batch_coverage_and_contrasts.m
+
 z_batch_svm_analysis.m
+
 z_batch_signature_analyses.m
+
 z_batch_bucknerlab_network_analyses.m
+
 z_batch_meta_analysis_mask_analyses.m`
+
+(See the canlab_batch_flowchart image above.)
 
 ## MORE INFO ABOUT HOW FILES AND VARIABLES ARE STORED
 
