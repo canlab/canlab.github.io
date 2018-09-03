@@ -21,6 +21,7 @@ See [batch workflow](canlab_second_level_batch_scripts.html) for a walkthough of
 |FEATURES
 |QUICK START: SETTING UP A NEW ANALYSIS FOR A NEW DATASET
 |RUNNING ANALYSES AND GENERATING REPORTS
+|OVERVIEW OF SCRIPTS IN THE FOLDER AND WORKFLOW
 |Step 1: Create a folder and run the setup script
 |Step 2: Edit files in you local analysis folder and save
 |Step 3: Load and prepare contrast images and analyses
