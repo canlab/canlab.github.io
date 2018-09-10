@@ -1,0 +1,265 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Using the Plot Function</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-09-10"><meta name="DC.source" content="fmri_data_plot_walkthrough.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Using the Plot Function</h1><!--introduction--><p>The fmri_data/plot function is unique to the Can Lab toolbox and adds fMRI specific functionality on top of Matlab's built-in plot() method.</p><p>The method takes an fMRI data object as a parameter and produces an SPM Orthview presentation along with 5 plots of the data.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Dependencies</a></li><li><a href="#2">About This Dataset</a></li><li><a href="#3">Using plot()</a></li><li><a href="#4">Explanation of Output</a></li></ul></div><h2 id="1">Dependencies</h2><p>Matlab statistics toolbox Matlab signal processing toolbox Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/ For full functionality, the full suite of CANlab toolboxes is recommended. See here: <a href="https://canlab.github.io/_pages/canlab_help_1_installing_tools.html">Installing Tools</a></p><h2 id="2">About This Dataset</h2><p>The example uses the emotion regulation data provided with CANlab_Core_Tools. This dataset consists of a set of contrast images for 30 subjects from a first level analysis. The contrast is [reappraise neg vs. look neg], reappraisal ofnegative images vs. looking at matched negative images.</p><p>These data were published in: Wager, T. D., Davidson, M. L., Hughes, B. L., Lindquist, M. A., Ochsner, K. N.. (2008). Prefrontal-subcortical pathways mediating successful emotion regulation. Neuron, 59, 1037-50.</p><h2 id="3">Using plot()</h2><pre class="codeinput"><span class="comment">% The plot method expects an fMRI data object to be passed in. We can</span>
+<span class="comment">% create an fMRI data object using the emotion regulation dataset</span>
+<span class="comment">% via the following code:</span>
+
+[image_obj, networknames, imagenames] = load_image_set(<span class="string">'emotionreg'</span>);
+
+<span class="comment">% Once created, we can pass this data object to the plot function to get</span>
+<span class="comment">% the entire set of outputs, including Matlab console output regarding</span>
+<span class="comment">% outliers and corresponding data visualizations, using the simple command:</span>
+
+plot(image_obj);
+</pre><pre class="codeoutput">Loaded images:
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+Retained 8 components for mahalanobis distance
+Expected 50% of points within 50% normal ellipsoid, found 46.67%
+Expected 1.50 outside 95% ellipsoid, found   1
+
+Potential outliers based on mahalanobis distance:
+Bonferroni corrected: 0 images		Cases  
+Uncorrected: 1 images		Cases 27 
+
+Outliers:
+Outliers after p-value correction:
+Image numbers:  
+
+Image numbers, uncorrected: 27 
+Warning: Ignoring extra legend entries. 
+
+SPM12: spm_check_registration (v6245)              15:59:37 - 10/09/2018
+========================================================================
+Display &lt;a href="matlab:spm_image('display','/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+ (&lt;a href="matlab:spm_check_registration('/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1','/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1','/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;all&lt;/a&gt;)  &lt;a href="matlab:spm_image('display','/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+        &lt;a href="matlab:spm_image('display','/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/Documents/wager_code/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+Warning: Function vecnorm has the same name as a MATLAB builtin. We suggest you
+rename the function to avoid a potential name conflict. 
+</pre><img vspace="5" hspace="5" src="fmri_data_plot_walkthrough_01.png" alt=""> <img vspace="5" hspace="5" src="fmri_data_plot_walkthrough_02.png" alt=""> <h2 id="4">Explanation of Output</h2><p>1.) Data Matrix (Top Left): This plot shows each image by its constituent voxels. It shows the whole space of the dataset. Here you can look for images that are bright or dark across the image, which would indicate a global shift in values. This is often some type of large artifact. Most datasets have these from time to time. This plot shows how similar the images are to one another.</p><p>This plot can also show that the rise and fall in one row may be different than another, highlighting a difference in scale.</p><p>Lastly, the range shown in the color bar on the right side of this plot will be quite large if there are large outliers in the data. The units are in contrast unit values, but it is important to check if a few extreme values are forcing all other values to be in the middle of the scale. In this case, there will be very little color variation in the plot, which is a red flag.</p><p>2./3.) Covariance and Correlation Matrices (Top Middle/Top Left): These plots both show similarity across images. Both should show bright diagonals and off-diagonals that are off zero or generally positive, depending on the dataset.</p><p>The Covariance Matrix shows whether the variances of each image are equal. If the variances are all of approximately the same scale, the diagonal will be a single color. Anything that is bright has higher than average variance.</p><p>The Correlation Matrix scales the variances of the images to one. This plot shows the correlation between each image and the others. Now, the main diagonal will always be one because each image is perfectly correlated to itself. The off-diagonals should be positive if the images are similar to one another, which we see here.</p><p>4.) This is a basic histogram (Bottom Left) of contrast values. It is expected that a distribution of contrast values will have roughly mean 0 as seen in this example. There are other tools for looking at this distribution for each individual in the dataset. This can be found <a href="https://canlab.github.io/_pages/canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html">here</a> under Part 3: Examine the Brain Data</p><p>5.) The Global Mean Values (Bottom Middle) plot shows the global means across images. The means ought to be similar to one another. Ideally, these means will all be in a similar range. The error bars show one standard deviation. Here, what we see is that subject 16 is a standard deviation below the mean. This comports with plot 1 where we saw what looked like global deactivation across the voxels of subject 16. The dashed line in the middle is the global mean.</p><p>6.) Mahalanobis Distance (Bottom Right) is a measure of how far away each image is from the rest in the sample. The larger the distance, the more dissimilar it is from other images. Farther away is generally worse, but in any normally distributed dataset, there are going to be some values that lie farther out.</p><p>We assume that the points are distributed according to a chi-square distribution. The expected distance is based on multivariate normally distributed data for the percentile of the dataset that corresponds to each image. even the most extreme values may not be greater than what you expect by chance. The plot produces p-values, and any image that is marked as an outlier is one that exceeds the expected value with a p-value of less than 0.05. Those will be marked in darker red. Anything considered to be an outlier with p &lt; 0.05 bonferroni corrected will be marked with an even darker red. The outliers from this plot are returned in the corresponding plot() output.</p><p>Note: The outliers returned in the Matlab console are not using the global shift in images in any way to determine outlier status. Outliers are currently determined only using Mahalanobis distance.</p><p>SPM Orthviews: These are the standard SPM orthviews. The X,Y, and Z coordinates correspond to the distance in millimeters from the set origin. The mean/STD plot is a simple estimate of effect size (Cohen's D) for every voxel. If a contrast with one image per person is passed to plot(), this plot gives you some idea of the effect size across the brain. It is reasonable to use this plot to look for distortions such as high values for means and mean/STDs in the ventricles.</p><p>Note that in the STD plot, if the dataset has alignment issues, rings will be visible around the outside of the images.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Using the Plot Function
+%
+% The fmri_data/plot function is unique to the Can Lab toolbox and adds 
+% fMRI specific functionality on top of Matlab's built-in plot() method. 
+%
+% The method takes an fMRI data object as a parameter and produces an SPM Orthview presentation 
+% along with 5 plots of the data.
+
+%% Dependencies
+% Matlab statistics toolbox
+% Matlab signal processing toolbox
+% Statistical Parametric Mapping (SPM) software https://www.fil.ion.ucl.ac.uk/spm/
+% For full functionality, the full suite of CANlab toolboxes is recommended. See here: <https://canlab.github.io/_pages/canlab_help_1_installing_tools.html Installing Tools>
+%
+
+%% About This Dataset
+% The example uses the emotion regulation data provided with 
+% CANlab_Core_Tools. This dataset consists of a set of contrast images for 
+% 30 subjects from a first level analysis. The contrast is [reappraise neg
+% vs. look neg], reappraisal ofnegative images vs. looking at matched 
+% negative images.
+%
+% These data were published in: Wager, T. D., Davidson, M. L., Hughes, B. L., 
+% Lindquist, M. A., Ochsner, K. N.. (2008). Prefrontal-subcortical pathways 
+% mediating successful emotion regulation. Neuron, 59, 1037-50.
+
+
+%% Using plot()
+
+% The plot method expects an fMRI data object to be passed in. We can
+% create an fMRI data object using the emotion regulation dataset 
+% via the following code:
+
+[image_obj, networknames, imagenames] = load_image_set('emotionreg');
+
+% Once created, we can pass this data object to the plot function to get
+% the entire set of outputs, including Matlab console output regarding
+% outliers and corresponding data visualizations, using the simple command:
+
+plot(image_obj);
+
+%% Explanation of Output
+% 1.) Data Matrix (Top Left): This plot shows each image by its constituent voxels. It
+% shows the whole space of the dataset. Here you can look for images that
+% are bright or dark across the image, which would indicate a global shift
+% in values. This is often some type of large artifact. Most datasets have
+% these from time to time. This plot shows how similar the images are to
+% one another. 
+% 
+% This plot can also show that the rise and fall in one row may be 
+% different than another, highlighting a difference in scale. 
+%
+% Lastly, the range shown in the color bar on the right side of this plot
+% will be quite large if there are large outliers in the data. The units
+% are in contrast unit values, but it is important to check if a few
+% extreme values are forcing all other values to be in the middle of the
+% scale. In this case, there will be very little color variation in the
+% plot, which is a red flag.
+% 
+% 2./3.) Covariance and Correlation Matrices (Top Middle/Top Left): These
+% plots both show similarity across images. Both should show bright
+% diagonals and off-diagonals that are off zero or generally positive,
+% depending on the dataset. 
+%   
+% The Covariance Matrix shows whether the variances of each image are
+% equal. If the variances are all of approximately the same scale, the
+% diagonal will be a single color. Anything that is bright has higher than
+% average variance. 
+%
+% The Correlation Matrix scales the variances of the images to one. This 
+% plot shows the correlation between each image and the others. Now,
+% the main diagonal will always be one because each image is perfectly 
+% correlated to itself. The off-diagonals should be positive if the images 
+% are similar to one another, which we see here.  
+%
+% 4.) This is a basic histogram (Bottom Left) of contrast values. It is 
+% expected that a distribution of contrast values will have roughly mean 0 
+% as seen in this example. There are other tools for looking at this 
+% distribution for each individual in the dataset. This can be found
+% <https://canlab.github.io/_pages/canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html here> 
+% under Part 3: Examine the Brain Data
+%
+% 5.) The Global Mean Values (Bottom Middle) plot shows the global means across images.
+% The means ought to be similar to one another. Ideally, these means will
+% all be in a similar range. The error bars show one standard deviation.
+% Here, what we see is that subject 16 is a standard deviation below the
+% mean. This comports with plot 1 where we saw what looked like global
+% deactivation across the voxels of subject 16. The dashed line in the
+% middle is the global mean. 
+%
+% 6.) Mahalanobis Distance (Bottom Right) is a measure of how far away each image is from
+% the rest in the sample. The larger the distance, the more dissimilar it
+% is from other images. Farther away is generally worse, but in any
+% normally distributed dataset, there are going to be some values that lie
+% farther out. 
+%
+% We assume that the points are distributed according to a chi-square
+% distribution. The expected distance is based on multivariate normally
+% distributed data for the percentile of the dataset that corresponds to
+% each image. even the most extreme values may not be greater than what you
+% expect by chance. The plot produces p-values, and any image that is
+% marked as an outlier is one that exceeds the expected value with a
+% p-value of less than 0.05. Those will be marked in darker red. Anything
+% considered to be an outlier with p < 0.05 bonferroni corrected will be
+% marked with an even darker red. The outliers from this plot are returned
+% in the corresponding plot() output. 
+%
+% Note: The outliers returned in the Matlab console are not using
+% the global shift in images in any way to determine outlier status.
+% Outliers are currently determined only using Mahalanobis distance.
+%
+% SPM Orthviews: These are the standard SPM orthviews. The X,Y, and Z
+% coordinates correspond to the distance in millimeters from the set
+% origin. The mean/STD plot is a simple estimate of effect size (Cohen's D)
+% for every voxel. If a contrast with one image per person is passed to
+% plot(), this plot gives you some idea of the effect size across the
+% brain. It is reasonable to use this plot to look for distortions such as
+% high values for means and mean/STDs in the ventricles.
+%
+% Note that in the STD plot, if the dataset has alignment issues,
+% rings will be visible around the outside of the images. 
+
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>
