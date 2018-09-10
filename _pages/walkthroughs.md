@@ -30,8 +30,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [6. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
-[7. Using the Canlab plot() Function]
-(canlab_help_using_the_plot_function/fmri_data_plot_walkthrough.html)
+[7. Using the Canlab plot Function](canlab_help_using_the_plot_function/fmri_data_plot_walkthrough.html)
 
 ## Network-based plots and spatial similarity
 
