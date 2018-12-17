@@ -38,6 +38,7 @@ A system of batch scripts is in the [CANlab_help_examples repository](https://gi
 | region            | Stores data grouped by region/network, treating region as a unit of analysis|
 | fmridisplay       | Container for handles for brain slices and surfaces, allowing visualization |
 
+![object types flowchart image](/images/CANlab_object_types_flowchart.png)
 
 ## fmri_data object features and philosophy
 
