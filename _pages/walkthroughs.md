@@ -26,32 +26,34 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [4. threshold statistic images and write to files ](canlab_help_4_write_data_to_image_file_format/canlab_help_4_write_data_to_image_file_format.html)
 
-[5. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
+[5. Bayes Factor Maps] (EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.hthml) 
 
-[6. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+[6. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
 
-[7. Using the Canlab plot Function](canlab_help_using_the_plot_function/fmri_data_plot_walkthrough.html)
+[7. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+
+[8. Using the Canlab plot Function](canlab_help_using_the_plot_function/fmri_data_plot_walkthrough.html)
 
 ## Network-based plots and spatial similarity
 
-[8. Neurosynth topic similarity and wedge plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+[9. Neurosynth topic similarity and wedge plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
 
-[9. Riverplot cerebellar atlas example](canlab_help_8_riverplot_cerebellar_atlas_example.m/canlab_help_8_riverplot_cerebellar_atlas_example.html)
+[10. Riverplot cerebellar atlas example](canlab_help_8_riverplot_cerebellar_atlas_example.m/canlab_help_8_riverplot_cerebellar_atlas_example.html)
 
-[10. Multivariate Prediction Basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+[11. Multivariate Prediction Basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
-[11. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
+[12. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
 ## Mediation analysis
 
-[12. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
+[13. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
 
 ## Behavioral data and Plots
 
-[13. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
+[14. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
 
-[14. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
+[15. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
 
 ## Meta-analysis
 
-[15. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
+[16. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
