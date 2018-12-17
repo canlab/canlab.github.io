@@ -56,3 +56,9 @@ A system of batch scripts is in the [CANlab_help_examples repository](https://gi
   * **Analysis** (ica, mahal, image_math, and many more in the fmri_data subclass)
   * **Provenance:** Ability to track and update history of changes to objects
   * **Documentation:** In Matlab, type `doc object_class` name (e.g., `doc fmri_data`) for properties, methods, and examples.  
+
+## flowchart for a simple Analysis
+
+The diagram below shows a flowchart for a simple group analysis, starting by loading a set of images (.nii or .img, one per subject) into an fmri_data object. A few simple commands can perform a t-test (or other analysis), threshold the resulting statistic map (a statistic_image object), and display interactive views, slice montages, tables with automatically labeled regions, and more.
+
+![object types flowchart image](/images/CANlab_ttest_flowchart.png)
