@@ -1,0 +1,273 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Overview</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-12-17"><meta name="DC.source" content="EmoReg_BayesFactor_walkthrough.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Overview</h1><!--introduction--><p>In this example we use the estimateBayesFactor method, which converts statistic images to maps of (log) Bayes Factors. For now it works for t-maps, correlation maps, and maps of proportions (e.g., the number of subjects showing an effect). This walkthrough will show one example of all 3 of these types of maps.</p><p>The example uses the emotion regulation data provided with CANlab_Core_Tools. This dataset consists of a set of contrast images for 30 subjects from a first level analysis. The contrast is [reappraise neg vs. look neg], reappraisal of negative images vs. looking at matched negative images. These data were published in: Wager, T. D., Davidson, M. L., Hughes, B. L., Lindquist, M. A., Ochsner, K. N.. (2008). Prefrontal-subcortical pathways mediating successful emotion regulation. Neuron, 59, 1037-50.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Load Emotion Regulation data</a></li><li><a href="#2">Compute t-map for comparison of reappraise vs. look</a></li><li><a href="#3">Compute map of Bayes Factors based on t-statistic and sample size</a></li><li><a href="#4">Compute correlations between reappraise vs look and behavioral measure</a></li><li><a href="#5">Compute map of Bayes Factors based on pearson correlations and sample size</a></li><li><a href="#6">Compute proportion of subjects with greater activation during reappraisal</a></li><li><a href="#7">Compute map of Bayes Factors based on proportion and sample size</a></li></ul></div><h2 id="1">Load Emotion Regulation data</h2><pre class="codeinput"><span class="comment">% load fmri object for reappraise vs look</span>
+image_obj=load_image_set(<span class="string">'emotionreg'</span>);
+
+<span class="comment">% load text file with behavior</span>
+behav_data=importdata(which(<span class="string">'Wager_2008_emotionreg_behavioral_data.txt'</span>));
+
+<span class="comment">% store as single variable</span>
+reappraisal_success=behav_data.data(:,2);
+image_obj.Y=reappraisal_success;
+</pre><pre class="codeoutput">Loaded images:
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+</pre><h2 id="2">Compute t-map for comparison of reappraise vs. look</h2><pre class="codeinput">t=ttest(image_obj);
+orthviews(t);
+</pre><pre class="codeoutput">One-sample t-test
+Calculating t-statistics and p-values
+
+SPM12: spm_check_registration (v6245)              16:19:51 - 17/12/2018
+========================================================================
+Display &lt;a href="matlab:spm_image('display','/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+Warning: Function vecnorm has the same name as a MATLAB builtin. We suggest you
+rename the function to avoid a potential name conflict. 
+</pre><img vspace="5" hspace="5" src="EmoReg_BayesFactor_walkthrough_01.png" alt=""> <h2 id="3">Compute map of Bayes Factors based on t-statistic and sample size</h2><pre class="codeinput"><span class="comment">% estimate BF</span>
+BF_tstat=estimateBayesFactor(t,<span class="string">'t'</span>);
+
+<span class="comment">% threshold from -6 to 6</span>
+BF_tstat_th = threshold(BF_tstat, [-6 6], <span class="string">'raw-outside'</span>);
+
+<span class="comment">% show results</span>
+orthviews(BF_tstat_th);
+</pre><pre class="codeoutput">Keeping vals outside of -6.000 to 6.000: 2174 voxels in .sig
+
+SPM12: spm_check_registration (v6245)              16:20:21 - 17/12/2018
+========================================================================
+Display &lt;a href="matlab:spm_image('display','/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+Warning: Function vecnorm has the same name as a MATLAB builtin. We suggest you
+rename the function to avoid a potential name conflict. 
+</pre><img vspace="5" hspace="5" src="EmoReg_BayesFactor_walkthrough_02.png" alt=""> <h2 id="4">Compute correlations between reappraise vs look and behavioral measure</h2><pre class="codeinput"><span class="comment">% initialize stats object from t-test output</span>
+r=t;
+
+<span class="comment">% replace data with simple correlation</span>
+r.dat=corr(image_obj.dat',image_obj.Y);
+
+<span class="comment">% show results</span>
+orthviews(r);
+</pre><pre class="codeoutput">
+SPM12: spm_check_registration (v6245)              16:20:22 - 17/12/2018
+========================================================================
+Display &lt;a href="matlab:spm_image('display','/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+Warning: Function vecnorm has the same name as a MATLAB builtin. We suggest you
+rename the function to avoid a potential name conflict. 
+</pre><img vspace="5" hspace="5" src="EmoReg_BayesFactor_walkthrough_03.png" alt=""> <h2 id="5">Compute map of Bayes Factors based on pearson correlations and sample size</h2><pre class="codeinput"><span class="comment">% estimate BF</span>
+BF_correlation=estimateBayesFactor(r,<span class="string">'r'</span>);
+
+<span class="comment">% threshold from -6 to 6</span>
+BF_correlation_th = threshold(BF_correlation, [-6 6], <span class="string">'raw-outside'</span>);
+
+<span class="comment">% show results</span>
+orthviews(BF_correlation_th);
+</pre><pre class="codeoutput">Keeping vals outside of -6.000 to 6.000: 273 voxels in .sig
+
+SPM12: spm_check_registration (v6245)              16:20:49 - 17/12/2018
+========================================================================
+Display &lt;a href="matlab:spm_image('display','/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+Warning: Function vecnorm has the same name as a MATLAB builtin. We suggest you
+rename the function to avoid a potential name conflict. 
+</pre><img vspace="5" hspace="5" src="EmoReg_BayesFactor_walkthrough_04.png" alt=""> <h2 id="6">Compute proportion of subjects with greater activation during reappraisal</h2><pre class="codeinput"><span class="comment">% initialize stats object from correlation output</span>
+prop=r;
+
+<span class="comment">% compute number of subjects with greater response in reappraisal</span>
+prop.dat=sum(image_obj.dat'&gt;0)';
+
+<span class="comment">%show results</span>
+orthviews(prop);
+</pre><pre class="codeoutput">
+SPM12: spm_check_registration (v6245)              16:20:50 - 17/12/2018
+========================================================================
+Display &lt;a href="matlab:spm_image('display','/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+Warning: Function vecnorm has the same name as a MATLAB builtin. We suggest you
+rename the function to avoid a potential name conflict. 
+</pre><img vspace="5" hspace="5" src="EmoReg_BayesFactor_walkthrough_05.png" alt=""> <h2 id="7">Compute map of Bayes Factors based on proportion and sample size</h2><pre class="codeinput"><span class="comment">% estimate BF</span>
+BF_prop=estimateBayesFactor(prop,<span class="string">'prop'</span>);
+
+<span class="comment">% thresholhd from -6 to 6</span>
+BF_prop_th = threshold(BF_prop, [-6 6], <span class="string">'raw-outside'</span>);
+
+<span class="comment">% show results</span>
+orthviews(BF_prop_th);
+</pre><pre class="codeoutput">Keeping vals outside of -6.000 to 6.000: 2411 voxels in .sig
+
+SPM12: spm_check_registration (v6245)              16:21:52 - 17/12/2018
+========================================================================
+Display &lt;a href="matlab:spm_image('display','/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1');"&gt;/home/lukie/CanlabCore/CanlabCore/canlab_canonical_brains/Canonical_brains_surfaces/keuken_2014_enhanced_for_underlay.img,1&lt;/a&gt;
+Warning: Function vecnorm has the same name as a MATLAB builtin. We suggest you
+rename the function to avoid a potential name conflict. 
+</pre><img vspace="5" hspace="5" src="EmoReg_BayesFactor_walkthrough_06.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Overview
+% In this example we use the estimateBayesFactor method, which converts statistic images to maps of (log) Bayes Factors. 
+% For now it works for t-maps, correlation maps, and maps of proportions (e.g., the number of subjects showing an effect). 
+% This walkthrough will show one example of all 3 of these types of maps.
+%
+% The example uses the emotion regulation data provided with CANlab_Core_Tools. This dataset consists of a set of contrast images for 30 subjects from a first level analysis. The contrast is [reappraise neg vs. look neg], reappraisal of negative images vs. looking at matched negative images.
+% These data were published in: Wager, T. D., Davidson, M. L., Hughes, B. L., Lindquist, M. A., Ochsner, K. N.. (2008). Prefrontal-subcortical pathways mediating successful emotion regulation. Neuron, 59, 1037-50.
+
+%% Load Emotion Regulation data 
+
+% load fmri object for reappraise vs look
+image_obj=load_image_set('emotionreg');
+
+% load text file with behavior
+behav_data=importdata(which('Wager_2008_emotionreg_behavioral_data.txt')); 
+
+% store as single variable
+reappraisal_success=behav_data.data(:,2);
+image_obj.Y=reappraisal_success;
+
+%% Compute t-map for comparison of reappraise vs. look
+t=ttest(image_obj);
+orthviews(t);
+
+%% Compute map of Bayes Factors based on t-statistic and sample size 
+
+% estimate BF
+BF_tstat=estimateBayesFactor(t,'t');
+
+% threshold from -6 to 6
+BF_tstat_th = threshold(BF_tstat, [-6 6], 'raw-outside');
+
+% show results
+orthviews(BF_tstat_th);
+
+%% Compute correlations between reappraise vs look and behavioral measure
+
+% initialize stats object from t-test output
+r=t; 
+
+% replace data with simple correlation
+r.dat=corr(image_obj.dat',image_obj.Y);
+
+% show results
+orthviews(r); 
+
+%% Compute map of Bayes Factors based on pearson correlations and sample size
+
+% estimate BF
+BF_correlation=estimateBayesFactor(r,'r'); 
+
+% threshold from -6 to 6
+BF_correlation_th = threshold(BF_correlation, [-6 6], 'raw-outside');
+
+% show results
+orthviews(BF_correlation_th);
+
+%% Compute proportion of subjects with greater activation during reappraisal
+
+% initialize stats object from correlation output
+prop=r; 
+
+% compute number of subjects with greater response in reappraisal
+prop.dat=sum(image_obj.dat'>0)';
+
+%show results
+orthviews(prop);  
+
+%% Compute map of Bayes Factors based on proportion and sample size
+
+% estimate BF
+BF_prop=estimateBayesFactor(prop,'prop');
+
+% thresholhd from -6 to 6
+BF_prop_th = threshold(BF_prop, [-6 6], 'raw-outside');
+
+% show results
+orthviews(BF_prop_th);
+##### SOURCE END #####
+--></body></html>
