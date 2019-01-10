@@ -26,7 +26,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [4. threshold statistic images and write to files ](canlab_help_4_write_data_to_image_file_format/canlab_help_4_write_data_to_image_file_format.html)
 
-[5. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html) 
+[5. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html)
 
 [6. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
 
@@ -47,6 +47,8 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 ## Mediation analysis
 
 [13. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
+
+[   additional output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html)
 
 ## Behavioral data and Plots
 
