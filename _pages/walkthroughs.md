@@ -42,20 +42,22 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [11. Multivariate Prediction Basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
-[12. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
+[12. Apply a Multivariate Pattern of Interest](canlab_help_9_apply_a_multivariate_pattern_of_interest/canlab_help_9_apply_a_multivariate_pattern_of_interest.html)
+
+[13. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
 ## Mediation analysis
 
-[13. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
+[14. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
 
-[   additional output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html)
+[14b. additional output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html)
 
 ## Behavioral data and Plots
 
-[14. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
+[15. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
 
-[15. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
+[16. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
 
 ## Meta-analysis
 
-[16. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
+[17. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)

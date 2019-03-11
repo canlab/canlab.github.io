@@ -1,0 +1,389 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>canlab_help_9_apply_a_multivariate_pattern_of_interest</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-03-11"><meta name="DC.source" content="canlab_help_9_apply_a_multivariate_pattern_of_interest.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% Concept:</span>
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="comment">%   This walkthrough explains how to do a "pattern of interest" (POI) analysis</span>
+<span class="comment">%   using an a priori multivariate pattern. It generalizes the "region of</span>
+<span class="comment">%   interest" (ROI) approach. ROI analyses usually involve averaging signal</span>
+<span class="comment">%   over the voxels within an ROI. The POI approach applies a weighted average,</span>
+<span class="comment">%   with the weights specified by the pattern. The "pattern response" is a</span>
+<span class="comment">%   single number that reflects the magnitude of activity in the pattern.</span>
+<span class="comment">%   If the pattern is a mask of 1's and 0's, the POI response is equivalent</span>
+<span class="comment">%   to averaging, up to the scaling of the values (which are usually</span>
+<span class="comment">%   assumed to be arbitrary, but the same across participants/test</span>
+<span class="comment">%   datasets).</span>
+<span class="comment">%</span>
+<span class="comment">% Required toolboxes:</span>
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="comment">%   Matlab signal processing toolbox</span>
+<span class="comment">%   Matlab statistics/machine learning toolboxes</span>
+<span class="comment">%   SPM12</span>
+<span class="comment">% Two CANlab toolboxes from https://github.com/canlab</span>
+<span class="comment">%   https://github.com/canlab/CanlabCore</span>
+<span class="comment">%   https://github.com/canlab/Neuroimaging_Pattern_Masks</span>
+<span class="comment">%</span>
+<span class="comment">% Add SPM12 and all CANlab toolboxes with subfolders to the Matlab path</span>
+<span class="comment">%</span>
+
+<span class="comment">% Load some data images. These are N = 30 subjects from Wager et al. 2008,</span>
+<span class="comment">% Neuron. Each image is a contrast between regulating and looking at</span>
+<span class="comment">% aversive images.</span>
+test_data_obj = load_image_set(<span class="string">'emotionreg'</span>);
+
+<span class="comment">% Load a set of patterns that we want to apply</span>
+<span class="comment">% These are Partial Least Squares (PLS)-based signatures from Kragel et al.</span>
+<span class="comment">% 2018 Nature Neurosci.</span>
+<span class="comment">% Three patterns relate to Pain, Cognitive Control, and Negative Emotion,</span>
+<span class="comment">% respectively.</span>
+
+[obj, names] = load_image_set(<span class="string">'pain_cog_emo'</span>);
+bpls_wholebrain = get_wh_image(obj, [8 16 24]);
+names_wholebrain = names([8 16 24]);
+
+<span class="comment">% Incidentally, we could also extract patterns for local subregions,</span>
+<span class="comment">% e.g., only within the dorsal anterior cingulate (dACC) or other regions</span>
+<span class="comment">% of interest. The code below would extract relevant images, but we will</span>
+<span class="comment">% not do this here.</span>
+<span class="comment">%   bpls_subregions = get_wh_image(obj, [1:6 9:14 17:22]);</span>
+<span class="comment">%   names_subregions = names([1:6 9:14 17:22]);</span>
+
+<span class="comment">%  Make plots</span>
+<span class="comment">% Yellow: positive associations. Blue: Negative associations.  Plot shows mean +- std. error for each pattern of interest</span>
+
+create_figure(<span class="string">'Kragel Pain-Cog-Emo maps'</span>, 1, 3);
+
+<span class="comment">% Notes:</span>
+<span class="comment">% An important thing to do is to make sure that the images you're comparing</span>
+<span class="comment">% have been resampled to the same space and voxel size, with voxels that line up</span>
+<span class="comment">% across both image sets.  The function below handles this automatically,</span>
+<span class="comment">% as do other related functions in the toolboxes, e.g., apply_mask.m.</span>
+<span class="comment">% They use the object method resample_space.m</span>
+<span class="comment">%</span>
+<span class="comment">% Another consideration is how to handle missing data values and values of</span>
+<span class="comment">% 0, which are often considered missing data in fMRI images. This is handled here by</span>
+<span class="comment">% canlab_pattern_similarity, which treats 0s in the data images as missing, and excludes them,</span>
+<span class="comment">% but does not exclude 0s in pattern masks, which may be valid values. The</span>
+<span class="comment">% impact of this on the calculated similarity metrics varies across</span>
+<span class="comment">% similarity metrics.</span>
+<span class="comment">%</span>
+<span class="comment">% In the plot below, yellow areas are positive correlations, blue are</span>
+<span class="comment">% negative:</span>
+stats = image_similarity_plot(test_data_obj, <span class="string">'average'</span>, <span class="string">'mapset'</span>, bpls_wholebrain, <span class="string">'networknames'</span>, names_wholebrain, <span class="string">'nofigure'</span>);
+axis <span class="string">image</span>
+
+<span class="comment">% Now let's take the values and make a bar plot instead:</span>
+subplot(1, 3, 2)
+
+barplot_columns(stats.r', <span class="string">'nofigure'</span>, <span class="string">'colors'</span>, {[1 .9 0] [.2 .2 1] [1 .2 .2]}, <span class="string">'names'</span>, names_wholebrain)
+set(gca, <span class="string">'FontSize'</span>, 14)
+ylabel(<span class="string">'Pattern similarity (r)'</span>);
+title(<span class="string">'Similarity (r) with patterns'</span>)
+
+<span class="comment">% Now let's recalculate similarity using a different metrric, cosine</span>
+<span class="comment">% similarity.  We'll have to resample the data image first:</span>
+
+test_data_obj = resample_space(test_data_obj, bpls_wholebrain);
+
+<span class="comment">% Then calculate the pattern similarity:</span>
+
+clear <span class="string">csim</span>
+<span class="keyword">for</span> i = 1:3
+
+    csim(:, i) = canlab_pattern_similarity(test_data_obj.dat, bpls_wholebrain.dat(:, i), <span class="string">'cosine_similarity'</span>);
+
+<span class="keyword">end</span>
+
+<span class="comment">% Now we can plot this</span>
+
+subplot(1, 3, 3)
+
+barplot_columns(csim, <span class="string">'nofigure'</span>, <span class="string">'colors'</span>, {[1 .9 0] [.2 .2 1] [1 .2 .2]}, <span class="string">'names'</span>, names_wholebrain)
+set(gca, <span class="string">'FontSize'</span>, 14)
+ylabel(<span class="string">'Pattern similarity (cosine sim)'</span>);
+title(<span class="string">'Pattern response (cosine similarity)'</span>)
+</pre><pre class="codeoutput">Loaded images:
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+/home/lukie/CanlabCore/CanlabCore/Sample_datasets/Wager_et_al_2008_Neuron_EmotionReg/Wager_2008_emo_reg_vs_look_neg_contrast_images.nii
+Loaded images:
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_pMCC_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_aMCC_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_pACC_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_sgACC_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_vmPFC_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_dMFC_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_MFC_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_Wholebrain_Pain.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_pMCC_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_aMCC_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_pACC_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_sgACC_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_vmPFC_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_dMFC_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_MFC_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_Wholebrain_Cognitive_Control.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_pMCC_Negative_Emotion.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_aMCC_Negative_Emotion.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_pACC_Negative_Emotion.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_sgACC_Negative_Emotion.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_vmPFC_Negative_Emotion.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_dMFC_Negative_Emotion.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_MFC_Negative_Emotion.nii
+/home/lukie/Neuroimaging_Pattern_Masks/Multivariate_signature_patterns/2018_Kragel_MFC_Generalizability/bPLS_Wholebrain_Negative_Emotion.nii
+Table of correlations Group:1
+--------------------------------------
+T-test on Fisher's r to Z transformed point-biserial correlations
+ 	R_avg	T	P	sig	
+Pain Wholebrain	-0.0313	-3.3659	0.0022	1.0000	
+Cog Wholebrain	-0.0034	-0.4795	0.6352	0.0000	
+Emo Wholebrain	0.0326	3.6973	0.0009	1.0000	
+ 
+Col   1: Pain Wholebrain	Col   2: Cog Wholebrain	Col   3: Emo Wholebrain	
+---------------------------------------------
+Tests of column means against zero
+---------------------------------------------
+          Name           Mean_Value    Std_Error       T            P         Cohens_d 
+    _________________    __________    _________    ________    __________    _________
+
+    'Pain Wholebrain'     -0.031344    0.0093007     -3.3701     0.0021409     -0.61529
+    'Cog Wholebrain'     -0.0034143    0.0071259    -0.47913       0.63544    -0.087478
+    'Emo Wholebrain'       0.032647    0.0088234         3.7    0.00089741      0.67553
+
+
+ans = 
+
+  struct with fields:
+
+         fig_han: [1&times;1 struct]
+        axis_han: [1&times;1 Axes]
+        bar_han1: [1&times;1 Bar]
+         bar_han: {[1&times;1 Bar]  [1&times;1 Bar]  [1&times;1 Bar]}
+    errorbar_han: {[1&times;1 ErrorBar]  [1&times;1 ErrorBar]  [1&times;1 ErrorBar]}
+      point_han1: {30&times;3 cell}
+       point_han: {30&times;3 cell}
+    star_handles: [3.0005 4.0005 5.0005]
+
+Col   1: Pain Wholebrain	Col   2: Cog Wholebrain	Col   3: Emo Wholebrain	
+---------------------------------------------
+Tests of column means against zero
+---------------------------------------------
+          Name           Mean_Value    Std_Error       T            P        Cohens_d 
+    _________________    __________    _________    ________    _________    _________
+
+    'Pain Wholebrain'       -0.0277    0.0088243      -3.139    0.0038755     -0.57311
+    'Cog Wholebrain'     -0.0024414    0.0064192    -0.38032      0.70648    -0.069437
+    'Emo Wholebrain'       0.028817    0.0081249      3.5468    0.0013476      0.64756
+
+
+ans = 
+
+  struct with fields:
+
+         fig_han: [1&times;1 struct]
+        axis_han: [1&times;1 Axes]
+        bar_han1: [1&times;1 Bar]
+         bar_han: {[1&times;1 Bar]  [1&times;1 Bar]  [1&times;1 Bar]}
+    errorbar_han: {[1&times;1 ErrorBar]  [1&times;1 ErrorBar]  [1&times;1 ErrorBar]}
+      point_han1: {30&times;3 cell}
+       point_han: {30&times;3 cell}
+    star_handles: [6.0005 7.0005 8.0005]
+
+</pre><img vspace="5" hspace="5" src="canlab_help_9_apply_a_multivariate_pattern_of_interest_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Concept:
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+%   This walkthrough explains how to do a "pattern of interest" (POI) analysis
+%   using an a priori multivariate pattern. It generalizes the "region of
+%   interest" (ROI) approach. ROI analyses usually involve averaging signal
+%   over the voxels within an ROI. The POI approach applies a weighted average,
+%   with the weights specified by the pattern. The "pattern response" is a
+%   single number that reflects the magnitude of activity in the pattern.
+%   If the pattern is a mask of 1's and 0's, the POI response is equivalent
+%   to averaging, up to the scaling of the values (which are usually
+%   assumed to be arbitrary, but the same across participants/test
+%   datasets).
+%
+% Required toolboxes:
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+%   Matlab signal processing toolbox
+%   Matlab statistics/machine learning toolboxes
+%   SPM12
+% Two CANlab toolboxes from https://github.com/canlab
+%   https://github.com/canlab/CanlabCore
+%   https://github.com/canlab/Neuroimaging_Pattern_Masks
+%
+% Add SPM12 and all CANlab toolboxes with subfolders to the Matlab path
+%
+
+% Load some data images. These are N = 30 subjects from Wager et al. 2008,
+% Neuron. Each image is a contrast between regulating and looking at
+% aversive images.
+test_data_obj = load_image_set('emotionreg');
+
+% Load a set of patterns that we want to apply
+% These are Partial Least Squares (PLS)-based signatures from Kragel et al.
+% 2018 Nature Neurosci.
+% Three patterns relate to Pain, Cognitive Control, and Negative Emotion,
+% respectively.
+
+[obj, names] = load_image_set('pain_cog_emo');
+bpls_wholebrain = get_wh_image(obj, [8 16 24]);
+names_wholebrain = names([8 16 24]);
+
+% Incidentally, we could also extract patterns for local subregions,
+% e.g., only within the dorsal anterior cingulate (dACC) or other regions
+% of interest. The code below would extract relevant images, but we will
+% not do this here.
+%   bpls_subregions = get_wh_image(obj, [1:6 9:14 17:22]);
+%   names_subregions = names([1:6 9:14 17:22]);
+
+%  Make plots
+% Yellow: positive associations. Blue: Negative associations.  Plot shows mean +- std. error for each pattern of interest
+
+create_figure('Kragel Pain-Cog-Emo maps', 1, 3);
+
+% Notes:
+% An important thing to do is to make sure that the images you're comparing
+% have been resampled to the same space and voxel size, with voxels that line up
+% across both image sets.  The function below handles this automatically,
+% as do other related functions in the toolboxes, e.g., apply_mask.m.
+% They use the object method resample_space.m
+%
+% Another consideration is how to handle missing data values and values of
+% 0, which are often considered missing data in fMRI images. This is handled here by 
+% canlab_pattern_similarity, which treats 0s in the data images as missing, and excludes them,
+% but does not exclude 0s in pattern masks, which may be valid values. The
+% impact of this on the calculated similarity metrics varies across
+% similarity metrics.
+%
+% In the plot below, yellow areas are positive correlations, blue are
+% negative:
+stats = image_similarity_plot(test_data_obj, 'average', 'mapset', bpls_wholebrain, 'networknames', names_wholebrain, 'nofigure');
+axis image
+
+% Now let's take the values and make a bar plot instead:
+subplot(1, 3, 2)
+
+barplot_columns(stats.r', 'nofigure', 'colors', {[1 .9 0] [.2 .2 1] [1 .2 .2]}, 'names', names_wholebrain)
+set(gca, 'FontSize', 14)
+ylabel('Pattern similarity (r)');
+title('Similarity (r) with patterns')
+
+% Now let's recalculate similarity using a different metrric, cosine
+% similarity.  We'll have to resample the data image first:
+
+test_data_obj = resample_space(test_data_obj, bpls_wholebrain);
+
+% Then calculate the pattern similarity:
+
+clear csim
+for i = 1:3
+    
+    csim(:, i) = canlab_pattern_similarity(test_data_obj.dat, bpls_wholebrain.dat(:, i), 'cosine_similarity');
+    
+end
+
+% Now we can plot this
+
+subplot(1, 3, 3)
+
+barplot_columns(csim, 'nofigure', 'colors', {[1 .9 0] [.2 .2 1] [1 .2 .2]}, 'names', names_wholebrain)
+set(gca, 'FontSize', 14)
+ylabel('Pattern similarity (cosine sim)');
+title('Pattern response (cosine similarity)')
+
+##### SOURCE END #####
+--></body></html>
