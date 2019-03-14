@@ -4,8 +4,8 @@ title: "CANlab neuroimaging analysis tools"
 excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. This site serves as the point of entry for using these tools."
 author_profile: true
 redirect_from:
-  * /about/
-  * /about.html
+    - /about/
+    - /about.html
 ---
 {% include base_path %}
 

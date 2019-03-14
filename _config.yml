@@ -13,7 +13,7 @@ name                     : &name "CANlab fMRI analysis tools"
 description              : &description "Pain and Emotion at CU Boulder"
 url                      : https://canlab.github.io #   the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/about"
-repository               : "https://github.com/canlab"
+repository               : "canlab.github.io"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
@@ -141,6 +141,7 @@ exclude:
   - Rakefile
   - README
   - tmp
+  - vendor
 keep_files:
   - .git
   - .svn
