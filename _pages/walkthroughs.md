@@ -14,16 +14,14 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 ## Getting started
 
-[1. installing tools](canlab_help_1_installing_tools.html)
+[1. installing tools](canlab_help_2_load_a_sample_dataset/canlab_help_1_installing_tools.html)
 
 [2. load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
 
 ## Basic analyses
 
 [3. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
-
 [3b. atlases and ROI analysis](canlab_help_3b_atlases_and_labeling/canlab_help_3b_atlases_and_labeling.html)
-
 [4. threshold statistic images and write to files ](canlab_help_4_write_data_to_image_file_format/canlab_help_4_write_data_to_image_file_format.html)
 
 [5. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html)
