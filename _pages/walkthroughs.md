@@ -14,7 +14,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 ## Getting started
 
-[1. installing tools](canlab_help_2_load_a_sample_dataset/canlab_help_1_installing_tools.html)
+[1. installing tools](canlab_help_1_installing_tools/canlab_help_1_installing_tools.html)
 
 [2. load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
 
