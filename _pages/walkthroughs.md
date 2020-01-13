@@ -14,25 +14,28 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 ## Getting started
 
-[1. installing tools](canlab_help_1_installing_tools/canlab_help_1_installing_tools.html)
-
-[2. load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
+| Walkthrough             
+| ------------       |
+| [1.1. installing tools](canlab_help_1_installing_tools/canlab_help_1_installing_tools.html)  
+| [1.2. load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
+| [1.3.  basic image visualization](canlab_help_2b_basic_image_visualization/canlab_help_2b_basic_image_visualization.html)
+| [1.4.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html)
 
 ## Basic analyses
 
-[3. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
+[2.1. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
 
-[3b. atlases and ROI analysis](canlab_help_3b_atlases_and_labeling/canlab_help_3b_atlases_and_labeling.html)
+[2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
 
-[4. threshold statistic images and write Nifti image files ](canlab_help_4_write_data_to_image_file_format/canlab_help_4_write_data_to_image_file_format.html)
+[2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
 
-[5. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html)
+[2.4. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
 
-[6. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
+## Advanced analyses
 
-[7. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+[A1. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
-[8. Using the Canlab plot Function](canlab_help_using_the_plot_function/fmri_data_plot_walkthrough.html)
+[A2. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html)
 
 ## Network-based plots and spatial similarity
 
