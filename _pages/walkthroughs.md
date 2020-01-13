@@ -12,55 +12,44 @@ author_profile: true
 This series of walkthroughs is designed to illustrate the CANlab interactive analysis tools, and some analysis principles as well.
 Code to run each walkthrough is included in the CANlab core toolbox or on Neurovault. See the main [CANlab intro page](/) for more on the philosophy behind the interactive analysis approach.
 
-## Getting started
-
-| Walkthrough             
+| Getting started             
 | ------------       |
 | [1.1. installing tools](canlab_help_1_installing_tools/canlab_help_1_installing_tools.html)  
 | [1.2. load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
 | [1.3.  basic image visualization](canlab_help_2b_basic_image_visualization/canlab_help_2b_basic_image_visualization.html)
 | [1.4.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html)
 
-## Basic analyses
+| Basic analyses             
+| ------------       |
+| [2.1. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
+| [2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
+| [2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
+| [2.4. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
+| [2.5. Interpreting maps with Neurosynth topic similarity and wedge plots](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
 
-[2.1. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
+| Multivariate predictive models           
+| ------------       |
+| [3.1. multivariate prediction with continuous outcomes](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
+| 3.2  Effect sizes with SVMs
+| [3.3. Apply a Multivariate Pattern of Interest](canlab_help_9_apply_a_multivariate_pattern_of_interest/canlab_help_9_apply_a_multivariate_pattern_of_interest.html)
+| [3.4. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html)
+| [3.5. Interpreting maps with riverplots](canlab_help_8_riverplot_cerebellar_atlas_example.m/canlab_help_8_riverplot_cerebellar_atlas_example.html)
 
-[2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
+| Mediation analysis          
+| ------------       |
+| [4.1. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
+| [4.2. additional output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html)
 
-[2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
+| Coordinate-based Meta-analysis          
+| ------------       |
+| [5.1. MKDA meta-analysis 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
 
-[2.4. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
-
-## Advanced analyses
-
-[A1. multivariate prediction basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
-
-[A2. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html)
-
-## Network-based plots and spatial similarity
-
-[9. Neurosynth topic similarity and wedge plot](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
-
-[10. Riverplot cerebellar atlas example](canlab_help_8_riverplot_cerebellar_atlas_example.m/canlab_help_8_riverplot_cerebellar_atlas_example.html)
-
-[11. Multivariate Prediction Basics](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
-
-[12. Apply a Multivariate Pattern of Interest](canlab_help_9_apply_a_multivariate_pattern_of_interest/canlab_help_9_apply_a_multivariate_pattern_of_interest.html)
+## Other tutorials
 
 [13. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
-
-## Mediation analysis
-
-[14. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
-
-[14b. additional output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html)
 
 ## Behavioral data and Plots
 
 [15. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
 
 [16. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
-
-## Meta-analysis
-
-[17. coordinate-based meta-analysis walkthrough 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
