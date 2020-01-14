@@ -26,6 +26,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | [2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
 | [2.4. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
 | [2.5. Interpreting maps with Neurosynth topic similarity and wedge plots](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+| 2.6 3-D brain rendering
 
 | Multivariate predictive models           
 | ------------       |
