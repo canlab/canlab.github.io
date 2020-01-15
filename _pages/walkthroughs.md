@@ -18,6 +18,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | [1.2. load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
 | [1.3.  basic image visualization](canlab_help_2b_basic_image_visualization/canlab_help_2b_basic_image_visualization.html)
 | [1.4.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html)
+| [1.5.  Publishing results reports](canlab_help_2d_publish_a_report/canlab_help_2d_publish_a_report.html)
 
 | Basic analyses             
 | ------------       |
