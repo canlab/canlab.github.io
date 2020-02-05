@@ -26,8 +26,9 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | [2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
 | [2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
 | [2.4. 3-D visualization on brain surfaces](canlab_help_4b_3D_visualization/canlab_help_4b_3D_visualization.html)
-| [2.5. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
-| [2.6. Interpreting maps with Neurosynth topic similarity and wedge plots](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+| [2.5. Create and explore 1st-level design matrices](first_level_design_matrix_exploration/first_level_design_matrix_exploration.html)
+| [2.6. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
+| [2.7. Interpreting maps with Neurosynth topic similarity and wedge plots](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
 
 | Multivariate predictive models           
 | ------------       |
