@@ -153,11 +153,11 @@ disp(t);
 </pre><pre class="codeoutput">    Evt1_Time    Evt1_Dur    Evt2_Time    Evt2_Dur
     _________    ________    _________    ________
 
-       50.7         1           40.3         1    
-      105.3         1           46.8         1    
-      106.6         1           67.6         1    
-      109.2         1          136.5         1    
-      127.4         1          149.5         1    
+      57.2          1              0         1    
+      62.4          1           29.9         1    
+      66.3          1           54.6         1    
+      80.6          1            104         1    
+      93.6          1          136.5         1    
 
 </pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_04.png" alt=""> <p><b>Questions to answer:</b></p><pre class="codeinput"><span class="comment">% 1. Create a dense randomized event design with two conditions, with 100%</span>
 <span class="comment">% of the time bins filled, spread evenly across 2 event types</span>
@@ -266,11 +266,11 @@ drawnow, snapnow
 </pre><pre class="codeoutput">    Evt1_Time    Evt1_Dur    Evt2_Time    Evt2_Dur
     _________    ________    _________    ________
 
-       50.7         1           40.3         1    
-      105.3         1           46.8         1    
-      106.6         1           67.6         1    
-      109.2         1          136.5         1    
-      127.4         1          149.5         1    
+      57.2          1              0         1    
+      62.4          1           29.9         1    
+      66.3          1           54.6         1    
+      80.6          1            104         1    
+      93.6          1          136.5         1    
 
 </pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_08.png" alt=""> <p><b>Questions to answer:</b></p><pre class="codeinput"><span class="comment">% 1. What is the interpretation of each of the columns? Which event type</span>
 <span class="comment">% and which effect is represented?</span>
@@ -333,9 +333,9 @@ disp(t)
 </pre><pre class="codeoutput">    True    Estimated
     ____    _________
 
-     1       0.97955 
-     0      0.061594 
-     0      -0.61583 
+     1         0.741 
+     0       0.13819 
+     0       0.17673 
 
 </pre><p>Explore the FIR model fit</p><pre class="codeinput">X_fir = onsets2fmridesign(events, 1, T, <span class="string">'Finite Impulse Response'</span>);
 
@@ -393,23 +393,44 @@ disp(t)
     True    Estimated
     ____    _________
 
-     1        0.71018
-     0      -0.040039
-     0       -0.45944
+     1       0.66194 
+     0        0.1744 
+     0       0.12899 
 
 </pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_12.png" alt=""> <p>Plot the fitted response</p><pre class="codeinput">fit = X * b;
 plot(fit)
 legend({<span class="string">'Data'</span> <span class="string">'Fit'</span>});
-</pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_13.png" alt=""> <p>Now we'll try the fit with robust regression instead Robust regression with robfit adds an intercept to the <b>first column</b> of the design matrix automatically, so we'll remove the intercept when we pass it in, then rearrange the betas so that the intercept is last again, to match our other models.</p><pre class="codeinput">[b_rob, stats] = robustfit(X(:, 1:2), y);
+
+<span class="comment">% save the figure handle so we can re-activate it and add to it:</span>
+fighan = gcf;
+</pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_13.png" alt=""> <p>Another way to look at this is with a scatterplot Notice the outlier!</p><pre class="codeinput">create_figure(<span class="string">'scatter'</span>);
+scatter(fit, y, <span class="string">'MarkerFaceColor'</span>, [.3 .2 .6]);
+h = refline;
+</pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_14.png" alt=""> <p><b>Questions to answer:</b></p><pre class="codeinput"><span class="comment">% 1. If the outlier were farther out on the x-axis (predictor axis), i.e.,</span>
+<span class="comment">% more extreme, would you expect it to have more or less pull on the</span>
+<span class="comment">% regression line?</span>
+<span class="comment">%</span>
+</pre><p>Now let's make a new outlier at an extreme X value.</p><pre class="codeinput">wh = find(X(:, 1) == max(X(:, 1)));
+y(wh) = -10;
+
+<span class="comment">% 2. Re-plot the scatterplot and show the new graph</span>
+<span class="comment">% 3, Re-activate the fit figure and add the new fit</span>
+
+<span class="comment">% % figure(fighan)          % re-activate the old figure</span>
+<span class="comment">% % plot(fit)</span>
+<span class="comment">% % legend({'Data' 'Fit' 'Robust Fit'});</span>
+</pre><p>Now we'll try the fit with robust regression instead Robust regression with robfit adds an intercept to the <b>first column</b> of the design matrix automatically, so we'll remove the intercept when we pass it in, then rearrange the betas so that the intercept is last again, to match our other models.</p><pre class="codeinput">[b_rob, stats] = robustfit(X(:, 1:2), y);
 
 b_rob = [b_rob(2:end); b_rob(1)];
 </pre><p>Get and plot the fit</p><pre class="codeinput">rob_fit = X * b_rob;
 
+figure(fighan)          <span class="comment">% re-activate the old figure</span>
 plot(rob_fit)
 legend({<span class="string">'Data'</span> <span class="string">'Fit'</span> <span class="string">'Robust Fit'</span>});
-</pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_14.png" alt=""> <p>Another way to look at this is with a scatterplot</p><pre class="codeinput">create_figure(<span class="string">'scatter'</span>);
-scatter(fit, y, <span class="string">'MarkerFaceColor'</span>, [.3 .2 .6]);
-h = refline;
+
+<span class="comment">% *Questions to answer:*</span>
+
+<span class="comment">% 1. When does the robust regression make the most difference? Why?</span>
 </pre><img vspace="5" hspace="5" src="first_level_design_matrix_exploration_15.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Create and plot design matrices
@@ -797,6 +818,38 @@ fit = X * b;
 plot(fit)
 legend({'Data' 'Fit'});
 
+% save the figure handle so we can re-activate it and add to it:
+fighan = gcf;
+
+%% 
+% Another way to look at this is with a scatterplot
+% Notice the outlier!
+
+create_figure('scatter');
+scatter(fit, y, 'MarkerFaceColor', [.3 .2 .6]);
+h = refline;
+
+%% 
+% *Questions to answer:*
+
+% 1. If the outlier were farther out on the x-axis (predictor axis), i.e.,
+% more extreme, would you expect it to have more or less pull on the
+% regression line?
+%
+
+%%
+% Now let's make a new outlier at an extreme X value.
+
+wh = find(X(:, 1) == max(X(:, 1)));
+y(wh) = -10;
+
+% 2. Re-plot the scatterplot and show the new graph
+% 3, Re-activate the fit figure and add the new fit
+
+% % figure(fighan)          % re-activate the old figure
+% % plot(fit)
+% % legend({'Data' 'Fit' 'Robust Fit'});
+
 %%
 % Now we'll try the fit with robust regression instead
 % Robust regression with robfit adds an intercept to the *first column* of
@@ -812,15 +865,14 @@ b_rob = [b_rob(2:end); b_rob(1)];
 % Get and plot the fit
 rob_fit = X * b_rob;
 
+figure(fighan)          % re-activate the old figure
 plot(rob_fit)
 legend({'Data' 'Fit' 'Robust Fit'});
 
-%% 
-% Another way to look at this is with a scatterplot
+% *Questions to answer:*
 
-create_figure('scatter');
-scatter(fit, y, 'MarkerFaceColor', [.3 .2 .6]);
-h = refline;
+% 1. When does the robust regression make the most difference? Why?
+
 
 
 
