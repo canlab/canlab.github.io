@@ -51,6 +51,8 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [13. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
+[14. CANLab single trials demo](canlab_single_trials_demo/demo_norming_comparison.html)
+
 ## Behavioral data and Plots
 
 [15. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
