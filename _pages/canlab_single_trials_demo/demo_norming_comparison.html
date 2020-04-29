@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>demo_norming_comparison</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-27"><meta name="DC.source" content="demo_norming_comparison.m"><style type="text/css">
+      --><title>demo_norming_comparison</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-28"><meta name="DC.source" content="demo_norming_comparison.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">INTRODUCTION</a></li><li><a href="#3">Study descriptive statistics</a></li><li><a href="#4">Raw data</a></li><li><a href="#5">effect of centering</a></li><li><a href="#6">effect of l2norming</a></li><li><a href="#7">effect of zscoring</a></li><li><a href="#8">METHODS</a></li><li><a href="#9">RESULTS</a></li><li><a href="#10">MSE performance metrics</a></li><li><a href="#11">pearson-r performance metrics</a></li><li><a href="#12">evaluation time</a></li><li><a href="#13">CONCLUSIONS</a></li><li><a href="#14">NOTES</a></li></ul></div><pre class="codeinput">close <span class="string">all</span>; clear <span class="string">all</span>;
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">INTRODUCTION</a></li><li><a href="#3">Study descriptive statistics</a></li><li><a href="#4">Raw data</a></li><li><a href="#5">effect of centering</a></li><li><a href="#6">effect of l2norming</a></li><li><a href="#7">effect of zscoring</a></li><li><a href="#8">METHODS</a></li><li><a href="#9">RESULTS</a></li><li><a href="#10">MSE performance metrics</a></li><li><a href="#11">pearson-r performance metrics</a></li><li><a href="#12">evaluation time</a></li><li><a href="#13">CONCLUSIONS</a></li><li><a href="#14">NOTES</a></li></ul></div><h2 id="2">INTRODUCTION</h2><p>This page demonstrates how to use the single trials dataset to formally compare algorithm performance, using the borderline trivial case of comparing performance under different rescaling procedures. It is simple to implement, and despite its conceptual simplicity is an unanswered  question as of the time of this writing. </p><p> Single trial coefficients vary considerably across studies in systematic ways. Although different experimental conditions are expected to yeild different coefficient maps, there are considerable differences in the basic statistical features of these maps across studies which are more likely due to differences in statistical design than experimental design, and are thus unintended artifacts of the analysis procedure. In order to  predict outcomes in one study based on models fit in another study we  need to minimize variation due to statistical design choices, in particular spurious differenes in the statistical properties of these coefficients.  </p><p> Additionally, parametric statistical maps in fMRI often use arbitrary  units. Not only is the scale of outcome measures often arbitrary (for instance a pain rating scale might vary form 0-8 or 0-100. There may be anchors throughout the scale or only at the ends, it might be logarithmic or it might be linear; there are few conventions), but the preditor (the  BOLD signal) is also not a reliable absolute measure (the situation might  be different with something like arterial spin labeling). This suggests  the scale of the parametric map (which is typically in unis of DV/IV)  might be arbitrary. </p><p> Studies with similar task conditions often show differences in the  magnitude (mean and variance) of coefficient estimates, leading to use of  mean centering trials, l2-norming trials or z-scoring trials, in an  attempt to correct for these artifacts. However, whether these scaling procedures remove task relevant biological information or not remains an  open empirical question. </p><p> Here we use 5-fold cross validation in each of 15 datasets to establish whether within study predictive accuracy is improved or harmed by any of these three scaling procedures. The presumption is that within study the statistical design is invariant, and any change in performance due to these scaling procedures can therefore be attributed to a loss of sensitivity for biologically meaningful consequences of the experimental design. By examining 15 datasets we can informally differentiate  variantion in performance due to chance, vs. systematic differences due to scaling choices, and thereby inform application of these scaling procedures to future MVPA decoding methods. </p><p> We use SVR as a method of MVPA based brain decoding, but similar results would be expected with many other linear machine learning algorithms (e.g. PCR). SVR is simply used for its performance advantage.</p><pre class="codeinput">close <span class="string">all</span>; clear <span class="string">all</span>;
 
 t99 = tic;
 
@@ -80,7 +80,7 @@ addpath(<span class="string">'/work/ics/data/projects/wagerlab/labdata/projects/
 st_datasets = {<span class="string">'nsf'</span>,<span class="string">'bmrk3pain'</span>,<span class="string">'bmrk3heat'</span>,<span class="string">'bmrk4'</span>,<span class="string">'bmrk5pain'</span>,<span class="keyword">...</span>
         <span class="string">'bmrk5snd'</span>,<span class="string">'remi'</span>,<span class="string">'scebl'</span>,<span class="string">'ie2'</span>,<span class="string">'ie'</span>,<span class="string">'exp'</span>,<span class="string">'levoderm'</span>,<span class="string">'stephan'</span>,<span class="keyword">...</span>
         <span class="string">'romantic'</span>,<span class="string">'ilcp'</span>};
-</pre><h2 id="2">INTRODUCTION</h2><p>This page demonstrates how to use the single trials dataset to formally compare algorithm performance, using the borderline trivial case of comparing performance under different rescaling procedures. It is simple to implement, and despite its conceptual simplicity is an unanswered question as of the time of this writing.</p><p>Single trial coefficients vary considerably across studies in systematic ways. Although different experimental conditions are expected to yield different coefficient maps, there are considerable differences in the basic statistical features of these maps across studies which are more likely due to differences in statistical design than experimental design, and are thus unintended artifacts of the analysis procedure. In order to predict outcomes in one study based on models fit in another study we need to minimize variation due to statistical design choices, in particular spurious differences in the statistical properties of these coefficients. </p><p>Additionally, parametric statistical maps in fMRI often use arbitrary units. Not only is the scale of outcome measures often arbitrary (for instance a pain rating scale might vary form 0-8 or 0-100. There may be anchors throughout the scale or only at the ends, it might be logarithmic or it might be linear; there are few conventions), but the predictor (the BOLD signal) is also not a reliable absolute measure (the situation might be different with something like arterial spin labeling). This suggests the scale of the parametric map (which is typically in unis of DV/IV) might be arbitrary.</p><p>Studies with similar task conditions often show differences in the magnitude (mean and variance) of coefficient estimates, leading to use of mean centering trials, L2-norming trials or z-scoring trials, in an attempt to correct for these artifacts. However, whether these scaling procedures remove task relevant biological information or not remains an open empirical question.</p><p>Here we use 5-fold cross validation in each of 15 datasets to establish whether within study predictive accuracy is improved or harmed by any of these three scaling procedures. The presumption is that within study the statistical design is invariant, and any change in performance due to these scaling procedures can therefore be attributed to a loss of sensitivity for biologically meaningful consequences of the experimental design. By examining 15 datasets we can informally differentiate variation in performance due to chance, vs. systematic differences due to scaling choices, and thereby inform application of these scaling procedures to future MVPA decoding methods.</p><p>We use SVR as a method of MVPA based brain decoding, but similar results would be expected with many other linear machine learning algorithms(e.g. PCR). SVR is simply used for its performance advantage.</p><pre class="codeinput"><span class="comment">% import studies, suppressing output to minimize clutter (it's long and</span>
+<span class="comment">% import studies, suppressing output to minimize clutter (it's long and</span>
 <span class="comment">% redundant with more detailed information we provide below)</span>
 cmd = <span class="string">'all_dat = load_image_set(''all_single_trials'')'</span>;
 fprintf(<span class="string">'cmd: %s\n'</span>,cmd);
@@ -90,6 +90,7 @@ n_studies = length(st_datasets);
 study_id = all_dat.metadata_table.study_id;
 [uniq_study_id, ~, study_id] = unique(study_id,<span class="string">'rows'</span>,<span class="string">'stable'</span>);
 </pre><pre class="codeoutput">cmd: all_dat = load_image_set('all_single_trials')
+Warning: The 'rows' input is not supported for cell array inputs. 
 </pre><h2 id="3">Study descriptive statistics</h2><p>notice how across studies each subject shows different mean (circle) and standard deviations (whiskers). Note the x-axis scales. For a model fit to one of these studies to make accurate prediction in a different study with a different \beta domain, the model would need to successfully extrapolate to that different \beta domain outside of its training space. This has very low probability of success, since our models are all linear approximations of the brain response, which is in all likelihood intrinsically nonlinear.</p><p>Thus, we have no hope of obtaining accurate absolute predictions in any other study if these \beta effects are task relevant and biologically meaningful. If they are artifacts of statistical design then it should be possible to approximately correct for them using rescaling procedures.</p><h2 id="4">Raw data</h2><pre class="codeinput">figure;
 <span class="keyword">for</span> i = 1:n_studies
     this_idx = find(i == study_id);
@@ -118,7 +119,22 @@ study_id = all_dat.metadata_table.study_id;
 <span class="keyword">end</span>
 p = get(gcf,<span class="string">'Position'</span>);
 set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput"></pre><img vspace="5" hspace="5" src="demo_norming_comparison_01.png" alt=""> <h2 id="5">effect of centering</h2><pre class="codeinput">figure;
+</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_01.png" alt=""> <h2 id="5">effect of centering</h2><pre class="codeinput">figure;
 <span class="keyword">for</span> i = 1:n_studies
     this_idx = find(i == study_id);
     this_dat = all_dat.get_wh_image(this_idx);
@@ -147,7 +163,22 @@ set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
 <span class="keyword">end</span>
 p = get(gcf,<span class="string">'Position'</span>);
 set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput"></pre><img vspace="5" hspace="5" src="demo_norming_comparison_03.png" alt=""> <h2 id="6">effect of l2norming</h2><pre class="codeinput">figure;
+</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_03.png" alt=""> <h2 id="6">effect of l2norming</h2><pre class="codeinput">figure;
 <span class="keyword">for</span> i = 1:n_studies
     this_idx = find(i == study_id);
     this_dat = all_dat.get_wh_image(this_idx);
@@ -176,7 +207,22 @@ set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
 <span class="keyword">end</span>
 p = get(gcf,<span class="string">'Position'</span>);
 set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput"></pre><img vspace="5" hspace="5" src="demo_norming_comparison_04.png" alt=""> <h2 id="7">effect of zscoring</h2><pre class="codeinput">figure;
+</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_04.png" alt=""> <h2 id="7">effect of zscoring</h2><pre class="codeinput">figure;
 <span class="keyword">for</span> i = 1:n_studies
     this_idx = find(i == study_id);
     this_dat = all_dat.get_wh_image(this_idx);
@@ -205,7 +251,22 @@ set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
 <span class="keyword">end</span>
 p = get(gcf,<span class="string">'Position'</span>);
 set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput"></pre><img vspace="5" hspace="5" src="demo_norming_comparison_05.png" alt=""> <h2 id="8">METHODS</h2><p>compute raw data, centered, l2normed and zscored images for continuous outcome prediction statistics. Fit SVR models to each, and compute 5-fold cross validated predictions of outcomes. See RESULTS comments for subsequent statistical design methodology.</p><pre class="codeinput"><span class="comment">% we don't have the memory to keep all studies in RAM at once for this next</span>
+</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+Warning: The 'rows' input is not supported for cell array inputs. 
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_05.png" alt=""> <h2 id="8">METHODS</h2><p>compute raw data, centered, l2normed and zscored images for continuous outcome prediction statistics. Fit SVR models to each, and compute 5-fold cross validated predictions of outcomes. See RESULTS comments for subsequent statistical design methodology.</p><pre class="codeinput"><span class="comment">% we don't have the memory to keep all studies in RAM at once for this next</span>
 <span class="comment">% step, so we clear them and will process one study at a time</span>
 clear <span class="string">all_dat</span>
 
@@ -231,8 +292,6 @@ parpool(4)
 
     this_dat = load_image_set(this_study);
 
-    <span class="comment">% this is where you quartile the data if you want that</span>
-
     <span class="comment">% for completion datasets retain trials with invalid responses, so</span>
     <span class="comment">% remove them</span>
     this_dat = this_dat.get_wh_image(~isnan(this_dat.Y));
@@ -241,6 +300,8 @@ parpool(4)
     <span class="keyword">for</span> j = 1:size(this_dat.dat,2)
         this_dat.dat(isnan(this_dat.dat(:,j)),1) = 0;
     <span class="keyword">end</span>
+
+    <span class="comment">% this is where you quartile the data if you want that</span>
 
     <span class="comment">% zscore outcome for more interpretable values of prediction MSE</span>
     <span class="comment">% and for easier comparison across studies (which use different outcome</span>
@@ -266,29 +327,28 @@ parpool(4)
     <span class="comment">% default</span>
     t0 = tic;
     [d_cverr(i), d_stats{i}, d_optout{i}] = predict(this_dat, <span class="string">'algorithm_name'</span>, <span class="string">'cv_svr'</span>, <span class="keyword">...</span>
-        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0);
+        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0, <span class="string">'verbose'</span>, 0);
     d_t(i) = toc(t0);
 
     <span class="comment">% centered</span>
     t0 = tic;
     [c_cverr(i), c_stats{i}, c_optout{i}] = predict(this_dat_c, <span class="string">'algorithm_name'</span>, <span class="string">'cv_svr'</span>, <span class="keyword">...</span>
-        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0);
+        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0, <span class="string">'verbose'</span>, 0);
     c_t(i) = toc(t0);
 
     <span class="comment">% l2normed</span>
     t0 = tic;
     [l2_cverr(i), l2_stats{i}, l2_optout{i}] = predict(this_dat_l2, <span class="string">'algorithm_name'</span>, <span class="string">'cv_svr'</span>, <span class="keyword">...</span>
-        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0);
+        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0, <span class="string">'verbose'</span>, 0);
     l2_t(i) = toc(t0);
 
     <span class="comment">% zscored</span>
     t0 = tic;
     [z_cverr(i), z_stats{i}, z_optout{i}] = predict(this_dat_z, <span class="string">'algorithm_name'</span>, <span class="string">'cv_svr'</span>, <span class="keyword">...</span>
-        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0);
+        <span class="string">'nfolds'</span>, fold_labels, <span class="string">'error_type'</span>, <span class="string">'mse'</span>, <span class="string">'useparallel'</span>, 0, <span class="string">'verbose'</span>, 0);
     z_t(i) = toc(t0);
 <span class="keyword">end</span>
-</pre><pre class="codeoutput">Parallel pool using the 'local' profile is shutting down.
-Starting parallel pool (parpool) using the 'local' profile ...
+</pre><pre class="codeoutput">Starting parallel pool (parpool) using the 'local' profile ...
 connected to 4 workers.
 
 ans = 
@@ -307,6 +367,9 @@ Evaluating study nsf
 Evaluating study bmrk3pain
 Evaluating study bmrk4
 Evaluating study bmrk5snd
+ 
+ 
+ 
  
 Source: NSF data aggregated from Tor Wager's single trials Google Drive
  
@@ -343,46 +406,8 @@ Min: -1312.863	Max: 888.306	Mean: -0.351	Std: 21.183
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
+Evaluating study scebl
  
- 
-
-Completed fit for all data in:   0 hours   2 min 38 secs 
-Source: bmrk5snd data from wagerlab/labdata/projects/bmrk5_painsound/. Img data from the first_level_all_trs_single_trials/ subjfolder. Metadata from the single_trial_output_scnlab_july2016/ subjfolder
- 
-
-____________________________________________________________________________________________________________________________________________
-Losin, et al. (2019) Nature Human Behavior
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 2160	Nonempty: 2160	Complete: 2160
-Voxels: 237066	Nonempty: 237066	Complete: 225403
-Unique data values: 125739412
- 
-Min: -100.938	Max: 114.815	Mean: 0.207	Std: 1.094
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -7.1478
-        0.5         -3.3823
-          1         -2.4719
-          5         -1.1065
-         25        -0.23588
-         50         0.14712
-         75         0.60811
-         95          1.7401
-         99          3.2163
-       99.5          4.0346
-       99.9          6.9859
-
- 
-Sound intensity ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
 Source: bmrk3pain img data from Tor Wager's single trials Google Drive. Metadata also from wagerlab/labdata/current/BMRK3/ HPC storage
  
 
@@ -418,10 +443,44 @@ Min: -133.823	Max: 84.093	Mean: -0.006	Std: 0.545
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   1 min 15 sec
+Evaluating study ie
  
-Fold 2/5 done in:   0 hours   1 min 12 sec
+Source: bmrk5snd data from wagerlab/labdata/projects/bmrk5_painsound/. Img data from the first_level_all_trs_single_trials/ subjfolder. Metadata from the single_trial_output_scnlab_july2016/ subjfolder
+ 
+
+____________________________________________________________________________________________________________________________________________
+Losin, et al. (2019) Nature Human Behavior
+____________________________________________________________________________________________________________________________________________
+ 
+Summary of dataset
+______________________________________________________
+Images: 2160	Nonempty: 2160	Complete: 2160
+Voxels: 237066	Nonempty: 237066	Complete: 225403
+Unique data values: 125739412
+ 
+Min: -100.938	Max: 114.815	Mean: 0.207	Std: 1.094
+ 
+    Percentiles     Values 
+    ___________    ________
+
+        0.1         -7.1478
+        0.5         -3.3823
+          1         -2.4719
+          5         -1.1065
+         25        -0.23588
+         50         0.14712
+         75         0.60811
+         95          1.7401
+         99          3.2163
+       99.5          4.0346
+       99.9          6.9859
+
+ 
+Sound intensity ratings in image_obj.Y
+Additional metadata in image_obj.additional_info struct
+Loaded images:
+Evaluating study bmrk5pain
+ 
 Source: BMRK4 img data from Tor Wager's single trials Google Drive (bmrk4_smoothed_with_basis). Metadata also from wagerlab/labdata/current/bmrk4/Data/BMRK_Data HPC resources.
  
 
@@ -456,85 +515,8 @@ Min: -3620.454	Max: 3602.969	Mean: -0.274	Std: 36.101
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 3/5 done in:   0 hours   1 min 13 sec
-Fold 4/5 done in:   0 hours   1 min 16 sec
-Fold 5/5 done in:   0 hours   1 min 14 sec
-
-Total Elapsed Time =   0 hours   8 min 48 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   6 min 37 secs 
-
-Completed fit for all data in:   0 hours   6 min 57 secs 
-
-Completed fit for all data in:   0 hours   2 min 35 secs 
-Fold 1/5 done in:   0 hours   3 min  8 sec
-Fold 1/5 done in:   0 hours   1 min 15 sec
-Fold 1/5 done in:   0 hours   3 min 21 sec
-Fold 2/5 done in:   0 hours   1 min 11 sec
-Fold 3/5 done in:   0 hours   1 min 12 sec
-Fold 2/5 done in:   0 hours   3 min 21 sec
-Fold 2/5 done in:   0 hours   3 min 12 sec
-Fold 4/5 done in:   0 hours   1 min 17 sec
-
-Completed fit for all data in:   0 hours  11 min 47 secs 
-Fold 5/5 done in:   0 hours   1 min 15 sec
-
-Total Elapsed Time =   0 hours   8 min 46 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 3/5 done in:   0 hours   2 min 47 sec
-Fold 3/5 done in:   0 hours   3 min 17 sec
-
-Completed fit for all data in:   0 hours   2 min 35 secs 
-Fold 4/5 done in:   0 hours   2 min 55 sec
-Fold 1/5 done in:   0 hours   1 min 15 sec
-Fold 4/5 done in:   0 hours   3 min 14 sec
-Fold 2/5 done in:   0 hours   1 min 12 sec
-Fold 1/5 done in:   0 hours   6 min 30 sec
-Fold 3/5 done in:   0 hours   1 min 12 sec
-Fold 5/5 done in:   0 hours   3 min 12 sec
-
-Total Elapsed Time =   0 hours  21 min 59 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   1 min 17 sec
-Fold 5/5 done in:   0 hours   3 min 19 sec
-
-Total Elapsed Time =   0 hours  23 min 20 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 5/5 done in:   0 hours   1 min 14 sec
-
-Total Elapsed Time =   0 hours   8 min 44 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   2 min 34 secs 
-Fold 2/5 done in:   0 hours   5 min 43 sec
-Fold 1/5 done in:   0 hours   1 min 14 sec
-
-Completed fit for all data in:   0 hours   6 min 37 secs 
-Fold 2/5 done in:   0 hours   1 min 11 sec
-Fold 3/5 done in:   0 hours   1 min 12 sec
-
-Completed fit for all data in:   0 hours   6 min 56 secs 
-Fold 4/5 done in:   0 hours   1 min 15 sec
-Fold 1/5 done in:   0 hours   3 min  6 sec
-Fold 3/5 done in:   0 hours   5 min 32 sec
-Fold 5/5 done in:   0 hours   1 min 14 sec
-
-Total Elapsed Time =   0 hours   8 min 41 sec
-Fold 1/5 done in:   0 hours   3 min 20 sec
-Fold 2/5 done in:   0 hours   3 min  3 sec
-Fold 2/5 done in:   0 hours   3 min 17 sec
-Fold 4/5 done in:   0 hours   5 min 14 sec
-Fold 3/5 done in:   0 hours   2 min 38 sec
-Fold 4/5 done in:   0 hours   2 min 37 sec
-Fold 3/5 done in:   0 hours   3 min 20 sec
-Evaluating study scebl
+Evaluating study bmrk3heat
  
-Fold 5/5 done in:   0 hours   2 min 48 sec
-
-Total Elapsed Time =   0 hours  20 min 50 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
 Source: SCEBL data from Tor Wager's single trials Google Drive.
  
 
@@ -569,203 +551,7 @@ Min: -1491.870	Max: 2209.887	Mean: -0.171	Std: 5.758
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 5/5 done in:   0 hours   5 min 56 sec
-Fold 4/5 done in:   0 hours   3 min 14 sec
-
-Total Elapsed Time =   0 hours  40 min 41 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 5/5 done in:   0 hours   3 min 19 sec
-
-Total Elapsed Time =   0 hours  23 min 26 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   5 min 51 secs 
-Fold 1/5 done in:   0 hours   2 min 46 sec
-
-Completed fit for all data in:   0 hours   6 min 55 secs 
-Fold 2/5 done in:   0 hours   2 min 52 sec
-
-Completed fit for all data in:   0 hours  13 min 17 secs 
-Fold 3/5 done in:   0 hours   2 min 35 sec
-Fold 1/5 done in:   0 hours   3 min 23 sec
-
-Completed fit for all data in:   0 hours  15 min 31 secs 
-Fold 4/5 done in:   0 hours   2 min 35 sec
-Fold 2/5 done in:   0 hours   3 min 10 sec
-Fold 5/5 done in:   0 hours   2 min 47 sec
-
-Total Elapsed Time =   0 hours  19 min 25 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   6 min 28 sec
-Fold 3/5 done in:   0 hours   3 min 16 sec
-Fold 1/5 done in:   0 hours   7 min  7 sec
-Fold 4/5 done in:   0 hours   3 min 15 sec
-
-Completed fit for all data in:   0 hours   5 min 54 secs 
-Fold 2/5 done in:   0 hours   5 min 41 sec
-Fold 5/5 done in:   0 hours   3 min 16 sec
-
-Total Elapsed Time =   0 hours  23 min 14 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   2 min 44 sec
-Fold 2/5 done in:   0 hours   6 min 49 sec
-Fold 2/5 done in:   0 hours   2 min 51 sec
-Fold 3/5 done in:   0 hours   5 min 35 sec
-Fold 3/5 done in:   0 hours   2 min 32 sec
-
-Completed fit for all data in:   0 hours   6 min 53 secs 
-Fold 4/5 done in:   0 hours   2 min 34 sec
-Fold 3/5 done in:   0 hours   7 min  8 sec
-Fold 4/5 done in:   0 hours   5 min 33 sec
-Fold 1/5 done in:   0 hours   3 min 19 sec
-Fold 5/5 done in:   0 hours   2 min 48 sec
-
-Total Elapsed Time =   0 hours  19 min 23 sec
-Fold 2/5 done in:   0 hours   3 min  8 sec
-Fold 5/5 done in:   0 hours   6 min 30 sec
-Fold 3/5 done in:   0 hours   3 min 16 sec
-
-Total Elapsed Time =   0 hours  43 min  5 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   7 min 14 sec
-Fold 4/5 done in:   0 hours   3 min 13 sec
-Evaluating study ie
- 
-Source: ie img data from Tor Wager's single trials Google Drive
- 
-
-____________________________________________________________________________________________________________________________________________
-Roy, et al. (2014) Nature Neuroscience
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 2400	Nonempty: 2400	Complete: 2400
-Voxels: 328798	Nonempty: 328798	Complete: 217519
-Unique data values: 148358675
- 
-Min: -37.403	Max: 84.752	Mean: 0.017	Std: 0.690
- 
-    Percentiles      Values   
-    ___________    ___________
-
-        0.1            -3.7251
-        0.5            -2.3213
-          1            -1.8273
-          5           -0.92054
-         25           -0.25553
-         50        -0.00015127
-         75            0.26222
-         95             1.0003
-         99             2.1082
-       99.5             2.7565
-       99.9             4.7599
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 5/5 done in:   0 hours   6 min 12 sec
-Fold 5/5 done in:   0 hours   3 min 17 sec
-
-Total Elapsed Time =   0 hours  50 min  1 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Total Elapsed Time =   0 hours  23 min  5 sec
-Evaluating study bmrk5pain
-
-Completed fit for all data in:   0 hours  12 min 39 secs 
- 
-Source: bmrk5pain data from wagerlab/labdata/projects/bmrk5_painsound/. Img data from the first_level_all_trs_single_trials/ subjfolder. Metadata from the single_trial_output_scnlab_july2016/ subfolder
- 
-
-____________________________________________________________________________________________________________________________________________
-Losin, et al. (2019) Nature Human Behavior
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 3232	Nonempty: 3232	Complete: 3232
-Voxels: 237066	Nonempty: 237066	Complete: 225405
-Unique data values: 143236324
- 
-Min: -128.846	Max: 173.216	Mean: 0.352	Std: 1.424
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -8.5114
-        0.5         -3.6723
-          1         -2.5995
-          5         -1.0999
-         25        -0.18898
-         50         0.21574
-         75         0.73814
-         95          2.2535
-         99          4.8069
-       99.5          6.3801
-       99.9          11.625
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   5 min 29 sec
-
-Completed fit for all data in:   0 hours  12 min 29 secs 
-
-Completed fit for all data in:   0 hours  14 min 38 secs 
-Fold 2/5 done in:   0 hours   4 min 47 sec
-Fold 1/5 done in:   0 hours   5 min 55 sec
-Fold 1/5 done in:   0 hours   6 min 34 sec
-Fold 3/5 done in:   0 hours   4 min 46 sec
-Fold 2/5 done in:   0 hours   5 min 50 sec
-Fold 4/5 done in:   0 hours   4 min 46 sec
-Fold 2/5 done in:   0 hours   6 min 56 sec
-Fold 3/5 done in:   0 hours   5 min 53 sec
-Fold 5/5 done in:   0 hours   5 min 26 sec
-
-Total Elapsed Time =   0 hours  37 min 53 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours  22 min  3 secs 
-Fold 3/5 done in:   0 hours   6 min 41 sec
-Fold 4/5 done in:   0 hours   5 min 52 sec
-Fold 4/5 done in:   0 hours   6 min 38 sec
-
-Completed fit for all data in:   0 hours  10 min 31 secs 
-Fold 5/5 done in:   0 hours   6 min 12 sec
-
-Total Elapsed Time =   0 hours  42 min 11 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   9 min 33 sec
-Fold 5/5 done in:   0 hours   6 min 28 sec
-
-Total Elapsed Time =   0 hours  47 min 55 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   5 min 25 sec
-Fold 2/5 done in:   0 hours   4 min 47 sec
-Fold 2/5 done in:   0 hours   9 min 34 sec
-
-Completed fit for all data in:   0 hours  12 min 18 secs 
-Fold 3/5 done in:   0 hours   4 min 46 sec
-Fold 1/5 done in:   0 hours   5 min 54 sec
-
-Completed fit for all data in:   0 hours  14 min 19 secs 
-Fold 4/5 done in:   0 hours   4 min 46 sec
-Fold 3/5 done in:   0 hours   9 min 23 sec
-Fold 2/5 done in:   0 hours   5 min 49 sec
-Fold 5/5 done in:   0 hours   5 min 26 sec
-
-Total Elapsed Time =   0 hours  35 min 41 sec
-Evaluating study bmrk3heat
-Fold 1/5 done in:   0 hours   6 min 19 sec
-Fold 4/5 done in:   0 hours  10 min 16 sec
-Fold 3/5 done in:   0 hours   5 min 50 sec
- 
+Evaluating study remi
 Source: bmrk3heat img data from Tor Wager's single trials Google Drive. Metadata also from wagerlab/labdata/current/BMRK3 HPC storage
  
 
@@ -801,78 +587,44 @@ Min: -81.910	Max: 143.410	Mean: -0.006	Std: 0.497
 Warmth ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 2/5 done in:   0 hours   6 min 11 sec
+ 
+Evaluating study levoderm
+ 
+Source: ie img data from Tor Wager's single trials Google Drive
+ 
 
-Completed fit for all data in:   0 hours   4 min 21 secs 
-Fold 4/5 done in:   0 hours   5 min 54 sec
-Fold 1/5 done in:   0 hours   2 min 18 sec
-Fold 3/5 done in:   0 hours   6 min 20 sec
-Fold 5/5 done in:   0 hours   9 min 22 sec
+____________________________________________________________________________________________________________________________________________
+Roy, et al. (2014) Nature Neuroscience
+____________________________________________________________________________________________________________________________________________
+ 
+Summary of dataset
+______________________________________________________
+Images: 2400	Nonempty: 2400	Complete: 2400
+Voxels: 328798	Nonempty: 328798	Complete: 217519
+Unique data values: 148358675
+ 
+Min: -37.403	Max: 84.752	Mean: 0.017	Std: 0.690
+ 
+    Percentiles      Values   
+    ___________    ___________
 
-Total Elapsed Time =   1 hours  10 min 11 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 2/5 done in:   0 hours   2 min  1 sec
-Fold 3/5 done in:   0 hours   2 min  8 sec
-Fold 5/5 done in:   0 hours   6 min 13 sec
+        0.1            -3.7251
+        0.5            -2.3213
+          1            -1.8273
+          5           -0.92054
+         25           -0.25553
+         50        -0.00015127
+         75            0.26222
+         95             1.0003
+         99             2.1082
+       99.5             2.7565
+       99.9             4.7599
 
-Total Elapsed Time =   0 hours  41 min 59 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   2 min 12 sec
-Fold 4/5 done in:   0 hours   6 min  6 sec
-Fold 5/5 done in:   0 hours   1 min 55 sec
-
-Total Elapsed Time =   0 hours  14 min 55 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 5/5 done in:   0 hours   6 min 10 sec
-
-Completed fit for all data in:   0 hours   4 min 21 secs 
-
-Total Elapsed Time =   0 hours  45 min 25 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   2 min 19 sec
-
-Completed fit for all data in:   0 hours  12 min 23 secs 
-Fold 2/5 done in:   0 hours   2 min  0 sec
-Fold 3/5 done in:   0 hours   2 min  3 sec
-Fold 4/5 done in:   0 hours   2 min 12 sec
-
-Completed fit for all data in:   0 hours  20 min 32 secs 
-Fold 1/5 done in:   0 hours   5 min 55 sec
-Fold 5/5 done in:   0 hours   1 min 56 sec
-
-Total Elapsed Time =   0 hours  14 min 52 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours  13 min 49 secs 
-
-Completed fit for all data in:   0 hours   4 min 21 secs 
-Fold 2/5 done in:   0 hours   5 min 48 sec
-Fold 1/5 done in:   0 hours   2 min 18 sec
-Fold 1/5 done in:   0 hours   8 min 51 sec
-Fold 2/5 done in:   0 hours   1 min 60 sec
-Fold 1/5 done in:   0 hours   5 min 55 sec
-Fold 3/5 done in:   0 hours   2 min  5 sec
-Fold 3/5 done in:   0 hours   5 min 49 sec
-Fold 4/5 done in:   0 hours   2 min 11 sec
-Fold 5/5 done in:   0 hours   1 min 56 sec
-
-Total Elapsed Time =   0 hours  14 min 51 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 2/5 done in:   0 hours   6 min 32 sec
-Fold 4/5 done in:   0 hours   5 min 52 sec
-Fold 2/5 done in:   0 hours   9 min 22 sec
-
-Completed fit for all data in:   0 hours   4 min 20 secs 
-Fold 1/5 done in:   0 hours   2 min 19 sec
-Fold 3/5 done in:   0 hours   6 min 12 sec
-Fold 5/5 done in:   0 hours   6 min  9 sec
-
-Total Elapsed Time =   0 hours  41 min 57 sec
-Evaluating study remi
-Fold 2/5 done in:   0 hours   2 min  1 sec
-Fold 3/5 done in:   0 hours   2 min  4 sec
-Fold 3/5 done in:   0 hours   8 min 46 sec
+ 
+Pain ratings in image_obj.Y
+Additional metadata in image_obj.additional_info struct
+Loaded images:
+Evaluating study ie2
  
 Source: Remi data from Tor Wager's single trials Google Drive.
  
@@ -908,113 +660,6 @@ Min: -4389.975	Max: 6131.055	Mean: 2.742	Std: 51.639
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   2 min 13 sec
-Fold 4/5 done in:   0 hours   6 min  5 sec
-Fold 5/5 done in:   0 hours   1 min 60 sec
-
-Total Elapsed Time =   0 hours  14 min 57 sec
-
-Completed fit for all data in:   0 hours   2 min 37 secs 
-Fold 1/5 done in:   0 hours   1 min 19 sec
-Fold 2/5 done in:   0 hours   1 min  9 sec
-Fold 3/5 done in:   0 hours   1 min  8 sec
-Fold 5/5 done in:   0 hours   6 min 13 sec
-
-Total Elapsed Time =   0 hours  44 min 47 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   1 min 17 sec
-Fold 4/5 done in:   0 hours   9 min 38 sec
-Fold 5/5 done in:   0 hours   1 min 16 sec
-
-Total Elapsed Time =   0 hours   8 min 46 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Evaluating study levoderm
- 
-Source: levoderm data from Tor Wager's single trials Google Drive
- 
-
-____________________________________________________________________________________________________________________________________________
-Scott Shaefer PhD Dissertation (2016). see ~p.60
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1916	Nonempty: 1916	Complete: 1916
-Voxels: 326942	Nonempty: 326942	Complete: 270862
-Unique data values: 144500739
- 
-Min: -85.376	Max: 89.908	Mean: 0.006	Std: 0.690
- 
-    Percentiles      Values  
-    ___________    __________
-
-        0.1           -4.6443
-        0.5           -2.3335
-          1           -1.7441
-          5          -0.81805
-         25          -0.21384
-         50        7.8729e-16
-         75           0.22636
-         95           0.84039
-         99             1.738
-       99.5            2.3016
-       99.9            4.5592
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   2 min 32 secs 
-Fold 1/5 done in:   0 hours   1 min 20 sec
-Fold 2/5 done in:   0 hours   1 min 10 sec
-Fold 3/5 done in:   0 hours   1 min  7 sec
-Fold 5/5 done in:   0 hours   8 min  0 sec
-
-Total Elapsed Time =   1 hours   5 min  8 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   1 min 16 sec
-Fold 5/5 done in:   0 hours   1 min 14 sec
-
-Total Elapsed Time =   0 hours   8 min 39 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   8 min 22 secs 
-
-Completed fit for all data in:   0 hours   2 min 34 secs 
-
-Completed fit for all data in:   0 hours  13 min 41 secs 
-Fold 1/5 done in:   0 hours   1 min 20 sec
-Fold 1/5 done in:   0 hours   3 min 32 sec
-Fold 2/5 done in:   0 hours   1 min 10 sec
-Fold 3/5 done in:   0 hours   1 min 10 sec
-Fold 4/5 done in:   0 hours   1 min 17 sec
-Fold 2/5 done in:   0 hours   3 min 59 sec
-Fold 5/5 done in:   0 hours   1 min 16 sec
-Fold 1/5 done in:   0 hours   6 min  8 sec
-
-Total Elapsed Time =   0 hours   8 min 47 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   2 min 34 secs 
-Fold 3/5 done in:   0 hours   3 min 31 sec
-Fold 1/5 done in:   0 hours   1 min 21 sec
-Fold 2/5 done in:   0 hours   1 min 10 sec
-Fold 2/5 done in:   0 hours   5 min 60 sec
-Fold 3/5 done in:   0 hours   1 min  8 sec
-Fold 4/5 done in:   0 hours   3 min 48 sec
-
-Completed fit for all data in:   0 hours  17 min 44 secs 
-Fold 4/5 done in:   0 hours   1 min 16 sec
-Fold 5/5 done in:   0 hours   1 min 15 sec
-
-Total Elapsed Time =   0 hours   8 min 45 sec
-Fold 5/5 done in:   0 hours   3 min 40 sec
-
-Total Elapsed Time =   0 hours  26 min 52 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
 Evaluating study romantic
  
 Source: Romantic Pain data from Tor Wager's single trials Google Drive
@@ -1051,60 +696,6 @@ Min: -44.019	Max: 43.529	Mean: 0.071	Std: 0.742
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   0 min 27 secs 
-Fold 1/5 done in:   0 hours   0 min 15 sec
-Fold 2/5 done in:   0 hours   0 min 15 sec
-Fold 3/5 done in:   0 hours   0 min 15 sec
-Fold 3/5 done in:   0 hours   6 min 11 sec
-Fold 4/5 done in:   0 hours   0 min 15 sec
-Fold 5/5 done in:   0 hours   0 min 15 sec
-
-Total Elapsed Time =   0 hours   1 min 39 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   0 min 27 secs 
-Fold 1/5 done in:   0 hours   0 min 15 sec
-Fold 2/5 done in:   0 hours   0 min 15 sec
-Fold 3/5 done in:   0 hours   0 min 15 sec
-Fold 4/5 done in:   0 hours   0 min 15 sec
-Fold 5/5 done in:   0 hours   0 min 15 sec
-
-Total Elapsed Time =   0 hours   1 min 40 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   0 min 27 secs 
-Fold 1/5 done in:   0 hours   0 min 15 sec
-Fold 2/5 done in:   0 hours   0 min 15 sec
-Fold 1/5 done in:   0 hours   8 min 14 sec
-Fold 3/5 done in:   0 hours   0 min 15 sec
-Fold 4/5 done in:   0 hours   0 min 15 sec
-Fold 5/5 done in:   0 hours   0 min 15 sec
-
-Total Elapsed Time =   0 hours   1 min 41 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   0 min 27 secs 
-Fold 1/5 done in:   0 hours   0 min 15 sec
-Fold 2/5 done in:   0 hours   0 min 15 sec
-Fold 3/5 done in:   0 hours   0 min 15 sec
-Fold 4/5 done in:   0 hours   0 min 15 sec
-Fold 5/5 done in:   0 hours   0 min 15 sec
-
-Total Elapsed Time =   0 hours   1 min 40 sec
-Fold 4/5 done in:   0 hours   6 min  7 sec
-
-Completed fit for all data in:   0 hours   7 min 51 secs 
-Fold 1/5 done in:   0 hours   3 min 18 sec
-Fold 2/5 done in:   0 hours   8 min 10 sec
-Fold 5/5 done in:   0 hours   5 min 40 sec
-
-Total Elapsed Time =   0 hours  43 min 47 sec
-Evaluating study ie2
-Fold 2/5 done in:   0 hours   3 min 37 sec
-Fold 3/5 done in:   0 hours   3 min 15 sec
- 
 Source: ie2 img data from Tor Wager's single trials Google Drive ("IE2_NEW"). Metadata from wagerlab/labdata/current/ie2/ HPC storage.
  
 
@@ -1139,118 +730,79 @@ Min: -120.142	Max: 162.877	Mean: -0.210	Std: 2.134
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 3/5 done in:   0 hours   7 min 54 sec
-Fold 4/5 done in:   0 hours   3 min 35 sec
-
-Completed fit for all data in:   0 hours   3 min 49 secs 
-Fold 1/5 done in:   0 hours   1 min 54 sec
-Fold 5/5 done in:   0 hours   3 min 19 sec
-
-Total Elapsed Time =   0 hours  24 min 54 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 2/5 done in:   0 hours   1 min 47 sec
-Fold 3/5 done in:   0 hours   1 min 47 sec
-Fold 4/5 done in:   0 hours   8 min 44 sec
-Fold 4/5 done in:   0 hours   1 min 50 sec
-Fold 5/5 done in:   0 hours   1 min 46 sec
-
-Total Elapsed Time =   0 hours  12 min 53 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   7 min 35 secs 
-
-Completed fit for all data in:   0 hours   3 min 49 secs 
-Fold 1/5 done in:   0 hours   3 min 21 sec
-Fold 1/5 done in:   0 hours   1 min 53 sec
-Fold 5/5 done in:   0 hours   8 min  6 sec
-
-Total Elapsed Time =   0 hours  58 min 52 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 2/5 done in:   0 hours   1 min 42 sec
-Fold 2/5 done in:   0 hours   3 min 30 sec
-Fold 3/5 done in:   0 hours   1 min 43 sec
-Fold 4/5 done in:   0 hours   1 min 43 sec
-Fold 3/5 done in:   0 hours   3 min 18 sec
-Fold 5/5 done in:   0 hours   1 min 41 sec
-
-Total Elapsed Time =   0 hours  12 min 31 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   3 min 28 sec
-
-Completed fit for all data in:   0 hours   3 min 45 secs 
-Fold 5/5 done in:   0 hours   3 min 22 sec
-
-Total Elapsed Time =   0 hours  24 min 34 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   1 min 50 sec
-Fold 2/5 done in:   0 hours   1 min 44 sec
-Fold 3/5 done in:   0 hours   1 min 55 sec
-Fold 4/5 done in:   0 hours   1 min 47 sec
-
-Completed fit for all data in:   0 hours  17 min 48 secs 
-Fold 5/5 done in:   0 hours   1 min 42 sec
-
-Total Elapsed Time =   0 hours  12 min 42 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   7 min 30 secs 
-
-Completed fit for all data in:   0 hours   3 min 25 secs 
-Fold 1/5 done in:   0 hours   3 min 17 sec
-Fold 1/5 done in:   0 hours   1 min 44 sec
-Fold 1/5 done in:   0 hours   8 min 17 sec
-Fold 2/5 done in:   0 hours   1 min 39 sec
-Fold 2/5 done in:   0 hours   3 min 33 sec
-Fold 3/5 done in:   0 hours   1 min 42 sec
-Fold 3/5 done in:   0 hours   3 min 14 sec
-Fold 4/5 done in:   0 hours   1 min 43 sec
-Fold 5/5 done in:   0 hours   1 min 38 sec
-
-Total Elapsed Time =   0 hours  11 min 50 sec
-Fold 4/5 done in:   0 hours   3 min 26 sec
-Fold 2/5 done in:   0 hours   8 min  8 sec
-Fold 5/5 done in:   0 hours   3 min 16 sec
-
-Total Elapsed Time =   0 hours  24 min 16 sec
-Evaluating study exp
 Evaluating study ilcp
  
-Source: ILCP data from ILCP_wani on Tor Wager single trials Google Drive.
+Source: levoderm data from Tor Wager's single trials Google Drive
  
 
 ____________________________________________________________________________________________________________________________________________
-Woo, et al. (2017) Nature Communications
+Scott Shaefer PhD Dissertation (2016). see ~p.60
 ____________________________________________________________________________________________________________________________________________
  
 Summary of dataset
 ______________________________________________________
-Images: 1856	Nonempty: 1856	Complete: 1856
-Voxels: 328798	Nonempty: 328798	Complete: 327032
-Unique data values: 130612023
+Images: 1916	Nonempty: 1916	Complete: 1916
+Voxels: 326942	Nonempty: 326942	Complete: 270862
+Unique data values: 144500739
  
-Min: -21.172	Max: 36.946	Mean: -0.000	Std: 0.595
+Min: -85.376	Max: 89.908	Mean: 0.006	Std: 0.690
  
     Percentiles      Values  
     ___________    __________
 
-        0.1           -3.3143
-        0.5           -2.0725
-          1           -1.6558
-          5          -0.87807
-         25          -0.26636
-         50        -0.0011205
-         75           0.26427
-         95           0.88182
-         99            1.6585
-       99.5              2.07
-       99.9            3.2943
+        0.1           -4.6443
+        0.5           -2.3335
+          1           -1.7441
+          5          -0.81805
+         25          -0.21384
+         50        7.8729e-16
+         75           0.22636
+         95           0.84039
+         99             1.738
+       99.5            2.3016
+       99.9            4.5592
 
  
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
+Evaluating study exp
+ 
+Source: bmrk5pain data from wagerlab/labdata/projects/bmrk5_painsound/. Img data from the first_level_all_trs_single_trials/ subjfolder. Metadata from the single_trial_output_scnlab_july2016/ subfolder
+ 
+
+____________________________________________________________________________________________________________________________________________
+Losin, et al. (2019) Nature Human Behavior
+____________________________________________________________________________________________________________________________________________
+ 
+Summary of dataset
+______________________________________________________
+Images: 3232	Nonempty: 3232	Complete: 3232
+Voxels: 237066	Nonempty: 237066	Complete: 225405
+Unique data values: 143236324
+ 
+Min: -128.846	Max: 173.216	Mean: 0.352	Std: 1.424
+ 
+    Percentiles     Values 
+    ___________    ________
+
+        0.1         -8.5114
+        0.5         -3.6723
+          1         -2.5995
+          5         -1.0999
+         25        -0.18898
+         50         0.21574
+         75         0.73814
+         95          2.2535
+         99          4.8069
+       99.5          6.3801
+       99.9          11.625
+
+ 
+Pain ratings in image_obj.Y
+Additional metadata in image_obj.additional_info struct
+Loaded images:
+Evaluating study stephan
  
 Source: EXP data from Tor Wager's single trials Google Drive. Metadata also from wagerlab/labdata/current/Expectancy/, especially the subfolder Behavioral/Sas_proc_mixed/, HPC storage.
  
@@ -1286,50 +838,40 @@ Min: -33198.293	Max: 50026.984	Mean: -1.271	Std: 179.856
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 3/5 done in:   0 hours   7 min 56 sec
-
-Completed fit for all data in:   0 hours   2 min 39 secs 
-Fold 1/5 done in:   0 hours   1 min 16 sec
-Fold 2/5 done in:   0 hours   1 min  8 sec
-
-Completed fit for all data in:   0 hours   7 min 43 secs 
-Fold 3/5 done in:   0 hours   1 min  8 sec
-Fold 4/5 done in:   0 hours   1 min 22 sec
-Fold 5/5 done in:   0 hours   1 min 17 sec
-
-Total Elapsed Time =   0 hours   8 min 51 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   3 min 48 sec
-Fold 4/5 done in:   0 hours   8 min 44 sec
-
-Completed fit for all data in:   0 hours   2 min 30 secs 
-Fold 2/5 done in:   0 hours   3 min 26 sec
-Fold 1/5 done in:   0 hours   1 min 14 sec
-Fold 2/5 done in:   0 hours   1 min  5 sec
-Fold 3/5 done in:   0 hours   1 min  4 sec
-Fold 3/5 done in:   0 hours   3 min 26 sec
-Fold 4/5 done in:   0 hours   1 min 17 sec
-Fold 5/5 done in:   0 hours   1 min 12 sec
-
-Total Elapsed Time =   0 hours   8 min 23 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 5/5 done in:   0 hours   7 min 58 sec
-
-Total Elapsed Time =   0 hours  58 min 51 sec
-Fold 4/5 done in:   0 hours   3 min 17 sec
-
-Completed fit for all data in:   0 hours   2 min 26 secs 
-Fold 1/5 done in:   0 hours   1 min 11 sec
-Fold 2/5 done in:   0 hours   1 min  5 sec
-Fold 5/5 done in:   0 hours   3 min 19 sec
-
-Total Elapsed Time =   0 hours  24 min 59 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 3/5 done in:   0 hours   1 min  4 sec
-Fold 4/5 done in:   0 hours   1 min 14 sec
-Evaluating study stephan
+Source: ILCP data from ILCP_wani on Tor Wager single trials Google Drive.
  
+
+____________________________________________________________________________________________________________________________________________
+Woo, et al. (2017) Nature Communications
+____________________________________________________________________________________________________________________________________________
+ 
+Summary of dataset
+______________________________________________________
+Images: 1856	Nonempty: 1856	Complete: 1856
+Voxels: 328798	Nonempty: 328798	Complete: 327032
+Unique data values: 130612023
+ 
+Min: -21.172	Max: 36.946	Mean: -0.000	Std: 0.595
+ 
+    Percentiles      Values  
+    ___________    __________
+
+        0.1           -3.3143
+        0.5           -2.0725
+          1           -1.6558
+          5          -0.87807
+         25          -0.26636
+         50        -0.0011205
+         75           0.26427
+         95           0.88182
+         99            1.6585
+       99.5              2.07
+       99.9            3.2943
+
+ 
+Pain ratings in image_obj.Y
+Additional metadata in image_obj.additional_info struct
+Loaded images:
 Source: Stephan's Placebo data from from Tor Wager's single trials Google Drive
  
 
@@ -1364,88 +906,6 @@ Min: -46.256	Max: 64.231	Mean: -0.004	Std: 0.611
 Pain ratings in image_obj.Y
 Additional metadata in image_obj.additional_info struct
 Loaded images:
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 5/5 done in:   0 hours   1 min 11 sec
-
-Total Elapsed Time =   0 hours   8 min 11 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   2 min 21 secs 
-Fold 1/5 done in:   0 hours   1 min 11 sec
-
-Completed fit for all data in:   0 hours   6 min 59 secs 
-Fold 2/5 done in:   0 hours   1 min  5 sec
-Fold 3/5 done in:   0 hours   1 min  3 sec
-Fold 4/5 done in:   0 hours   1 min 13 sec
-Fold 1/5 done in:   0 hours   3 min 21 sec
-Fold 5/5 done in:   0 hours   1 min 10 sec
-
-Total Elapsed Time =   0 hours   8 min  3 sec
-
-Completed fit for all data in:   0 hours   9 min 30 secs 
-Fold 2/5 done in:   0 hours   3 min 10 sec
-Fold 1/5 done in:   0 hours   4 min 11 sec
-Fold 3/5 done in:   0 hours   3 min  9 sec
-Fold 4/5 done in:   0 hours   3 min  9 sec
-Fold 2/5 done in:   0 hours   4 min 15 sec
-Fold 5/5 done in:   0 hours   3 min 11 sec
-
-Total Elapsed Time =   0 hours  22 min 58 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 3/5 done in:   0 hours   4 min 18 sec
-Fold 4/5 done in:   0 hours   4 min 15 sec
-
-Completed fit for all data in:   0 hours   7 min 19 secs 
-Fold 5/5 done in:   0 hours   4 min 14 sec
-
-Total Elapsed Time =   0 hours  30 min 43 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   3 min 24 sec
-Fold 2/5 done in:   0 hours   3 min  9 sec
-Fold 3/5 done in:   0 hours   3 min  9 sec
-
-Completed fit for all data in:   0 hours   9 min 10 secs 
-Fold 4/5 done in:   0 hours   3 min 10 sec
-Fold 5/5 done in:   0 hours   3 min 11 sec
-
-Total Elapsed Time =   0 hours  23 min 22 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 1/5 done in:   0 hours   4 min 10 sec
-Fold 2/5 done in:   0 hours   4 min 14 sec
-
-Completed fit for all data in:   0 hours   6 min 48 secs 
-Fold 3/5 done in:   0 hours   4 min 17 sec
-Fold 1/5 done in:   0 hours   3 min 25 sec
-Fold 4/5 done in:   0 hours   4 min 15 sec
-Fold 2/5 done in:   0 hours   3 min  9 sec
-Fold 3/5 done in:   0 hours   3 min 10 sec
-Fold 5/5 done in:   0 hours   4 min 14 sec
-
-Total Elapsed Time =   0 hours  30 min 19 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-Fold 4/5 done in:   0 hours   3 min 13 sec
-Fold 5/5 done in:   0 hours   3 min 10 sec
-
-Total Elapsed Time =   0 hours  22 min 54 sec
-
-Completed fit for all data in:   0 hours   9 min 16 secs 
-Fold 1/5 done in:   0 hours   4 min 18 sec
-Fold 2/5 done in:   0 hours   4 min 22 sec
-Fold 3/5 done in:   0 hours   4 min 24 sec
-Fold 4/5 done in:   0 hours   4 min 23 sec
-Fold 5/5 done in:   0 hours   4 min 23 sec
-
-Total Elapsed Time =   0 hours  31 min  6 sec
-Cross-validated prediction with algorithm cv_svr,   5 folds
-
-Completed fit for all data in:   0 hours   9 min 21 secs 
-Fold 1/5 done in:   0 hours   4 min 16 sec
-Fold 2/5 done in:   0 hours   4 min 22 sec
-Fold 3/5 done in:   0 hours   4 min 24 sec
-Fold 4/5 done in:   0 hours   4 min 25 sec
-Fold 5/5 done in:   0 hours   4 min 22 sec
-
-Total Elapsed Time =   0 hours  31 min  9 sec
 </pre><h2 id="9">RESULTS</h2><p>MSE, correlation between predicted and aboserved and run time for cross validated predictions are provided below.</p><p>Performance metrics are evaluated using a repeated measures statistical design. Pearson correlations are z-fisher transformed and compared using rm-ANOVA and Tukey post-hoc tests. Because MSE values are skewed, and duration may not be normally distributed either, these are evaluated using the Friedman test, a nonparametric repeated measures rank test. Post-hoc tests on ranks are performed using an exact test (see exactfrsd for method citation) which evaluates the likelihood of a rank sum given all combinatorial possibilities of ranks.</p><h2 id="10">MSE performance metrics</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
 y = [d_cverr(:), c_cverr(:), l2_cverr(:), z_cverr(:)];
 scales = {<span class="string">'default'</span>,<span class="string">'centered'</span>,<span class="string">'normed'</span>,<span class="string">'zscored'</span>};
@@ -1499,7 +959,7 @@ ans =
     'centered'    'zscored'               2.2           5.1484e-07
     'normed'      'zscored'            1.1333             0.018415
 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_06.png" alt=""> <h2 id="11">pearson-r performance metrics</h2><pre class="codeinput">r = cellfun(@(x1)(x1.pred_outcome_r),d_stats);
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_07.png" alt=""> <h2 id="11">pearson-r performance metrics</h2><pre class="codeinput">r = cellfun(@(x1)(x1.pred_outcome_r),d_stats);
 c_r = cellfun(@(x1)(x1.pred_outcome_r),c_stats);
 l2_r = cellfun(@(x1)(x1.pred_outcome_r),l2_stats);
 z_r = cellfun(@(x1)(x1.pred_outcome_r),z_stats);
@@ -1515,7 +975,7 @@ h = barplot_columns(y,x,<span class="string">'dolines'</span>);
 set(gca,<span class="string">'XTick'</span>,1:size(y,2),<span class="string">'XTickLabels'</span>,scales)
 xlabel(<span class="string">'Scaing'</span>)
 ylabel({<span class="string">'predicted r'</span>,<span class="string">'(cross validated)'</span>})
-title({<span class="string">'Prediction performace across 15 datasets'</span>,sprintf(<span class="string">'rm-ANOVA p = %0.3f'</span>,p)});
+title({<span class="string">'Prediction performace across 15 datasets'</span>,sprintf(<span class="string">'rm-ANOVA p = %0.3f'</span>,p(1))});
 a = gca;
 a.Title.FontSize = 14;
 set(gcf,<span class="string">'Tag'</span>,<span class="string">'barplot2'</span>)
@@ -1557,7 +1017,7 @@ ans =
     'zscored'     'default'          0.0116      0.013278    0.81829      -0.026994      0.050195
     'zscored'     'normed'        0.0024305     0.0020301    0.63841     -0.0034701      0.008331
 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_07.png" alt=""> <h2 id="12">evaluation time</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_08.png" alt=""> <h2 id="12">evaluation time</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
 y = [d_t,c_t,l2_t,z_t]/60;
 
 [p, ~, stats] = friedman(y,1,<span class="string">'off'</span>);
@@ -1588,10 +1048,10 @@ Tests of column means against zero
       Name       Mean_Value    Std_Error      T           P         Cohens_d
     _________    __________    _________    ______    __________    ________
 
-    'Col   1'      26.411       4.9265      5.3609    0.00010045     1.3842 
-    'Col   2'      25.071       4.5495      5.5107    7.6747e-05     1.4229 
-    'Col   3'      24.224       4.1942      5.7756    4.8039e-05     1.4913 
-    'Col   4'       23.85       4.1491      5.7482    5.0403e-05     1.4842 
+    'Col   1'      25.777       4.7638      5.4111    9.1759e-05     1.3971 
+    'Col   2'      24.637       4.3759      5.6301     6.206e-05     1.4537 
+    'Col   3'      24.242       4.2796      5.6645      5.84e-05     1.4626 
+    'Col   4'      23.907       4.1102      5.8164     4.473e-05     1.5018 
 
 Post-hoc tests
 
@@ -1599,22 +1059,18 @@ ans =
 
   6&times;4 table
 
-     Model_1       Model_2      Mean_Rank_Difference      pValue  
-    __________    __________    ____________________    __________
+     Model_1       Model_2      Mean_Rank_Difference     pValue 
+    __________    __________    ____________________    ________
 
-    'default'     'centered'              0.8              0.10404
-    'default'     'normed'            0.93333             0.055446
-    'default'     'zscored'            1.8667           4.0763e-05
-    'centered'    'normed'            0.13333               0.8336
-    'centered'    'zscored'            1.0667             0.027187
-    'normed'      'zscored'           0.93333             0.055446
+    'default'     'centered'          0.53333             0.2917
+    'default'     'normed'            0.33333            0.52801
+    'default'     'zscored'           0.86667           0.076716
+    'centered'    'normed'               -0.2            0.72615
+    'centered'    'zscored'           0.33333            0.52801
+    'normed'      'zscored'           0.53333             0.2917
 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_08.png" alt=""> <h2 id="13">CONCLUSIONS</h2><p>dividing by l2 norm and zscoring scaling procedures lead to improvement in performance as assessed by MSE, the centering effect is nonsignificant, and zscoring is significantly better than norming, but no methods show significantly better pearson-r based performance than any other method. The trends in pearson-r mirror the direction of effects seen for MSE though.</p><p>The improvements in MSE obtained are obtained in significantly less time for zscores than normed or raw data.</p><p>The differences between performance when training on raw data or on zscored data are minor, suggesting results are robust with respect to scaling decisions. Thus, models can be trained and applied to zscored trial maps to facilitate generalization between datasets, with little to no loss of task relevant information, or any real effect on meaningful signal capture whatsoever.</p><p>This does not mean that equivalent predictive maps are obtained across scaling procedures, or that the information removed is not biologically meaningful. However, if this information is meaningful, it appears to not be unique, and similar information can be obtained from the scaled pattern information. Further investigation is needed to establish whether the signal removed by rescaling has biological or task significance.</p><h2 id="14">NOTES</h2><p>this script was prototyped on quartiled data using the fmri_data_st/quintileByY method. Running on single trials takes too long to be practical when develping or debugging code, and this code was only run on single trial data at the very end to generate this output you see here.</p><pre class="codeinput">fprintf(<span class="string">'Script runtime (min): %.2f\n'</span>,toc(99)/60);
-</pre><pre class="codeoutput error">Error using toc
-Argument to TOC must be a uint64 scalar.
-
-Error in demo_norming_comparison (line 416)
-fprintf('Script runtime (min): %.2f\n',toc(99)/60);
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_09.png" alt=""> <h2 id="13">CONCLUSIONS</h2><p>dividing by l2 norm and zscoring scaling procedures lead to improvement in performance as assessed by MSE, the centering effect is nonsignificant, and zscoring is significantly better than norming, but no methods show significantly better pearson-r based performance than any other method. The trends in pearson-r mirror the direction of effects seen for MSE though.</p><p>The improvements in MSE obtained are obtained in significantly less time for zscores than normed or raw data.</p><p>The differences between performance when training on raw data or on zscored data are minor, suggesting results are robust with respect to scaling decisions. Thus, models can be trained and applied to zscored trial maps to facilitate generalization between datasets, with little to no loss of task relevant information, or any real effect on meaningful signal capture whatsoever.</p><p>This does not mean that equivalent predictive maps are obtained across scaling procedures, or that the information removed is not biologically meaningful. However, if this information is meaningful, it appears to not be unique, and similar information can be obtained from the scaled pattern information. Further investigation is needed to establish whether the signal removed by rescaling has biological or task significance.</p><h2 id="14">NOTES</h2><p>this script was prototyped on quartiled data using the fmri_data_st/quintileByY method. Running on single trials takes too long to be practical when develping or debugging code, and this code was only run on single trial data at the very end to generate this output you see here.</p><pre class="codeinput">fprintf(<span class="string">'Script runtime (min): %.2f\n'</span>,toc(t99)/60);
+</pre><pre class="codeoutput">Script runtime (min): 670.01
 </pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 
@@ -1851,8 +1307,6 @@ parfor i = 1:n_studies
     
     this_dat = load_image_set(this_study);
     
-    % this is where you quartile the data if you want that
-    
     % for completion datasets retain trials with invalid responses, so
     % remove them
     this_dat = this_dat.get_wh_image(~isnan(this_dat.Y));
@@ -1861,6 +1315,8 @@ parfor i = 1:n_studies
     for j = 1:size(this_dat.dat,2)
         this_dat.dat(isnan(this_dat.dat(:,j)),1) = 0;
     end
+    
+    % this is where you quartile the data if you want that
     
     % zscore outcome for more interpretable values of prediction MSE
     % and for easier comparison across studies (which use different outcome
@@ -1886,25 +1342,25 @@ parfor i = 1:n_studies
     % default
     t0 = tic;
     [d_cverr(i), d_stats{i}, d_optout{i}] = predict(this_dat, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0);    
+        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
     d_t(i) = toc(t0);
         
     % centered
     t0 = tic;
     [c_cverr(i), c_stats{i}, c_optout{i}] = predict(this_dat_c, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0);    
+        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
     c_t(i) = toc(t0);
     
     % l2normed
     t0 = tic;
     [l2_cverr(i), l2_stats{i}, l2_optout{i}] = predict(this_dat_l2, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0);    
+        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
     l2_t(i) = toc(t0);
     
     % zscored
     t0 = tic;
     [z_cverr(i), z_stats{i}, z_optout{i}] = predict(this_dat_z, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0);    
+        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
     z_t(i) = toc(t0);
 end
     
@@ -1965,7 +1421,7 @@ h = barplot_columns(y,x,'dolines');
 set(gca,'XTick',1:size(y,2),'XTickLabels',scales)
 xlabel('Scaing')
 ylabel({'predicted r','(cross validated)'})
-title({'Prediction performace across 15 datasets',sprintf('rm-ANOVA p = %0.3f',p)});
+title({'Prediction performace across 15 datasets',sprintf('rm-ANOVA p = %0.3f',p(1))});
 a = gca;
 a.Title.FontSize = 14;
 set(gcf,'Tag','barplot2')
@@ -2032,6 +1488,6 @@ table(scales(pairwise_dif(:,1))', scales(pairwise_dif(:,2))', pairwise_dif(:,4),
 % to be practical when develping or debugging code, and this code was only 
 % run on single trial data at the very end to generate this output you see
 % here.
-fprintf('Script runtime (min): %.2f\n',toc(99)/60);
+fprintf('Script runtime (min): %.2f\n',toc(t99)/60);
 ##### SOURCE END #####
 --></body></html>
