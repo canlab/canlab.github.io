@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>demo_norming_comparison</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-28"><meta name="DC.source" content="demo_norming_comparison.m"><style type="text/css">
+      --><title>demo_norming_comparison</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-29"><meta name="DC.source" content="demo_norming_comparison.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">INTRODUCTION</a></li><li><a href="#3">Study descriptive statistics</a></li><li><a href="#4">Raw data</a></li><li><a href="#5">effect of centering</a></li><li><a href="#6">effect of l2norming</a></li><li><a href="#7">effect of zscoring</a></li><li><a href="#8">METHODS</a></li><li><a href="#9">RESULTS</a></li><li><a href="#10">MSE performance metrics</a></li><li><a href="#11">pearson-r performance metrics</a></li><li><a href="#12">evaluation time</a></li><li><a href="#13">CONCLUSIONS</a></li><li><a href="#14">NOTES</a></li></ul></div><h2 id="2">INTRODUCTION</h2><p>This page demonstrates how to use the (private) single trials dataset repository to formally compare algorithm performance, using the borderline trivial case of comparing performance under different rescaling procedures. It is simple to implement, and despite its conceptual simplicity is an unanswered  question as of the time of this writing. </p><p> Single trial coefficients vary considerably across studies in systematic ways. Although different experimental conditions are expected to yeild different coefficient maps, there are considerable differences in the basic statistical features of these maps across studies which are more likely due to differences in statistical design than experimental design, and are thus unintended artifacts of the analysis procedure. In order to  predict outcomes in one study based on models fit in another study we  need to minimize variation due to statistical design choices, in particular spurious differenes in the statistical properties of these coefficients.  </p><p> Additionally, parametric statistical maps in fMRI often use arbitrary  units. Not only is the scale of outcome measures often arbitrary (for instance a pain rating scale might vary form 0-8 or 0-100. There may be anchors throughout the scale or only at the ends, it might be logarithmic or it might be linear; there are few conventions), but the preditor (the  BOLD signal) is also not a reliable absolute measure (the situation might  be different with something like arterial spin labeling). This suggests  the scale of the parametric map (which is typically in unis of DV/IV)  might be arbitrary. </p><p> Studies with similar task conditions often show differences in the  magnitude (mean and variance) of coefficient estimates, leading to use of  mean centering trials, l2-norming trials or z-scoring trials, in an  attempt to correct for these artifacts. However, whether these scaling procedures remove task relevant biological information or not remains an  open empirical question. </p><p> Here we use 5-fold cross validation in each of 15 datasets to establish whether within study predictive accuracy is improved or harmed by any of these three scaling procedures. The presumption is that within study the statistical design is invariant, and any change in performance due to these scaling procedures can therefore be attributed to a loss of sensitivity for biologically meaningful consequences of the experimental design. By examining 15 datasets we can informally differentiate  variantion in performance due to chance, vs. systematic differences due to scaling choices, and thereby inform application of these scaling procedures to future MVPA decoding methods. </p><p> We use SVR as a method of MVPA based brain decoding, but similar results would be expected with many other linear machine learning algorithms (e.g. PCR). SVR is simply used for its performance advantage.</p><pre class="codeinput">close <span class="string">all</span>; clear <span class="string">all</span>;
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">INTRODUCTION</a></li><li><a href="#2">Study descriptive statistics</a></li><li><a href="#3">Raw data</a></li><li><a href="#4">METHODS</a></li><li><a href="#5">RESULTS</a></li><li><a href="#6">MSE performance metrics</a></li><li><a href="#7">pearson-r performance metrics</a></li><li><a href="#8">evaluation time</a></li><li><a href="#9">CONCLUSIONS</a></li><li><a href="#10">NOTES</a></li></ul></div><h2 id="1">INTRODUCTION</h2><p>This page demonstrates how to use the (private) single trials dataset to formally compare algorithm performance, using the borderline trivial case of comparing performance under different rescaling procedures. It is simple to implement, and despite its conceptual simplicity is an unanswered question as of the time of this writing.</p><p>Single trial coefficients vary considerably across studies in systematic ways. Although different experimental conditions are expected to yeild different coefficient maps, there are considerable differences in the basic statistical features of these maps across studies which are more likely due to differences in statistical design than experimental design, and are thus unintended artifacts of the analysis procedure. In order to predict outcomes in one study based on models fit in another study we need to minimize variation due to statistical design choices, in particular spurious differenes in the statistical properties of these coefficients.</p><p>Additionally, parametric statistical maps in fMRI often use arbitrary units. Not only is the scale of outcome measures often arbitrary (for instance a pain rating scale might vary form 0-8 or 0-100. There may be anchors throughout the scale or only at the ends, it might be logarithmic or it might be linear; there are few conventions), but the preditor (the BOLD signal) is also not a reliable absolute measure (the situation might be different with something like arterial spin labeling). This suggests the scale of the parametric map (which is typically in unis of DV/IV) might be arbitrary.</p><p>Studies with similar task conditions often show differences in the magnitude (mean and variance) of coefficient estimates, leading to use of mean centering trials, l2-norming trials or z-scoring trials, in an attempt to correct for these artifacts. However, whether these scaling procedures remove task relevant biological information or not remains an open empirical question.</p><p>Here we use 5-fold cross validation in each of 15 datasets to establish whether within study predictive accuracy is improved or harmed by any of these three scaling procedures. The presumption is that within study the statistical design is invariant, and any change in performance due to these scaling procedures can therefore be attributed to a loss of sensitivity for biologically meaningful consequences of the experimental design. By examining 15 datasets we can informally differentiate variantion in performance due to chance, vs. systematic differences due to scaling choices, and thereby inform application of these scaling procedures to future MVPA decoding methods.</p><p>We use SVR as a method of MVPA based brain decoding, but similar results would be expected with many other linear machine learning algorithms (e.g. PCR). SVR is simply used for its performance advantage.</p><pre class="codeinput">close <span class="string">all</span>; clear <span class="string">all</span>;
 
 t99 = tic;
 
@@ -77,9 +77,10 @@ addpath(genpath(<span class="string">'/projects/bope9760/spm12'</span>));
 addpath(genpath(<span class="string">'/projects/bope9760/single_trials_overview/repo'</span>)); <span class="comment">% single_trials repo</span>
 addpath(<span class="string">'/work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/'</span>); <span class="comment">% single trial data on blanca</span>
 
-st_datasets = {<span class="string">'nsf'</span>,<span class="string">'bmrk3pain'</span>,<span class="string">'bmrk3heat'</span>,<span class="string">'bmrk4'</span>,<span class="string">'bmrk5pain'</span>,<span class="keyword">...</span>
+st_datasets = {<span class="string">'nsf'</span>,<span class="string">'bmrk3pain'</span>,<span class="string">'bmrk3warm'</span>,<span class="string">'bmrk4'</span>,<span class="string">'bmrk5pain'</span>,<span class="keyword">...</span>
         <span class="string">'bmrk5snd'</span>,<span class="string">'remi'</span>,<span class="string">'scebl'</span>,<span class="string">'ie2'</span>,<span class="string">'ie'</span>,<span class="string">'exp'</span>,<span class="string">'levoderm'</span>,<span class="string">'stephan'</span>,<span class="keyword">...</span>
         <span class="string">'romantic'</span>,<span class="string">'ilcp'</span>};
+
 <span class="comment">% import studies, suppressing output to minimize clutter (it's long and</span>
 <span class="comment">% redundant with more detailed information we provide below)</span>
 cmd = <span class="string">'all_dat = load_image_set(''all_single_trials'')'</span>;
@@ -91,7 +92,7 @@ study_id = all_dat.metadata_table.study_id;
 [uniq_study_id, ~, study_id] = unique(study_id,<span class="string">'rows'</span>,<span class="string">'stable'</span>);
 </pre><pre class="codeoutput">cmd: all_dat = load_image_set('all_single_trials')
 Warning: The 'rows' input is not supported for cell array inputs. 
-</pre><h2 id="3">Study descriptive statistics</h2><p>notice how across studies each subject shows different mean (circle) and standard deviations (whiskers). Note the x-axis scales. For a model fit to one of these studies to make accurate prediction in a different study with a different \beta domain, the model would need to successfully extrapolate to that different \beta domain outside of its training space. This has very low probability of success, since our models are all linear approximations of the brain response, which is in all likelihood intrinsically nonlinear.</p><p>Thus, we have no hope of obtaining accurate absolute predictions in any other study if these \beta effects are task relevant and biologically meaningful. If they are artifacts of statistical design then it should be possible to approximately correct for them using rescaling procedures.</p><h2 id="4">Raw data</h2><pre class="codeinput">figure;
+</pre><h2 id="2">Study descriptive statistics</h2><p>notice how across studies each subject shows different mean (circle) and standard deviations (whiskers). Note the x-axis scales. For a model fit to one of these studies to make accurate prediction in a different study with a different \beta domain, the model would need to successfully extrapolate to that different \beta domain outside of its training space. This has very low probability of success, since our models are all linear approximations of the brain response, which is in all likelihood intrinsically nonlinear.</p><p>Thus, we have little hope of obtaining accurate absolute predictions in any other study if these \beta effects are task relevant and biologically meaningful. If they are artifacts of statistical design then it should be possible to approximately correct for them using rescaling procedures.</p><h2 id="3">Raw data</h2><pre class="codeinput">figure;
 <span class="keyword">for</span> i = 1:n_studies
     this_idx = find(i == study_id);
     this_dat = all_dat.get_wh_image(this_idx);
@@ -134,143 +135,10 @@ Warning: The 'rows' input is not supported for cell array inputs.
 Warning: The 'rows' input is not supported for cell array inputs. 
 Warning: The 'rows' input is not supported for cell array inputs. 
 Warning: The 'rows' input is not supported for cell array inputs. 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_01.png" alt=""> <h2 id="5">effect of centering</h2><pre class="codeinput">figure;
-<span class="keyword">for</span> i = 1:n_studies
-    this_idx = find(i == study_id);
-    this_dat = all_dat.get_wh_image(this_idx);
-    this_dat = this_dat.rescale(<span class="string">'centerimages'</span>);
-
-    subject_id = this_dat.metadata_table.subject_id;
-    [uniq_subject_id, ~, subject_id] = unique(subject_id,<span class="string">'rows'</span>,<span class="string">'stable'</span>);
-
-    subplot(ceil(sqrt(n_studies)), ceil(n_studies/ceil(sqrt(n_studies))), i);
-    hold <span class="string">off</span>
-    <span class="keyword">for</span> j = 1:length(uniq_subject_id)
-        subj_idx = j == subject_id;
-        this_subj_dat = this_dat.dat(:,subj_idx);
-        q(j,:) = quantile(this_subj_dat(:),[0.025,0.5,0.975]);
-        mu = mean(mean(this_subj_dat(:)));
-        sd = std(this_subj_dat(:));
-        h1 = plot([mu-sd, mu+sd],[j,j],<span class="string">'-'</span>);
-        hold <span class="string">on</span>;
-        h2 = plot(mu,j,<span class="string">'o'</span>);
-        h2.Color = h1.Color;
-    <span class="keyword">end</span>
-    box <span class="string">off</span>
-    title([<span class="string">'Distribution of '</span>, uniq_study_id{i}]);
-    xlabel(<span class="string">'\beta'</span>);
-    ylabel(<span class="string">'Subj'</span>);
-<span class="keyword">end</span>
-p = get(gcf,<span class="string">'Position'</span>);
-set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_03.png" alt=""> <h2 id="6">effect of l2norming</h2><pre class="codeinput">figure;
-<span class="keyword">for</span> i = 1:n_studies
-    this_idx = find(i == study_id);
-    this_dat = all_dat.get_wh_image(this_idx);
-    this_dat = this_dat.rescale(<span class="string">'l2norm_images'</span>);
-
-    subject_id = this_dat.metadata_table.subject_id;
-    [uniq_subject_id, ~, subject_id] = unique(subject_id,<span class="string">'rows'</span>,<span class="string">'stable'</span>);
-
-    subplot(ceil(sqrt(n_studies)), ceil(n_studies/ceil(sqrt(n_studies))), i);
-    hold <span class="string">off</span>
-    <span class="keyword">for</span> j = 1:length(uniq_subject_id)
-        subj_idx = j == subject_id;
-        this_subj_dat = this_dat.dat(:,subj_idx);
-        q(j,:) = quantile(this_subj_dat(:),[0.025,0.5,0.975]);
-        mu = mean(mean(this_subj_dat(:)));
-        sd = std(this_subj_dat(:));
-        h1 = plot([mu-sd, mu+sd],[j,j],<span class="string">'-'</span>);
-        hold <span class="string">on</span>;
-        h2 = plot(mu,j,<span class="string">'o'</span>);
-        h2.Color = h1.Color;
-    <span class="keyword">end</span>
-    box <span class="string">off</span>
-    title([<span class="string">'Distribution of '</span>, uniq_study_id{i}]);
-    xlabel(<span class="string">'\beta'</span>);
-    ylabel(<span class="string">'Subj'</span>);
-<span class="keyword">end</span>
-p = get(gcf,<span class="string">'Position'</span>);
-set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_04.png" alt=""> <h2 id="7">effect of zscoring</h2><pre class="codeinput">figure;
-<span class="keyword">for</span> i = 1:n_studies
-    this_idx = find(i == study_id);
-    this_dat = all_dat.get_wh_image(this_idx);
-    this_dat = this_dat.rescale(<span class="string">'zscoreimages'</span>);
-
-    subject_id = this_dat.metadata_table.subject_id;
-    [uniq_subject_id, ~, subject_id] = unique(subject_id,<span class="string">'rows'</span>,<span class="string">'stable'</span>);
-
-    subplot(ceil(sqrt(n_studies)), ceil(n_studies/ceil(sqrt(n_studies))), i);
-    hold <span class="string">off</span>
-    <span class="keyword">for</span> j = 1:length(uniq_subject_id)
-        subj_idx = j == subject_id;
-        this_subj_dat = this_dat.dat(:,subj_idx);
-        q(j,:) = quantile(this_subj_dat(:),[0.025,0.5,0.975]);
-        mu = mean(mean(this_subj_dat(:)));
-        sd = std(this_subj_dat(:));
-        h1 = plot([mu-sd, mu+sd],[j,j],<span class="string">'-'</span>);
-        hold <span class="string">on</span>;
-        h2 = plot(mu,j,<span class="string">'o'</span>);
-        h2.Color = h1.Color;
-    <span class="keyword">end</span>
-    box <span class="string">off</span>
-    title([<span class="string">'Distribution of '</span>, uniq_study_id{i}]);
-    xlabel(<span class="string">'\beta'</span>);
-    ylabel(<span class="string">'Subj'</span>);
-<span class="keyword">end</span>
-p = get(gcf,<span class="string">'Position'</span>);
-set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-Warning: The 'rows' input is not supported for cell array inputs. 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_05.png" alt=""> <h2 id="8">METHODS</h2><p>compute raw data, centered, l2normed and zscored images for continuous outcome prediction statistics. Fit SVR models to each, and compute 5-fold cross validated predictions of outcomes. See RESULTS comments for subsequent statistical design methodology.</p><pre class="codeinput"><span class="comment">% we don't have the memory to keep all studies in RAM at once for this next</span>
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_01.png" alt=""> <h2 id="4">METHODS</h2><p>compute raw data, centered, l2normed and zscored images for continuous outcome prediction statistics. Fit SVR models to each, and compute 5-fold cross validated predictions of outcomes. See RESULTS comments for subsequent statistical design methodology.</p><pre class="codeinput"><span class="comment">% we don't have the memory to keep all studies in RAM at once for this next</span>
 <span class="comment">% step, so we clear them and will process one study at a time</span>
 clear <span class="string">all_dat</span>
 
-<span class="comment">% get numeric study_id labels</span>
 n_studies = length(st_datasets);
 
 [d_cverr, c_cverr, l2_cverr, z_cverr,<span class="keyword">...</span>
@@ -290,7 +158,7 @@ parpool(4)
     fprintf(<span class="string">'Evaluating study %s\n'</span>,st_datasets{i});
     this_study = st_datasets{i};
 
-    this_dat = load_image_set(this_study);
+    this_dat = load_image_set(this_study,<span class="string">'verbose'</span>, 0);
 
     <span class="comment">% for completion datasets retain trials with invalid responses, so</span>
     <span class="comment">% remove them</span>
@@ -367,546 +235,33 @@ Evaluating study nsf
 Evaluating study bmrk3pain
 Evaluating study bmrk4
 Evaluating study bmrk5snd
- 
- 
- 
- 
-Source: NSF data aggregated from Tor Wager's single trials Google Drive
- 
-
-____________________________________________________________________________________________________________________________________________
-Wager, et al. (2013) New England Journal of Medicine
-Atlas, et al. (2014) Pain
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1149	Nonempty: 1149	Complete: 1149
-Voxels: 329694	Nonempty: 329694	Complete: 328249
-Unique data values: 136162680
- 
-Min: -1312.863	Max: 888.306	Mean: -0.351	Std: 21.183
- 
-    Percentiles      Values  
-    ___________    __________
-
-        0.1           -134.41
-        0.5           -81.216
-          1           -63.577
-          5           -31.933
-         25           -8.2459
-         50        3.1861e-06
-         75             8.286
-         95            29.963
-         99            56.493
-       99.5            70.713
-       99.9            112.42
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
+Loaded images:
+Loaded images:
+Loaded images:
 Loaded images:
 Evaluating study scebl
- 
-Source: bmrk3pain img data from Tor Wager's single trials Google Drive. Metadata also from wagerlab/labdata/current/BMRK3/ HPC storage
- 
-
-____________________________________________________________________________________________________________________________________________
-Wager,  et al. (2013) New England Journal of Medicine
-Woo et al. (2015) PLoS Biology
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1699	Nonempty: 1699	Complete: 1699
-Voxels: 328798	Nonempty: 328798	Complete: 327472
-Unique data values: 135864812
- 
-Min: -133.823	Max: 84.093	Mean: -0.006	Std: 0.545
- 
-    Percentiles      Values   
-    ___________    ___________
-
-        0.1             -3.469
-        0.5            -1.9328
-          1            -1.4777
-          5           -0.72485
-         25           -0.20535
-         50        -0.00043151
-         75            0.19939
-         95            0.69711
-         99             1.3839
-       99.5             1.7974
-       99.9             3.2719
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
 Evaluating study ie
- 
-Source: bmrk5snd data from wagerlab/labdata/projects/bmrk5_painsound/. Img data from the first_level_all_trs_single_trials/ subjfolder. Metadata from the single_trial_output_scnlab_july2016/ subjfolder
- 
-
-____________________________________________________________________________________________________________________________________________
-Losin, et al. (2019) Nature Human Behavior
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 2160	Nonempty: 2160	Complete: 2160
-Voxels: 237066	Nonempty: 237066	Complete: 225403
-Unique data values: 125739412
- 
-Min: -100.938	Max: 114.815	Mean: 0.207	Std: 1.094
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -7.1478
-        0.5         -3.3823
-          1         -2.4719
-          5         -1.1065
-         25        -0.23588
-         50         0.14712
-         75         0.60811
-         95          1.7401
-         99          3.2163
-       99.5          4.0346
-       99.9          6.9859
-
- 
-Sound intensity ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
 Evaluating study bmrk5pain
- 
-Source: BMRK4 img data from Tor Wager's single trials Google Drive (bmrk4_smoothed_with_basis). Metadata also from wagerlab/labdata/current/bmrk4/Data/BMRK_Data HPC resources.
- 
-
-____________________________________________________________________________________________________________________________________________
-Krishnan et al. (2016) ELife
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 2268	Nonempty: 2268	Complete: 2268
-Voxels: 328798	Nonempty: 328798	Complete: 312569
-Unique data values: 140850218
- 
-Min: -3620.454	Max: 3602.969	Mean: -0.274	Std: 36.101
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -219.97
-        0.5         -125.84
-          1         -98.015
-          5          -49.91
-         25         -14.663
-         50        0.027471
-         75          14.592
-         95          47.747
-         99          93.267
-       99.5          120.79
-       99.9          220.31
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
-Evaluating study bmrk3heat
- 
-Source: SCEBL data from Tor Wager's single trials Google Drive.
- 
-
-____________________________________________________________________________________________________________________________________________
-Koban, et al. (2019) Nature Communications
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 2496	Nonempty: 2496	Complete: 2496
-Voxels: 328798	Nonempty: 328798	Complete: 316545
-Unique data values: 150523552
- 
-Min: -1491.870	Max: 2209.887	Mean: -0.171	Std: 5.758
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -29.294
-        0.5         -14.931
-          1         -11.336
-          5         -5.5979
-         25         -1.6108
-         50        -0.10308
-         75          1.2689
-         95          5.0186
-         99           10.42
-       99.5           13.76
-       99.9          27.431
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
+Loaded images:
+Evaluating study bmrk3warm
+Loaded images:
+Evaluating study levoderm
 Loaded images:
 Evaluating study remi
-Source: bmrk3heat img data from Tor Wager's single trials Google Drive. Metadata also from wagerlab/labdata/current/BMRK3 HPC storage
- 
-
-____________________________________________________________________________________________________________________________________________
-Wager,  et al. (2013) New England Journal of Medicine
-Woo et al. (2015) PLoS Biology
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1502	Nonempty: 1502	Complete: 1502
-Voxels: 328798	Nonempty: 328798	Complete: 327472
-Unique data values: 129320822
- 
-Min: -81.910	Max: 143.410	Mean: -0.006	Std: 0.497
- 
-    Percentiles      Values   
-    ___________    ___________
-
-        0.1            -3.0485
-        0.5              -1.77
-          1            -1.3678
-          5           -0.68094
-         25           -0.19522
-         50        -0.00068394
-         75            0.19002
-         95            0.65406
-         99              1.275
-       99.5             1.6349
-       99.9             2.8324
-
- 
-Warmth ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
- 
-Evaluating study levoderm
- 
-Source: ie img data from Tor Wager's single trials Google Drive
- 
-
-____________________________________________________________________________________________________________________________________________
-Roy, et al. (2014) Nature Neuroscience
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 2400	Nonempty: 2400	Complete: 2400
-Voxels: 328798	Nonempty: 328798	Complete: 217519
-Unique data values: 148358675
- 
-Min: -37.403	Max: 84.752	Mean: 0.017	Std: 0.690
- 
-    Percentiles      Values   
-    ___________    ___________
-
-        0.1            -3.7251
-        0.5            -2.3213
-          1            -1.8273
-          5           -0.92054
-         25           -0.25553
-         50        -0.00015127
-         75            0.26222
-         95             1.0003
-         99             2.1082
-       99.5             2.7565
-       99.9             4.7599
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
 Evaluating study ie2
- 
-Source: Remi data from Tor Wager's single trials Google Drive.
- 
-
-____________________________________________________________________________________________________________________________________________
-Atlas, et al. (2012) Journal of Neuroscience
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1224	Nonempty: 1224	Complete: 1224
-Voxels: 326709	Nonempty: 326709	Complete: 231127
-Unique data values: 112706998
- 
-Min: -4389.975	Max: 6131.055	Mean: 2.742	Std: 51.639
- 
-    Percentiles    Values 
-    ___________    _______
-
-        0.1        -316.39
-        0.5         -178.5
-          1        -136.28
-          5        -67.958
-         25        -20.217
-         50         1.9473
-         75         25.479
-         95         75.265
-         99         143.46
-       99.5         184.94
-       99.9         320.71
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
 Evaluating study romantic
- 
-Source: Romantic Pain data from Tor Wager's single trials Google Drive
- 
-
-____________________________________________________________________________________________________________________________________________
-Lopez-Sola, et al. (2019) Pain
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 480	Nonempty: 480	Complete: 480
-Voxels: 328798	Nonempty: 328798	Complete: 323776
-Unique data values: 82177956
- 
-Min: -44.019	Max: 43.529	Mean: 0.071	Std: 0.742
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -4.6006
-        0.5         -2.3523
-          1         -1.7967
-          5        -0.88787
-         25        -0.22951
-         50        0.042391
-         75         0.35992
-         95          1.1072
-         99          2.0649
-       99.5          2.6096
-       99.9          4.5095
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
-Source: ie2 img data from Tor Wager's single trials Google Drive ("IE2_NEW"). Metadata from wagerlab/labdata/current/ie2/ HPC storage.
- 
-
-____________________________________________________________________________________________________________________________________________
-Jepma et al. (2018) Nature Human Behavior
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1330	Nonempty: 1330	Complete: 1330
-Voxels: 328798	Nonempty: 328798	Complete: 302216
-Unique data values: 124509004
- 
-Min: -120.142	Max: 162.877	Mean: -0.210	Std: 2.134
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -14.757
-        0.5         -8.5044
-          1         -6.5994
-          5         -3.3219
-         25        -0.98972
-         50        -0.10738
-         75         0.66265
-         95          2.6676
-         99          5.2046
-       99.5          6.5986
-       99.9          11.106
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
 Evaluating study ilcp
- 
-Source: levoderm data from Tor Wager's single trials Google Drive
- 
-
-____________________________________________________________________________________________________________________________________________
-Scott Shaefer PhD Dissertation (2016). see ~p.60
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1916	Nonempty: 1916	Complete: 1916
-Voxels: 326942	Nonempty: 326942	Complete: 270862
-Unique data values: 144500739
- 
-Min: -85.376	Max: 89.908	Mean: 0.006	Std: 0.690
- 
-    Percentiles      Values  
-    ___________    __________
-
-        0.1           -4.6443
-        0.5           -2.3335
-          1           -1.7441
-          5          -0.81805
-         25          -0.21384
-         50        7.8729e-16
-         75           0.22636
-         95           0.84039
-         99             1.738
-       99.5            2.3016
-       99.9            4.5592
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
 Evaluating study exp
- 
-Source: bmrk5pain data from wagerlab/labdata/projects/bmrk5_painsound/. Img data from the first_level_all_trs_single_trials/ subjfolder. Metadata from the single_trial_output_scnlab_july2016/ subfolder
- 
-
-____________________________________________________________________________________________________________________________________________
-Losin, et al. (2019) Nature Human Behavior
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 3232	Nonempty: 3232	Complete: 3232
-Voxels: 237066	Nonempty: 237066	Complete: 225405
-Unique data values: 143236324
- 
-Min: -128.846	Max: 173.216	Mean: 0.352	Std: 1.424
- 
-    Percentiles     Values 
-    ___________    ________
-
-        0.1         -8.5114
-        0.5         -3.6723
-          1         -2.5995
-          5         -1.0999
-         25        -0.18898
-         50         0.21574
-         75         0.73814
-         95          2.2535
-         99          4.8069
-       99.5          6.3801
-       99.9          11.625
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
 Evaluating study stephan
- 
-Source: EXP data from Tor Wager's single trials Google Drive. Metadata also from wagerlab/labdata/current/Expectancy/, especially the subfolder Behavioral/Sas_proc_mixed/, HPC storage.
- 
-
-____________________________________________________________________________________________________________________________________________
-Atlas, et al. (2010) Journal of Neuroscience
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1076	Nonempty: 1076	Complete: 1076
-Voxels: 350652	Nonempty: 350652	Complete: 341323
-Unique data values: 144698229
- 
-Min: -33198.293	Max: 50026.984	Mean: -1.271	Std: 179.856
- 
-    Percentiles      Values   
-    ___________    ___________
-
-        0.1             -730.8
-        0.5            -287.99
-          1            -212.64
-          5            -104.91
-         25            -29.694
-         50        -1.9467e-07
-         75             28.253
-         95             101.05
-         99             201.13
-       99.5             268.52
-       99.9             639.72
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
 Loaded images:
-Source: ILCP data from ILCP_wani on Tor Wager single trials Google Drive.
- 
-
-____________________________________________________________________________________________________________________________________________
-Woo, et al. (2017) Nature Communications
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 1856	Nonempty: 1856	Complete: 1856
-Voxels: 328798	Nonempty: 328798	Complete: 327032
-Unique data values: 130612023
- 
-Min: -21.172	Max: 36.946	Mean: -0.000	Std: 0.595
- 
-    Percentiles      Values  
-    ___________    __________
-
-        0.1           -3.3143
-        0.5           -2.0725
-          1           -1.6558
-          5          -0.87807
-         25          -0.26636
-         50        -0.0011205
-         75           0.26427
-         95           0.88182
-         99            1.6585
-       99.5              2.07
-       99.9            3.2943
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
-Source: Stephan's Placebo data from from Tor Wager's single trials Google Drive
- 
-
-____________________________________________________________________________________________________________________________________________
-Geunter, et al. (2013) Neuroimage
-____________________________________________________________________________________________________________________________________________
- 
-Summary of dataset
-______________________________________________________
-Images: 2386	Nonempty: 2386	Complete: 2386
-Voxels: 247020	Nonempty: 247020	Complete: 193522
-Unique data values: 122872893
- 
-Min: -46.256	Max: 64.231	Mean: -0.004	Std: 0.611
- 
-    Percentiles      Values  
-    ___________    __________
-
-        0.1           -3.3464
-        0.5           -2.1071
-          1           -1.6791
-          5          -0.89636
-         25          -0.29321
-         50        -0.0045611
-         75           0.28411
-         95            0.8911
-         99            1.6577
-       99.5            2.0697
-       99.9            3.2825
-
- 
-Pain ratings in image_obj.Y
-Additional metadata in image_obj.additional_info struct
-Loaded images:
-</pre><h2 id="9">RESULTS</h2><p>MSE, correlation between predicted and aboserved and run time for cross validated predictions are provided below.</p><p>Performance metrics are evaluated using a repeated measures statistical design. Pearson correlations are z-fisher transformed and compared using rm-ANOVA and Tukey post-hoc tests. Because MSE values are skewed, and duration may not be normally distributed either, these are evaluated using the Friedman test, a nonparametric repeated measures rank test. Post-hoc tests on ranks are performed using an exact test (see exactfrsd for method citation) which evaluates the likelihood of a rank sum given all combinatorial possibilities of ranks.</p><h2 id="10">MSE performance metrics</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
+</pre><h2 id="5">RESULTS</h2><p>MSE, correlation between predicted and aboserved and run time for cross validated predictions are provided below.</p><p>Performance metrics are evaluated using a repeated measures statistical design. Pearson correlations are z-fisher transformed and compared using rm-ANOVA and Tukey post-hoc tests. Because MSE values are skewed, and duration may not be normally distributed either, these are evaluated using the Friedman test, a nonparametric repeated measures rank test. Post-hoc tests on ranks are performed using an exact test (see exactfrsd for method citation) which evaluates the likelihood of a rank sum given all combinatorial possibilities of ranks.</p><h2 id="6">MSE performance metrics</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
 y = [d_cverr(:), c_cverr(:), l2_cverr(:), z_cverr(:)];
 scales = {<span class="string">'default'</span>,<span class="string">'centered'</span>,<span class="string">'normed'</span>,<span class="string">'zscored'</span>};
 
@@ -959,7 +314,7 @@ ans =
     'centered'    'zscored'               2.2           5.1484e-07
     'normed'      'zscored'            1.1333             0.018415
 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_07.png" alt=""> <h2 id="11">pearson-r performance metrics</h2><pre class="codeinput">r = cellfun(@(x1)(x1.pred_outcome_r),d_stats);
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_02.png" alt=""> <h2 id="7">pearson-r performance metrics</h2><pre class="codeinput">r = cellfun(@(x1)(x1.pred_outcome_r),d_stats);
 c_r = cellfun(@(x1)(x1.pred_outcome_r),c_stats);
 l2_r = cellfun(@(x1)(x1.pred_outcome_r),l2_stats);
 z_r = cellfun(@(x1)(x1.pred_outcome_r),z_stats);
@@ -1017,7 +372,7 @@ ans =
     'zscored'     'default'          0.0116      0.013278    0.81829      -0.026994      0.050195
     'zscored'     'normed'        0.0024305     0.0020301    0.63841     -0.0034701      0.008331
 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_08.png" alt=""> <h2 id="12">evaluation time</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_03.png" alt=""> <h2 id="8">evaluation time</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
 y = [d_t,c_t,l2_t,z_t]/60;
 
 [p, ~, stats] = friedman(y,1,<span class="string">'off'</span>);
@@ -1048,10 +403,10 @@ Tests of column means against zero
       Name       Mean_Value    Std_Error      T           P         Cohens_d
     _________    __________    _________    ______    __________    ________
 
-    'Col   1'      25.777       4.7638      5.4111    9.1759e-05     1.3971 
-    'Col   2'      24.637       4.3759      5.6301     6.206e-05     1.4537 
-    'Col   3'      24.242       4.2796      5.6645      5.84e-05     1.4626 
-    'Col   4'      23.907       4.1102      5.8164     4.473e-05     1.5018 
+    'Col   1'      25.048       4.5146      5.5483    7.1763e-05     1.4326 
+    'Col   2'      24.528       4.3959      5.5796    6.7877e-05     1.4407 
+    'Col   3'      24.326       4.2398      5.7376    5.1346e-05     1.4814 
+    'Col   4'      24.058       4.1608       5.782    4.7504e-05     1.4929 
 
 Post-hoc tests
 
@@ -1062,50 +417,51 @@ ans =
      Model_1       Model_2      Mean_Rank_Difference     pValue 
     __________    __________    ____________________    ________
 
-    'default'     'centered'          0.53333             0.2917
-    'default'     'normed'            0.33333            0.52801
-    'default'     'zscored'           0.86667           0.076716
-    'centered'    'normed'               -0.2            0.72615
-    'centered'    'zscored'           0.33333            0.52801
-    'normed'      'zscored'           0.53333             0.2917
+    'default'     'centered'            1.0667          0.027187
+    'default'     'normed'                 0.6           0.23158
+    'default'     'zscored'            0.86667          0.076716
+    'centered'    'normed'            -0.46667           0.36128
+    'centered'    'zscored'               -0.2           0.72615
+    'normed'      'zscored'            0.26667           0.62375
 
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_09.png" alt=""> <h2 id="13">CONCLUSIONS</h2><p>dividing by l2 norm and zscoring scaling procedures lead to improvement in performance as assessed by MSE, the centering effect is nonsignificant, and zscoring is significantly better than norming, but no methods show significantly better pearson-r based performance than any other method. The trends in pearson-r mirror the direction of effects seen for MSE though.</p><p>The improvements in MSE obtained are obtained in significantly less time for zscores than normed or raw data.</p><p>The differences between performance when training on raw data or on zscored data are minor, suggesting results are robust with respect to scaling decisions. Thus, models can be trained and applied to zscored trial maps to facilitate generalization between datasets, with little to no loss of task relevant information, or any real effect on meaningful signal capture whatsoever.</p><p>This does not mean that equivalent predictive maps are obtained across scaling procedures, or that the information removed is not biologically meaningful. However, if this information is meaningful, it appears to not be unique, and similar information can be obtained from the scaled pattern information. Further investigation is needed to establish whether the signal removed by rescaling has biological or task significance.</p><h2 id="14">NOTES</h2><p>this script was prototyped on quartiled data using the fmri_data_st/quintileByY method. Running on single trials takes too long to be practical when develping or debugging code, and this code was only run on single trial data at the very end to generate this output you see here.</p><pre class="codeinput">fprintf(<span class="string">'Script runtime (min): %.2f\n'</span>,toc(t99)/60);
-</pre><pre class="codeoutput">Script runtime (min): 670.01
+</pre><img vspace="5" hspace="5" src="demo_norming_comparison_04.png" alt=""> <h2 id="9">CONCLUSIONS</h2><p>dividing by l2 norm and zscoring scaling procedures lead to improvement in performance as assessed by MSE, the centering effect is nonsignificant, and zscoring is significantly better than norming, but no methods show significantly better pearson-r based performance than any other method. The trends in pearson-r mirror the direction of effects seen for MSE though.</p><p>The improvements in MSE obtained are obtained in significantly less time for zscores than normed or raw data.</p><p>The differences between performance when training on raw data or on zscored data are minor, suggesting results are robust with respect to scaling decisions. Thus, models can be trained and applied to zscored trial maps to facilitate generalization between datasets, with little to no loss of task relevant information, or any real effect on meaningful signal capture whatsoever.</p><p>This does not mean that equivalent predictive maps are obtained across scaling procedures, or that the information removed is not biologically meaningful. However, if this information is meaningful, it appears to not be unique, and similar information can be obtained from the scaled pattern information. Further investigation is needed to establish whether the signal removed by rescaling has biological or task significance.</p><h2 id="10">NOTES</h2><p>this script was prototyped on quartiled data using the fmri_data_st/quintileByY method. Running on single trials takes too long to be practical when develping or debugging code, and this code was only run on single trial data at the very end to generate this output you see here.</p><pre class="codeinput">fprintf(<span class="string">'Script runtime (min): %.2f\n'</span>,toc(t99)/60);
+</pre><pre class="codeoutput">Script runtime (min): 647.37
 </pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-
-close all; clear all;
-
-t99 = tic;
-
-warning('off','all');
-
-addpath(genpath('/projects/bope9760/CanlabCore/CanlabCore'));
-addpath(genpath('/projects/bope9760/spm12'));
-addpath(genpath('/projects/bope9760/single_trials_overview/repo')); % single_trials repo
-addpath('/work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/'); % single trial data on blanca
-
-st_datasets = {'nsf','bmrk3pain','bmrk3heat','bmrk4','bmrk5pain',...
-        'bmrk5snd','remi','scebl','ie2','ie','exp','levoderm','stephan',...
-        'romantic','ilcp'};
-
 %% INTRODUCTION
+% This page demonstrates how to use the (private) single trials dataset to 
+% formally compare algorithm performance, using the borderline trivial 
+% case of comparing performance under different rescaling procedures. It is 
+% simple to implement, and despite its conceptual simplicity is an 
+% unanswered question as of the time of this writing.
+%
 % Single trial coefficients vary considerably across studies in systematic
 % ways. Although different experimental conditions are expected to yeild
 % different coefficient maps, there are considerable differences in the
 % basic statistical features of these maps across studies which are more
 % likely due to differences in statistical design than experimental design,
-% and are thus unintended artifacts of the analysis procedure.
-%
-% In order to predict outcomes in one study based on models fit in another
-% study we need to minimize variation due to statistical design choices, in
+% and are thus unintended artifacts of the analysis procedure. In order to 
+% predict outcomes in one study based on models fit in another study we 
+% need to minimize variation due to statistical design choices, in
 % particular spurious differenes in the statistical properties of these
-% coefficients. Studies with similar task conditions often show differences
-% in the magnitude (mean and variance) of coefficient estimates, leading to
-% use of mean centering trials, l2-norming trials or z-scoring trials, in 
-% an attempt to correct for these artifacts. However, whether these scaling
+% coefficients. 
+%
+% Additionally, parametric statistical maps in fMRI often use arbitrary 
+% units. Not only is the scale of outcome measures often arbitrary (for
+% instance a pain rating scale might vary form 0-8 or 0-100. There may be
+% anchors throughout the scale or only at the ends, it might be logarithmic
+% or it might be linear; there are few conventions), but the preditor (the 
+% BOLD signal) is also not a reliable absolute measure (the situation might 
+% be different with something like arterial spin labeling). This suggests 
+% the scale of the parametric map (which is typically in unis of DV/IV) 
+% might be arbitrary.
+%
+% Studies with similar task conditions often show differences in the 
+% magnitude (mean and variance) of coefficient estimates, leading to use of 
+% mean centering trials, l2-norming trials or z-scoring trials, in an 
+% attempt to correct for these artifacts. However, whether these scaling
 % procedures remove task relevant biological information or not remains an 
-% open question.
+% open empirical question.
 %
 % Here we use 5-fold cross validation in each of 15 datasets to establish
 % whether within study predictive accuracy is improved or harmed by any of
@@ -1121,6 +477,21 @@ st_datasets = {'nsf','bmrk3pain','bmrk3heat','bmrk4','bmrk5pain',...
 % We use SVR as a method of MVPA based brain decoding, but similar results
 % would be expected with many other linear machine learning algorithms
 % (e.g. PCR). SVR is simply used for its performance advantage.
+
+close all; clear all;
+
+t99 = tic;
+
+warning('off','all');
+
+addpath(genpath('/projects/bope9760/CanlabCore/CanlabCore'));
+addpath(genpath('/projects/bope9760/spm12'));
+addpath(genpath('/projects/bope9760/single_trials_overview/repo')); % single_trials repo
+addpath('/work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/'); % single trial data on blanca
+
+st_datasets = {'nsf','bmrk3pain','bmrk3warm','bmrk4','bmrk5pain',...
+        'bmrk5snd','remi','scebl','ie2','ie','exp','levoderm','stephan',...
+        'romantic','ilcp'};
 
 % import studies, suppressing output to minimize clutter (it's long and 
 % redundant with more detailed information we provide below)
@@ -1142,8 +513,8 @@ study_id = all_dat.metadata_table.study_id;
 % approximations of the brain response, which is in all likelihood
 % intrinsically nonlinear.
 %
-% Thus, we have no hope of obtaining accurate absolute predictions in any 
-% other study if these \beta effects are task relevant and biologically 
+% Thus, we have little hope of obtaining accurate absolute predictions in 
+% any other study if these \beta effects are task relevant and biologically 
 % meaningful. If they are artifacts of statistical design then it should 
 % be possible to approximately correct for them using rescaling procedures.
 
@@ -1178,103 +549,6 @@ end
 p = get(gcf,'Position');
 set(gcf,'Position',[p(1:2),1024,2048]);
 
-%% effect of centering
-
-figure;
-for i = 1:n_studies
-    this_idx = find(i == study_id);
-    this_dat = all_dat.get_wh_image(this_idx);
-    this_dat = this_dat.rescale('centerimages');
-    
-    subject_id = this_dat.metadata_table.subject_id;
-    [uniq_subject_id, ~, subject_id] = unique(subject_id,'rows','stable');
-    
-    subplot(ceil(sqrt(n_studies)), ceil(n_studies/ceil(sqrt(n_studies))), i);
-    hold off
-    for j = 1:length(uniq_subject_id)
-        subj_idx = j == subject_id;
-        this_subj_dat = this_dat.dat(:,subj_idx);
-        q(j,:) = quantile(this_subj_dat(:),[0.025,0.5,0.975]);
-        mu = mean(mean(this_subj_dat(:)));
-        sd = std(this_subj_dat(:));
-        h1 = plot([mu-sd, mu+sd],[j,j],'-');
-        hold on;
-        h2 = plot(mu,j,'o');
-        h2.Color = h1.Color;
-    end
-    box off
-    title(['Distribution of ', uniq_study_id{i}]);
-    xlabel('\beta');
-    ylabel('Subj');
-end
-p = get(gcf,'Position');
-set(gcf,'Position',[p(1:2),1024,2048]);    
-
-%% effect of l2norming
-
-figure;
-for i = 1:n_studies
-    this_idx = find(i == study_id);
-    this_dat = all_dat.get_wh_image(this_idx);
-    this_dat = this_dat.rescale('l2norm_images');
-    
-    subject_id = this_dat.metadata_table.subject_id;
-    [uniq_subject_id, ~, subject_id] = unique(subject_id,'rows','stable');
-    
-    subplot(ceil(sqrt(n_studies)), ceil(n_studies/ceil(sqrt(n_studies))), i);
-    hold off
-    for j = 1:length(uniq_subject_id)
-        subj_idx = j == subject_id;
-        this_subj_dat = this_dat.dat(:,subj_idx);
-        q(j,:) = quantile(this_subj_dat(:),[0.025,0.5,0.975]);
-        mu = mean(mean(this_subj_dat(:)));
-        sd = std(this_subj_dat(:));
-        h1 = plot([mu-sd, mu+sd],[j,j],'-');
-        hold on;
-        h2 = plot(mu,j,'o');
-        h2.Color = h1.Color;
-    end
-    box off
-    title(['Distribution of ', uniq_study_id{i}]);
-    xlabel('\beta');
-    ylabel('Subj');
-end
-p = get(gcf,'Position');
-set(gcf,'Position',[p(1:2),1024,2048]);    
-
-
-%% effect of zscoring
-
-figure;
-for i = 1:n_studies
-    this_idx = find(i == study_id);
-    this_dat = all_dat.get_wh_image(this_idx);
-    this_dat = this_dat.rescale('zscoreimages');
-
-    subject_id = this_dat.metadata_table.subject_id;
-    [uniq_subject_id, ~, subject_id] = unique(subject_id,'rows','stable');
-    
-    subplot(ceil(sqrt(n_studies)), ceil(n_studies/ceil(sqrt(n_studies))), i);
-    hold off
-    for j = 1:length(uniq_subject_id)
-        subj_idx = j == subject_id;
-        this_subj_dat = this_dat.dat(:,subj_idx);
-        q(j,:) = quantile(this_subj_dat(:),[0.025,0.5,0.975]);
-        mu = mean(mean(this_subj_dat(:)));
-        sd = std(this_subj_dat(:));
-        h1 = plot([mu-sd, mu+sd],[j,j],'-');
-        hold on;
-        h2 = plot(mu,j,'o');
-        h2.Color = h1.Color;
-    end
-    box off
-    title(['Distribution of ', uniq_study_id{i}]);
-    xlabel('\beta');
-    ylabel('Subj');
-end
-p = get(gcf,'Position');
-set(gcf,'Position',[p(1:2),1024,2048]);    
-    
 %% METHODS
 % compute raw data, centered, l2normed and zscored images for continuous 
 % outcome prediction statistics. Fit SVR models to each, and compute
@@ -1285,7 +559,6 @@ set(gcf,'Position',[p(1:2),1024,2048]);
 % step, so we clear them and will process one study at a time
 clear all_dat
 
-% get numeric study_id labels
 n_studies = length(st_datasets);
 
 [d_cverr, c_cverr, l2_cverr, z_cverr,...
@@ -1305,7 +578,7 @@ parfor i = 1:n_studies
     fprintf('Evaluating study %s\n',st_datasets{i});
     this_study = st_datasets{i};
     
-    this_dat = load_image_set(this_study);
+    this_dat = load_image_set(this_study,'verbose', 0);
     
     % for completion datasets retain trials with invalid responses, so
     % remove them
@@ -1489,5 +762,6 @@ table(scales(pairwise_dif(:,1))', scales(pairwise_dif(:,2))', pairwise_dif(:,4),
 % run on single trial data at the very end to generate this output you see
 % here.
 fprintf('Script runtime (min): %.2f\n',toc(t99)/60);
+
 ##### SOURCE END #####
 --></body></html>
