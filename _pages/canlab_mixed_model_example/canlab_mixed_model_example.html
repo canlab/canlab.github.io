@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Linear Mixed Model demo</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">About the dataset</a></li><li><a href="#6">Using fitlme to create a LinearMixedModel object in Matlab</a></li><li><a href="#14">Simple two-level mixed effects using CANlab glmfit_multilevel</a></li><li><a href="#19">Plotting data and effects</a></li><li><a href="#27">Assessing and considering correlations between the individual effects</a></li><li><a href="#31">2nd-level predictors</a></li></ul></div><p>This demonstration was prepared by Bogdan Petre and Tor Wager</p><p>It includes code to perform a mixed-effects analysis on a dataset in both Matlab and R. The published version runs the Matlab code.</p><p>To reproduce the analysis, you must have the dataset, which is in the <tt>CANlab_help_examples</tt> repository on Github, on your Matlab path. it is in the subfolder <tt>canlab_mixed_effects_matlab_demo1</tt></p><h2 id="2">About the dataset</h2><p>The example uses a subset of data from the PainGen project, provided for model demonstration purposes only. Do not reuse or reshare this dataset for other purposes. It was collected by Tor Wager's Cognitive and Affective Neuroscience lab at the University of Colorado.</p><pre class="codeinput">behav_dat = readtable(<span class="string">'paingen_behav_dat_sid_14_164.csv'</span>);
+  </style></head><body><div class="content"><h1>Linear Mixed Model demo</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">About the dataset</a></li><li><a href="#6">Using fitlme to create a LinearMixedModel object in Matlab</a></li><li><a href="#14">Simple two-level mixed effects using CANlab glmfit_multilevel</a></li><li><a href="#19">Plotting data and effects</a></li><li><a href="#27">Assessing and considering correlations between the individual effects</a></li><li><a href="#31">2nd-level predictors</a></li></ul></div><p>This demonstration was prepared by Bogdan Petre and Tor Wager</p><p>It includes code to perform a mixed-effects analysis on a dataset in both Matlab and R. The published version runs the Matlab code.</p><p>To reproduce the analysis, you must have the dataset, which is in the <tt>CANlab_help_examples</tt> repository on Github, on your Matlab path. it is in the subfolder <tt>canlab_mixed_effects_matlab_demo1</tt></p><h2 id="2">About the dataset</h2><p>The example uses a subset of data from an ongoing study, provided for model demonstration purposes only. Do not reuse or reshare this dataset for other purposes. It was collected by Tor Wager's Cognitive and Affective Neuroscience lab at the University of Colorado.</p><pre class="codeinput">behav_dat = readtable(<span class="string">'study_behav_dat_sid_14_164.csv'</span>);
 
 behav_dat(1:5, :)
 
@@ -718,7 +718,7 @@ ________________________________________
 %% About the dataset
 
 %%
-% The example uses a subset of data from the PainGen project, provided for model
+% The example uses a subset of data from an ongoing study, provided for model
 % demonstration purposes only. Do not reuse or reshare this dataset for other
 % purposes. It was collected by Tor Wager's Cognitive and Affective
 % Neuroscience lab at the University of Colorado.
