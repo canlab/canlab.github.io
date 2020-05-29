@@ -60,3 +60,8 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 [16. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
 
 [17. mixed effects models in Matlab and CANLab glmfit_multilevel](canlab_mixed_model_example/canlab_mixed_model_example.html)
+
+## Tutorials in progress
+Please note that the tutorials which follow are works in progress and of primary interest to advanced users.
+
+[Multilevel PCR](mlpcr_demo/mlpcr_demo.html)
