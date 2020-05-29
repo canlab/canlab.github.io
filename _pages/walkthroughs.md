@@ -64,4 +64,4 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 ## Tutorials in progress
 Please note that the tutorials which follow are works in progress and of primary interest to advanced users.
 
-[Multilevel PCR](mlpcr_demo/mlpcr_demo.html)
+[Interpreting within and between subject components of PCR models](mlpcr_demo/mlpcr_demo.html)
