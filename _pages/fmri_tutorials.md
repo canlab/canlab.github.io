@@ -12,13 +12,22 @@ author_profile: true
 This series of walkthroughs is designed to illustrate the principles of fMRI acquisition, design, and analysis. They use the CANlab Core interactive analysis tools.
 Code to run each walkthrough is included in the CANlab Core toolbox, and datasets are included or downloaded from Neurovault. See the main [CANlab intro page](/) for more on the philosophy behind the interactive analysis approach.
 
-| Getting started             
+This is *not* a comprehensive introduction to Matlab. It's assumed that you will use other resources to supplement your basic understanding how to work with Matlab, including:
+| Matlab's comprehensive built-in examples (type "doc" within Matlab)
+| Function help (type "help my_fun", where my_fun is the name of a function)
+| [Matlab Academy](https://matlabacademy.mathworks.com/) (free!), including the "Matlab Onramp" module and others)
+| Other great resources, e.g., Michael X. Cohen's [YouTube lectures](https://www.youtube.com/channel/UCUR_LsXk7IYyueSnXcNextQ) and [Matlab book](https://mitpress.mit.edu/books/matlab-brain-and-cognitive-scientists)   
+
+| Basic signal processing             
 | ------------       |
-| [1.1. installing tools](tutorials/html/Lab1_T1_decay_and_basic_matlab.html) [Download Matlab Live Script](tutorials/html/Lab1_T1_decay_and_basic_matlab.mlx)  
-| [1.2. load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
-| [1.3.  basic image visualization](canlab_help_2b_basic_image_visualization/canlab_help_2b_basic_image_visualization.html)
-| [1.4.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html)
-| [1.5.  Publishing results reports](canlab_help_2d_publish_a_report/canlab_help_2d_publish_a_report.html)
+| [1.1. T1 decay and basic Matlab orientation](tutorials/html/Lab1_T1_decay_and_basic_matlab.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |  
+| [1.2. Sinne .mlx](canlab_help_2_load_a_sample_dataset/sin_cos_fft.html) | [Download Matlab Live Script](tutorials/matlab/sin_cos_fft.mlx) |
+
+| The General Linear Model and fMRI designs             
+| ------------       |
+| [1.3.  basic image visualization](canlab_help_2b_basic_image_visualization/canlab_help_2b_basic_image_visualization.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |
+| [1.4.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |
+| [1.5.  Publishing results reports](canlab_help_2d_publish_a_report/canlab_help_2d_publish_a_report.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |
 
 | Basic analyses             
 | ------------       |
