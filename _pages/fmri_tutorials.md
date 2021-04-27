@@ -21,15 +21,23 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 | Basic signal processing             
 | ------------       |
 | [1.1. T1 decay and basic Matlab orientation](tutorials/html/Lab1_T1_decay_and_basic_matlab.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |  
-| [1.2. Sinne .mlx](canlab_help_2_load_a_sample_dataset/sin_cos_fft.html) | [Download Matlab Live Script](tutorials/matlab/sin_cos_fft.mlx) |
+| [1.2. Sine waves and the Fourier Transform](canlab_help_2_load_a_sample_dataset/sin_cos_fft.html) | [Download Matlab Live Script](tutorials/matlab/sin_cos_fft.mlx) |
 
 | The General Linear Model and fMRI designs             
 | ------------       |
-| [1.3.  basic image visualization](canlab_help_2b_basic_image_visualization/canlab_help_2b_basic_image_visualization.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |
-| [1.4.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |
-| [1.5.  Publishing results reports](canlab_help_2d_publish_a_report/canlab_help_2d_publish_a_report.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |
+| [2.1. fMRI Design Matrices and inference](tutorials/html/Construction_and_inference_with_simple_design.html) | [Download Matlab Live Script](tutorials/matlab/Construction_and_inference_with_simple_design.mlx) |
+| [2.2. fMRI Design Matrices and inference](tutorials/html/Design_construction_multiple_regressors.html) | [Download Matlab Live Script](tutorials/matlab/Design_construction_multiple_regressors.mlx) |
+| [2.3. Efficiency, colinearity, and variance inflation](tutorials/html/Efficiency_colinearity_and_variance_inflation.html) | [Download Matlab Live Script](tutorials/matlab/Efficiency_colinearity_and_variance_inflation.mlx) |
+| [2.4. Filtering and nuisance covariates](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
 
-| Basic analyses             
+| First-level models with SPM               
+| ------------       |
+| [3.1. Setting SPM defaults](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+| [3.2. The Pinel localizer dataset](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+| [3.3. First-level model using the SPM GUI](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+| [3.4. First-level model using CANlab tools](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+
+| Second-level models with CANlab tools            
 | ------------       |
 | [2.1. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
 | [2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
