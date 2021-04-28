@@ -13,6 +13,7 @@ This series of walkthroughs is designed to illustrate the principles of fMRI acq
 Code to run each walkthrough is included in the CANlab Core toolbox, and datasets are included or downloaded from Neurovault. See the main [CANlab intro page](/) for more on the philosophy behind the interactive analysis approach.
 
 This is *not* a comprehensive introduction to Matlab. It's assumed that you will use other resources to supplement your basic understanding how to work with Matlab, including:
+
 | Matlab's comprehensive built-in examples (type "doc" within Matlab)
 | Function help (type "help my_fun", where my_fun is the name of a function)
 | [Matlab Academy](https://matlabacademy.mathworks.com/) (free!), including the "Matlab Onramp" module and others)
@@ -26,7 +27,7 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 | The General Linear Model and fMRI designs             
 | ------------       |
 | [2.1. fMRI Design Matrices and inference](tutorials/html/Construction_and_inference_with_simple_design.html) | [Download Matlab Live Script](tutorials/matlab/Construction_and_inference_with_simple_design.mlx) |
-| [2.2. fMRI Design Matrices and inference](tutorials/html/Design_construction_multiple_regressors.html) | [Download Matlab Live Script](tutorials/matlab/Design_construction_multiple_regressors.mlx) |
+| [2.2. fMRI Design Matrices: Multiple regressors](tutorials/html/Design_construction_multiple_regressors.html) | [Download Matlab Live Script](tutorials/matlab/Design_construction_multiple_regressors.mlx) |
 | [2.3. Efficiency, colinearity, and variance inflation](tutorials/html/Efficiency_colinearity_and_variance_inflation.html) | [Download Matlab Live Script](tutorials/matlab/Efficiency_colinearity_and_variance_inflation.mlx) |
 | [2.4. High-pass Filtering](tutorials/html/high_pass_filtering.html) | [Download Matlab Live Script](tutorials/matlab/high_pass_filtering.mlx) |
 
