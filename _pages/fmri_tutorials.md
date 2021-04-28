@@ -28,7 +28,7 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 | [2.1. fMRI Design Matrices and inference](tutorials/html/Construction_and_inference_with_simple_design.html) | [Download Matlab Live Script](tutorials/matlab/Construction_and_inference_with_simple_design.mlx) |
 | [2.2. fMRI Design Matrices and inference](tutorials/html/Design_construction_multiple_regressors.html) | [Download Matlab Live Script](tutorials/matlab/Design_construction_multiple_regressors.mlx) |
 | [2.3. Efficiency, colinearity, and variance inflation](tutorials/html/Efficiency_colinearity_and_variance_inflation.html) | [Download Matlab Live Script](tutorials/matlab/Efficiency_colinearity_and_variance_inflation.mlx) |
-| [2.4. Filtering and nuisance covariates](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+| [2.4. High-pass Filtering](tutorials/html/high_pass_filtering.html) | [Download Matlab Live Script](tutorials/matlab/high_pass_filtering.mlx) |
 
 | First-level models with SPM               
 | ------------       |
