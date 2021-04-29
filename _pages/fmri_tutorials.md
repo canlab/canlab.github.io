@@ -14,10 +14,10 @@ Code to run each walkthrough is included in the CANlab Core toolbox, and dataset
 
 This is *not* a comprehensive introduction to Matlab. It's assumed that you will use other resources to supplement your basic understanding how to work with Matlab, including:
 
-| Matlab's comprehensive built-in examples (type "doc" within Matlab)
-| Function help (type "help my_fun", where my_fun is the name of a function)
-| [Matlab Academy](https://matlabacademy.mathworks.com/) (free!), including the "Matlab Onramp" module and others)
-| Other great resources, e.g., Michael X. Cohen's [YouTube lectures](https://www.youtube.com/channel/UCUR_LsXk7IYyueSnXcNextQ) and [Matlab book](https://mitpress.mit.edu/books/matlab-brain-and-cognitive-scientists)   
+* Matlab's comprehensive built-in examples (type "doc" within Matlab)
+* Function help (type "help my_fun", where my_fun is the name of a function)
+* [Matlab Academy](https://matlabacademy.mathworks.com/) (free!), including the "Matlab Onramp" module and others)
+* Other great resources, e.g., Michael X. Cohen's [YouTube lectures](https://www.youtube.com/channel/UCUR_LsXk7IYyueSnXcNextQ) and [Matlab book](https://mitpress.mit.edu/books/matlab-brain-and-cognitive-scientists)   
 
 | Basic signal processing             
 | ------------       |
@@ -30,9 +30,11 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 | [2.2. fMRI Design Matrices: Multiple regressors](tutorials/html/Design_construction_multiple_regressors.html) | [Download Matlab Live Script](tutorials/matlab/Design_construction_multiple_regressors.mlx) |
 | [2.3. Efficiency, colinearity, and variance inflation](tutorials/html/Efficiency_colinearity_and_variance_inflation.html) | [Download Matlab Live Script](tutorials/matlab/Efficiency_colinearity_and_variance_inflation.mlx) |
 | [2.4. High-pass Filtering](tutorials/html/high_pass_filtering.html) | [Download Matlab Live Script](tutorials/matlab/high_pass_filtering.mlx) |
+| [2.5. Nuisance Covariates](tutorials/html/nuisance_covariates.html) | [Download Matlab Live Script](tutorials/matlab/nuisance_covariates.mlx) |
 
-| First-level models with SPM               
+| First-level models with whole-brain data               
 | ------------       |
+| *Coming soon* |
 | [3.1. Setting SPM defaults](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
 | [3.2. The Pinel localizer dataset](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
 | [3.3. First-level model using the SPM GUI](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
@@ -40,6 +42,7 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 
 | Second-level models with CANlab tools            
 | ------------       |
+| *Some revisions coming soon* |
 | [2.1. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
 | [2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
 | [2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
