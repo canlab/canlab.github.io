@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "CANlab"
 title_separator          : "-"
 name                     : &name "CANlab fMRI analysis tools"
-description              : &description "Pain and Emotion at CU Boulder"
+description              : &description "Pain, Affect, and Motivation at Dartmouth College"
 url                      : https://canlab.github.io #   the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/about"
 repository               : "canlab.github.io"
@@ -79,9 +79,9 @@ analytics:
 # Site Author
 author:
   name             : "CANlab"
-  avatar           : "canlab_logo_mountains.png"
+  avatar           : "2019_CANlab_Dartmouth_Logo1.png"
   bio              : "A collection of tools for interactive analysis of neuroimaging data"
-  location         : "Boulder, CO"
+  location         : "Dartmouth College"
   employer         :
   googlescholar    :
   email            :
@@ -110,7 +110,7 @@ author:
   xing             :
   youtube          :
   wikipedia        :
-  cuwebsite        : "https://canlabweb.colorado.edu/"
+  cuwebsite        : "https://sites.dartmouth.edu/canlab/"
 
 
 # Reading Files
