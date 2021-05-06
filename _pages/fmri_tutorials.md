@@ -36,9 +36,10 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 | ------------       |
 | *Coming soon* |
 | [3.1. Setting SPM defaults](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
-| [3.2. The Pinel localizer dataset](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
-| [3.3. First-level model using the SPM GUI](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
-| [3.4. First-level model using CANlab tools](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+| [3.2. The Pinel localizer dataset](https://dartbrains.org/content/Download_Data.html) |  |
+| [3.3. First-level model using the SPM GUI](tutorials/html/preproc_basics_spm12.html) | [Download Matlab Live Script](tutorials/matlab/preproc_basics_spm12.mlx) |
+| [3.4. First-level model using the SPM GUI](tutorials/html/first_level_spm12.html) | [Download Matlab Live Script](tutorials/matlab/first_level_spm12.mlx) |
+| [3.5. First-level model using CANlab tools COMING SOON](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
 
 | Second-level models with CANlab tools            
 | ------------       |
