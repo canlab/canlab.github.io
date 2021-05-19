@@ -34,8 +34,7 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 
 | First-level models with whole-brain data               
 | ------------       |
-| *Coming soon* |
-| [3.1. Setting SPM defaults](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+| [3.1. Setting SPM defaults **coming soon**](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
 | [3.2. The Pinel localizer dataset](https://dartbrains.org/content/Download_Data.html) |  |
 | [3.3. Preprocessing basics using SPM](tutorials/html/preproc_basics_spm12.html) | [Download Matlab Live Script](tutorials/matlab/preproc_basics_spm12.mlx) |
 | [3.4. First-level model using the SPM GUI](tutorials/html/first_level_spm12.html) | [Download Matlab Live Script](tutorials/matlab/first_level_spm12.mlx) |
@@ -43,7 +42,6 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 
 | Second-level models with CANlab tools            
 | ------------       |
-| *Some revisions coming soon* |
 | [2.1. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
 | [2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
 | [2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
@@ -54,36 +52,9 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 
 | Multivariate predictive models           
 | ------------       |
-| [3.1. multivariate prediction with continuous outcomes](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
-| 3.2  Effect sizes with SVMs
-| [3.3. Apply a Multivariate Pattern of Interest](canlab_help_9_apply_a_multivariate_pattern_of_interest/canlab_help_9_apply_a_multivariate_pattern_of_interest.html)
-| [3.4. Bayes Factor Maps](EmoReg_BayesFactor_walkthrough/EmoReg_BayesFactor_walkthrough.html)
-| [3.5. Interpreting maps with riverplots](canlab_help_8_riverplot_cerebellar_atlas_example.m/canlab_help_8_riverplot_cerebellar_atlas_example.html)
-
-| Mediation analysis          
-| ------------       |
-| [4.1. mediation analysis](mediation_example_script_1/mediation_example_script_1.html)
-| [4.2. additional output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html)
-
-| Coordinate-based Meta-analysis          
-| ------------       |
-| [5.1. MKDA meta-analysis 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
+| [3.1. SVM on unpaired data using predict()](tutorials/html/canlab_SVM_on_unpaired_data_Kragel270.html) | [Download Matlab Live Script](tutorials/matlab/canlab_SVM_on_unpaired_data_Kragel270.mlx) |
+| [3.2. multivariate prediction with continuous outcomes](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
 ## Other tutorials
 
-[13. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
-
-[14. CANLab single trials demo](canlab_single_trials_demo/demo_norming_comparison.html)
-
-## Behavioral data and Plots
-
-[15. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
-
-[16. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
-
-[17. mixed effects models in Matlab and CANLab glmfit_multilevel](canlab_mixed_model_example/canlab_mixed_model_example.html)
-
-## Tutorials in progress
-Please note that the tutorials which follow are works in progress and of primary interest to advanced users.
-
-[Interpreting within and between subject components of PCR models](mlpcr_demo/mlpcr_demo.html)
+[CANlab code walkthrough](/walkthroughs)
