@@ -10,7 +10,7 @@ author_profile: true
 {% include base_path %}
 
 This series of walkthroughs is designed to illustrate the CANlab interactive analysis tools, and some analysis principles as well.
-Code to run each walkthrough is included in the CANlab core toolbox or on Neurovault. See the main [CANlab intro page](/) for more on the philosophy behind the interactive analysis approach.
+Code to run each walkthrough is included in the CANlab core toolbox or on Neurovault. See the main [CANlab intro page](/) for more on the philosophy behind the interactive analysis approach. These walkthroughs are mainly about using CANlab code and are not didactic. There is also another set of [didactic tutorials](/tutorials) using Matlab live scripts with more extensive explanations.
 
 | Getting started             
 | ------------       |

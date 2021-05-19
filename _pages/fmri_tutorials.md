@@ -19,6 +19,8 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 * [Matlab Academy](https://matlabacademy.mathworks.com/) (free!), including the "Matlab Onramp" module and others)
 * Other great resources, e.g., Michael X. Cohen's [YouTube lectures](https://www.youtube.com/channel/UCUR_LsXk7IYyueSnXcNextQ) and [Matlab book](https://mitpress.mit.edu/books/matlab-brain-and-cognitive-scientists)   
 
+These are didactic tutorials using Matlab live scripts. There is also a complementary set of [code walkthroughs](/walkthroughs) on using the CANlab object-oriented tools, with some overlap but unique information and code examples.
+
 | Basic signal processing             
 | ------------       |
 | [1.1. T1 decay and basic Matlab orientation](tutorials/html/Lab1_T1_decay_and_basic_matlab.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |  
@@ -34,21 +36,15 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 
 | First-level models with whole-brain data               
 | ------------       |
-| [3.1. Setting SPM defaults **coming soon**](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
-| [3.2. The Pinel localizer dataset](https://dartbrains.org/content/Download_Data.html) |  |
-| [3.3. Preprocessing basics using SPM](tutorials/html/preproc_basics_spm12.html) | [Download Matlab Live Script](tutorials/matlab/preproc_basics_spm12.mlx) |
-| [3.4. First-level model using the SPM GUI](tutorials/html/first_level_spm12.html) | [Download Matlab Live Script](tutorials/matlab/first_level_spm12.mlx) |
-| [3.5. First-level model using CANlab regress()](tutorials/html/first_level_canlab.html) | [Download Matlab Live Script](tutorials/matlab/first_level_canlab.mlx) |
+| [3.1. Setting SPM defaults - **coming soon**](tutorials/html/***.html) | [Download Matlab Live Script](tutorials/matlab/***.mlx) |
+| [Get the Pinel localizer dataset used here](https://dartbrains.org/content/Download_Data.html) |  |
+| [3.2. Preprocessing basics using SPM](tutorials/html/preproc_basics_spm12.html) | [Download Matlab Live Script](tutorials/matlab/preproc_basics_spm12.mlx) |
+| [3.3. First-level model using the SPM GUI](tutorials/html/first_level_spm12.html) | [Download Matlab Live Script](tutorials/matlab/first_level_spm12.mlx) |
+| [3.4. First-level model using CANlab regress()](tutorials/html/first_level_canlab.html) | [Download Matlab Live Script](tutorials/matlab/first_level_canlab.mlx) |
 
 | Second-level models with CANlab tools            
 | ------------       |
-| [2.1. group t-test](canlab_help_3_voxelwise_t_test_walkthrough/canlab_help_3_voxelwise_t_test_walkthrough.html)
-| [2.2. atlases and ROI analysis](canlab_help_3b_atlases_and_ROI_analysis/canlab_help_3b_atlases_and_ROI_analysis.html)
-| [2.3. Masking and writing Nifti image files](canlab_help_4_masking_and_writing_nifti_files/canlab_help_4_masking_and_writing_nifti_files.html)
-| [2.4. 3-D visualization on brain surfaces](canlab_help_4b_3D_visualization/canlab_help_4b_3D_visualization.html)
-| [2.5. Create and explore 1st-level design matrices](first_level_design_matrix_exploration/first_level_design_matrix_exploration.html)
-| [2.6. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
-| [2.7. Interpreting maps with Neurosynth topic similarity and wedge plots](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+| See [walkthroughs](/walkthroughs) |
 
 | Multivariate predictive models           
 | ------------       |
@@ -57,4 +53,4 @@ This is *not* a comprehensive introduction to Matlab. It's assumed that you will
 
 ## Other tutorials
 
-[CANlab code walkthrough](/walkthroughs)
+[CANlab code walkthroughs](/walkthroughs)
