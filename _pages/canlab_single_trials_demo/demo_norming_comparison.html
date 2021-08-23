@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>demo_norming_comparison</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-29"><meta name="DC.source" content="demo_norming_comparison.m"><style type="text/css">
+      --><title>demo_norming_comparison</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-08-21"><meta name="DC.source" content="demo_norming_comparison.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -72,17 +72,30 @@ t99 = tic;
 
 warning(<span class="string">'off'</span>,<span class="string">'all'</span>);
 
-addpath(genpath(<span class="string">'/projects/bope9760/CanlabCore/CanlabCore'</span>));
-addpath(genpath(<span class="string">'/projects/bope9760/spm12'</span>));
-addpath(genpath(<span class="string">'/projects/bope9760/single_trials_overview/repo'</span>)); <span class="comment">% single_trials repo</span>
-addpath(<span class="string">'/work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/'</span>); <span class="comment">% single trial data on blanca</span>
+addpath(genpath(<span class="string">'/dartfs-hpc/rc/home/m/f0042vm/software/canlab/CanlabCore/CanlabCore'</span>));
+addpath(<span class="string">'/dartfs-hpc/rc/home/m/f0042vm/software/spm12'</span>);
+addpath(genpath(<span class="string">'/dartfs-hpc/rc/home/m/f0042vm/software/canlab/canlab_single_trials'</span>)); <span class="comment">% single_trials repo</span>
+addpath(genpath(<span class="string">'/dartfs-hpc/rc/home/m/f0042vm/software/canlab/canlab_single_trials_private'</span>)); <span class="comment">% single_trials private repo</span>
+addpath(genpath(<span class="string">'/dartfs-hpc/rc/home/m/f0042vm/software/canlab/ooFmriDataObjML'</span>)); <span class="comment">% needed for cvpartition2</span>
+addpath(<span class="string">'/dartfs/rc/lab/C/CANlab/labdata/projects/canlab_single_trials_for_git_repo'</span>); <span class="comment">% single trial data on blanca</span>
 
+<span class="comment">% remove private repos from this list if you don't have access. Repos</span>
+<span class="comment">% accessible to the public are listed on the canlab_single_trials github</span>
+<span class="comment">% page and in its README.md file</span>
 st_datasets = {<span class="string">'nsf'</span>,<span class="string">'bmrk3pain'</span>,<span class="string">'bmrk3warm'</span>,<span class="string">'bmrk4'</span>,<span class="string">'bmrk5pain'</span>,<span class="keyword">...</span>
         <span class="string">'bmrk5snd'</span>,<span class="string">'remi'</span>,<span class="string">'scebl'</span>,<span class="string">'ie2'</span>,<span class="string">'ie'</span>,<span class="string">'exp'</span>,<span class="string">'levoderm'</span>,<span class="string">'stephan'</span>,<span class="keyword">...</span>
         <span class="string">'romantic'</span>,<span class="string">'ilcp'</span>};
 
 <span class="comment">% import studies, suppressing output to minimize clutter (it's long and</span>
-<span class="comment">% redundant with more detailed information we provide below)</span>
+<span class="comment">% redundant with more detailed information we provide below). This isn't</span>
+<span class="comment">% available in the public repo.</span>
+<span class="comment">% if you don't have access to the private repo you can substitute something</span>
+<span class="comment">% like this instead (but you may need to debug, this is a general sketch):</span>
+<span class="comment">% for i = 1:length(st_datasets)</span>
+<span class="comment">%   dat{i} = load_image_set(st_datasets{i}));</span>
+<span class="comment">%   dat{i}.metadata_table.study_id = i*ones(height(dat{i}.metadata_table),1);</span>
+<span class="comment">% end</span>
+<span class="comment">% all_dat = cat(dat{:}); clar dat;</span>
 cmd = <span class="string">'all_dat = load_image_set(''all_single_trials'')'</span>;
 fprintf(<span class="string">'cmd: %s\n'</span>,cmd);
 evalc(cmd);
@@ -120,7 +133,9 @@ Warning: The 'rows' input is not supported for cell array inputs.
 <span class="keyword">end</span>
 p = get(gcf,<span class="string">'Position'</span>);
 set(gcf,<span class="string">'Position'</span>,[p(1:2),1024,2048]);
-</pre><pre class="codeoutput">Warning: The 'rows' input is not supported for cell array inputs. 
+</pre><pre class="codeoutput">Direct calls to spm_defauts are deprecated.
+Please use spm('Defaults',modality) or spm_get_defaults instead.
+Warning: The 'rows' input is not supported for cell array inputs. 
 Warning: The 'rows' input is not supported for cell array inputs. 
 Warning: The 'rows' input is not supported for cell array inputs. 
 Warning: The 'rows' input is not supported for cell array inputs. 
@@ -182,7 +197,7 @@ parpool(4)
     <span class="comment">%   b) keep folds the same across algorithms (to reduce slicing</span>
     <span class="comment">%       related variance)</span>
     [~,~,subject_id] = unique(char(this_dat.metadata_table.subject_id),<span class="string">'rows'</span>,<span class="string">'stable'</span>);
-    cv = cvpartition2(ones(size(this_dat.dat,2),1), <span class="string">'KFOLD'</span>, 5, <span class="string">'Stratify'</span>, subject_id);
+    cv = cvpartition2(ones(size(this_dat.dat,2),1), <span class="string">'GroupKFold'</span>, 5, <span class="string">'Group'</span>, subject_id);
     fold_labels = zeros(size(this_dat.dat,2),1);
     <span class="keyword">for</span> j = 1:cv.NumTestSets
         fold_labels(cv.test(j)) = j;
@@ -217,7 +232,7 @@ parpool(4)
     z_t(i) = toc(t0);
 <span class="keyword">end</span>
 </pre><pre class="codeoutput">Starting parallel pool (parpool) using the 'local' profile ...
-connected to 4 workers.
+Connected to the parallel pool (number of workers: 4).
 
 ans = 
 
@@ -228,414 +243,32 @@ ans =
               Cluster: local
         AttachedFiles: {}
     AutoAddClientPath: true
-          IdleTimeout: 360 minutes (360 minutes remaining)
+          IdleTimeout: 30 minutes (30 minutes remaining)
           SpmdEnabled: true
 
 Evaluating study nsf
 Evaluating study bmrk3pain
-Evaluating study bmrk4
-Evaluating study bmrk5snd
-Loaded images:
-Loaded images:
-Loaded images:
-Loaded images:
-Evaluating study scebl
-Loaded images:
-Evaluating study ie
-Evaluating study bmrk5pain
-Loaded images:
-Loaded images:
 Evaluating study bmrk3warm
+Evaluating study bmrk4
+Number of unique values in dataset: 136162681  Bit rate: 27.02 bits
 Loaded images:
-Evaluating study levoderm
+Direct calls to spm_defauts are deprecated.
+Please use spm('Defaults',modality) or spm_get_defaults instead.
+Number of unique values in dataset: 129320823  Bit rate: 26.95 bits
 Loaded images:
-Evaluating study remi
+Direct calls to spm_defauts are deprecated.
+Please use spm('Defaults',modality) or spm_get_defaults instead.
+Number of unique values in dataset: 135864813  Bit rate: 27.02 bits
+Number of unique values in dataset: 140850219  Bit rate: 27.07 bits
 Loaded images:
-Evaluating study ie2
+Direct calls to spm_defauts are deprecated.
+Please use spm('Defaults',modality) or spm_get_defaults instead.
 Loaded images:
-Evaluating study romantic
-Loaded images:
-Evaluating study ilcp
-Loaded images:
-Evaluating study exp
-Loaded images:
-Evaluating study stephan
-Loaded images:
-</pre><h2 id="5">RESULTS</h2><p>MSE, correlation between predicted and aboserved and run time for cross validated predictions are provided below.</p><p>Performance metrics are evaluated using a repeated measures statistical design. Pearson correlations are z-fisher transformed and compared using rm-ANOVA and Tukey post-hoc tests. Because MSE values are skewed, and duration may not be normally distributed either, these are evaluated using the Friedman test, a nonparametric repeated measures rank test. Post-hoc tests on ranks are performed using an exact test (see exactfrsd for method citation) which evaluates the likelihood of a rank sum given all combinatorial possibilities of ranks.</p><h2 id="6">MSE performance metrics</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
-y = [d_cverr(:), c_cverr(:), l2_cverr(:), z_cverr(:)];
-scales = {<span class="string">'default'</span>,<span class="string">'centered'</span>,<span class="string">'normed'</span>,<span class="string">'zscored'</span>};
+Direct calls to spm_defauts are deprecated.
+Please use spm('Defaults',modality) or spm_get_defaults instead.
+Training...training svr kernel linear epsilon=0.1 C=1 optimizer=andre.... 
 
-[p, ~, stats] = friedman(y,1,<span class="string">'off'</span>);
-h = barplot_columns(log(y),x,<span class="string">'dolines'</span>);
-set(gca,<span class="string">'XTick'</span>,1:size(y,2),<span class="string">'XTickLabels'</span>,scales)
-xlabel(<span class="string">'Scaling'</span>)
-ylabel({<span class="string">'log(MSE)'</span>,<span class="string">'(cross validated)'</span>})
-title({<span class="string">'Prediction performace across 15 datasets'</span>,sprintf(<span class="string">'Friedman p = %0.3f'</span>,p)});
-a = gca;
-a.Title.FontSize = 14;
-set(gcf,<span class="string">'Tag'</span>,<span class="string">'barplot1'</span>)
-
-<span class="comment">% (post hoc rank test)</span>
-pairwise_dif = multcompare(stats,<span class="string">'display'</span>,<span class="string">'off'</span>);
-d = pairwise_dif(:,4)*n_studies;
-k = size(y,2);
-n =  n_studies;
-p = zeros(length(d),1);
-<span class="keyword">for</span> i = 1:length(d), p(i) = exactfrsd(d(i),k,n); <span class="keyword">end</span>
-
-disp(<span class="string">'Post-hoc tests'</span>);
-table(scales(pairwise_dif(:,1))', scales(pairwise_dif(:,2))', pairwise_dif(:,4), p(:),<span class="keyword">...</span>
-    <span class="string">'VariableNames'</span>, {<span class="string">'Model_1'</span>, <span class="string">'Model_2'</span>, <span class="string">'Mean_Rank_Difference'</span>, <span class="string">'pValue'</span>})
-</pre><pre class="codeoutput">Column   1:	Column   2:	Column   3:	Column   4:	
----------------------------------------------
-Tests of column means against zero
----------------------------------------------
-      Name       Mean_Value    Std_Error      T           P         Cohens_d
-    _________    __________    _________    ______    __________    ________
-
-    'Col   1'     0.40846      0.088376     4.6218    0.00039572     1.1933 
-    'Col   2'        0.41      0.089463     4.5829    0.00042607     1.1833 
-    'Col   3'      0.2428       0.02813     8.6316    5.5934e-07     2.2287 
-    'Col   4'     0.22822      0.028577      7.986    1.3976e-06      2.062 
-
-Post-hoc tests
-
-ans =
-
-  6&times;4 table
-
-     Model_1       Model_2      Mean_Rank_Difference      pValue  
-    __________    __________    ____________________    __________
-
-    'default'     'centered'              0.2              0.72615
-    'default'     'normed'             1.2667            0.0078688
-    'default'     'zscored'               2.4           1.6663e-08
-    'centered'    'normed'             1.0667             0.027187
-    'centered'    'zscored'               2.2           5.1484e-07
-    'normed'      'zscored'            1.1333             0.018415
-
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_02.png" alt=""> <h2 id="7">pearson-r performance metrics</h2><pre class="codeinput">r = cellfun(@(x1)(x1.pred_outcome_r),d_stats);
-c_r = cellfun(@(x1)(x1.pred_outcome_r),c_stats);
-l2_r = cellfun(@(x1)(x1.pred_outcome_r),l2_stats);
-z_r = cellfun(@(x1)(x1.pred_outcome_r),z_stats);
-x = repmat([1,2,3,4],n_studies,1);
-y = [r(:), c_r(:), l2_r(:), z_r(:)];
-
-zr = atanh(y);
-t = table(st_datasets',zr(:,1),zr(:,2),zr(:,3),zr(:,4),<span class="string">'VariableNames'</span>,{<span class="string">'st'</span>,<span class="string">'mod1'</span>,<span class="string">'mod2'</span>,<span class="string">'mod3'</span>,<span class="string">'mod4'</span>});
-Mod = table(scales',<span class="string">'VariableNames'</span>,{<span class="string">'Scaling'</span>});
-m = fitrm(t,<span class="string">'mod1-mod4 ~ 1'</span>,<span class="string">'WithinDesign'</span>,Mod);
-p = m.ranova.pValue;
-h = barplot_columns(y,x,<span class="string">'dolines'</span>);
-set(gca,<span class="string">'XTick'</span>,1:size(y,2),<span class="string">'XTickLabels'</span>,scales)
-xlabel(<span class="string">'Scaing'</span>)
-ylabel({<span class="string">'predicted r'</span>,<span class="string">'(cross validated)'</span>})
-title({<span class="string">'Prediction performace across 15 datasets'</span>,sprintf(<span class="string">'rm-ANOVA p = %0.3f'</span>,p(1))});
-a = gca;
-a.Title.FontSize = 14;
-set(gcf,<span class="string">'Tag'</span>,<span class="string">'barplot2'</span>)
-
-<span class="comment">% (post hoc tuckey-test)</span>
-disp(<span class="string">'Post-hoc tests'</span>);
-multcompare(m,<span class="string">'Scaling'</span>)
-</pre><pre class="codeoutput">Column   1:	Column   2:	Column   3:	Column   4:	
----------------------------------------------
-Tests of column means against zero
----------------------------------------------
-      Name       Mean_Value    Std_Error      T           P         Cohens_d
-    _________    __________    _________    ______    __________    ________
-
-    'Col   1'     0.19636      0.023655     8.3011     8.885e-07     2.1433 
-    'Col   2'     0.19556      0.023632     8.2751    9.2194e-07     2.1366 
-    'Col   3'      0.2049      0.025492     8.0379    1.2961e-06     2.0754 
-    'Col   4'     0.20714      0.025867     8.0082    1.3532e-06     2.0677 
-
-Post-hoc tests
-
-ans =
-
-  12&times;7 table
-
-    Scaling_1     Scaling_2     Difference       StdErr      pValue        Lower         Upper   
-    __________    __________    ___________    __________    _______    ___________    __________
-
-    'centered'    'default'     -0.00084999    0.00060412    0.51554     -0.0026059    0.00090594
-    'centered'    'normed'         -0.01002      0.013627    0.88129      -0.049627      0.029587
-    'centered'    'zscored'        -0.01245      0.013334     0.7876      -0.051207      0.026307
-    'default'     'centered'     0.00084999    0.00060412    0.51554    -0.00090594     0.0026059
-    'default'     'normed'       -0.0091697      0.013522    0.90366      -0.048472      0.030132
-    'default'     'zscored'         -0.0116      0.013278    0.81829      -0.050195      0.026994
-    'normed'      'centered'        0.01002      0.013627    0.88129      -0.029587      0.049627
-    'normed'      'default'       0.0091697      0.013522    0.90366      -0.030132      0.048472
-    'normed'      'zscored'      -0.0024305     0.0020301    0.63841      -0.008331     0.0034701
-    'zscored'     'centered'        0.01245      0.013334     0.7876      -0.026307      0.051207
-    'zscored'     'default'          0.0116      0.013278    0.81829      -0.026994      0.050195
-    'zscored'     'normed'        0.0024305     0.0020301    0.63841     -0.0034701      0.008331
-
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_03.png" alt=""> <h2 id="8">evaluation time</h2><pre class="codeinput">x = repmat([1,2,3,4],n_studies,1);
-y = [d_t,c_t,l2_t,z_t]/60;
-
-[p, ~, stats] = friedman(y,1,<span class="string">'off'</span>);
-barplot_columns(y,x,<span class="string">'dolines'</span>);
-set(gca,<span class="string">'XTick'</span>,[1,2,3,4],<span class="string">'XTickLabels'</span>,scales)
-xlabel(<span class="string">'Scaling'</span>)
-ylabel({<span class="string">'Evaluation Time (min)'</span>,<span class="string">'(5-folds)'</span>})
-title({<span class="string">'Compute time across 15 datasets'</span>,sprintf(<span class="string">'Friedman p = %0.3f'</span>,p)});
-a = gca;
-a.Title.FontSize = 14;
-set(gcf,<span class="string">'Tag'</span>,<span class="string">'barplot3'</span>);
-
-<span class="comment">% (post hoc rank test)</span>
-pairwise_dif = multcompare(stats,<span class="string">'display'</span>,<span class="string">'off'</span>);
-
-d = pairwise_dif(:,4)*n_studies;
-k = size(y,2);
-n =  n_studies;
-<span class="keyword">for</span> i = 1:length(d), p(i) = exactfrsd(d(i),k,n); <span class="keyword">end</span>
-
-disp(<span class="string">'Post-hoc tests'</span>);
-table(scales(pairwise_dif(:,1))', scales(pairwise_dif(:,2))', pairwise_dif(:,4), p(:),<span class="keyword">...</span>
-    <span class="string">'VariableNames'</span>, {<span class="string">'Model_1'</span>, <span class="string">'Model_2'</span>, <span class="string">'Mean_Rank_Difference'</span>, <span class="string">'pValue'</span>})
-</pre><pre class="codeoutput">Column   1:	Column   2:	Column   3:	Column   4:	
----------------------------------------------
-Tests of column means against zero
----------------------------------------------
-      Name       Mean_Value    Std_Error      T           P         Cohens_d
-    _________    __________    _________    ______    __________    ________
-
-    'Col   1'      25.048       4.5146      5.5483    7.1763e-05     1.4326 
-    'Col   2'      24.528       4.3959      5.5796    6.7877e-05     1.4407 
-    'Col   3'      24.326       4.2398      5.7376    5.1346e-05     1.4814 
-    'Col   4'      24.058       4.1608       5.782    4.7504e-05     1.4929 
-
-Post-hoc tests
-
-ans =
-
-  6&times;4 table
-
-     Model_1       Model_2      Mean_Rank_Difference     pValue 
-    __________    __________    ____________________    ________
-
-    'default'     'centered'            1.0667          0.027187
-    'default'     'normed'                 0.6           0.23158
-    'default'     'zscored'            0.86667          0.076716
-    'centered'    'normed'            -0.46667           0.36128
-    'centered'    'zscored'               -0.2           0.72615
-    'normed'      'zscored'            0.26667           0.62375
-
-</pre><img vspace="5" hspace="5" src="demo_norming_comparison_04.png" alt=""> <h2 id="9">CONCLUSIONS</h2><p>dividing by l2 norm and zscoring scaling procedures lead to improvement in performance as assessed by MSE, the centering effect is nonsignificant, and zscoring is significantly better than norming, but no methods show significantly better pearson-r based performance than any other method. The trends in pearson-r mirror the direction of effects seen for MSE though.</p><p>The improvements in MSE obtained are obtained in significantly less time for zscores than normed or raw data.</p><p>The differences between performance when training on raw data or on zscored data are minor, suggesting results are robust with respect to scaling decisions. Thus, models can be trained and applied to zscored trial maps to facilitate generalization between datasets, with little to no loss of task relevant information, or any real effect on meaningful signal capture whatsoever.</p><p>This does not mean that equivalent predictive maps are obtained across scaling procedures, or that the information removed is not biologically meaningful. However, if this information is meaningful, it appears to not be unique, and similar information can be obtained from the scaled pattern information. Further investigation is needed to establish whether the signal removed by rescaling has biological or task significance.</p><h2 id="10">NOTES</h2><p>this script was prototyped on quartiled data using the fmri_data_st/quintileByY method. Running on single trials takes too long to be practical when develping or debugging code, and this code was only run on single trial data at the very end to generate this output you see here.</p><pre class="codeinput">fprintf(<span class="string">'Script runtime (min): %.2f\n'</span>,toc(t99)/60);
-</pre><pre class="codeoutput">Script runtime (min): 647.37
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
-##### SOURCE BEGIN #####
-%% INTRODUCTION
-% This page demonstrates how to use the (private) single trials dataset to 
-% formally compare algorithm performance, using the borderline trivial 
-% case of comparing performance under different rescaling procedures. It is 
-% simple to implement, and despite its conceptual simplicity is an 
-% unanswered question as of the time of this writing.
-%
-% Single trial coefficients vary considerably across studies in systematic
-% ways. Although different experimental conditions are expected to yeild
-% different coefficient maps, there are considerable differences in the
-% basic statistical features of these maps across studies which are more
-% likely due to differences in statistical design than experimental design,
-% and are thus unintended artifacts of the analysis procedure. In order to 
-% predict outcomes in one study based on models fit in another study we 
-% need to minimize variation due to statistical design choices, in
-% particular spurious differenes in the statistical properties of these
-% coefficients. 
-%
-% Additionally, parametric statistical maps in fMRI often use arbitrary 
-% units. Not only is the scale of outcome measures often arbitrary (for
-% instance a pain rating scale might vary form 0-8 or 0-100. There may be
-% anchors throughout the scale or only at the ends, it might be logarithmic
-% or it might be linear; there are few conventions), but the preditor (the 
-% BOLD signal) is also not a reliable absolute measure (the situation might 
-% be different with something like arterial spin labeling). This suggests 
-% the scale of the parametric map (which is typically in unis of DV/IV) 
-% might be arbitrary.
-%
-% Studies with similar task conditions often show differences in the 
-% magnitude (mean and variance) of coefficient estimates, leading to use of 
-% mean centering trials, l2-norming trials or z-scoring trials, in an 
-% attempt to correct for these artifacts. However, whether these scaling
-% procedures remove task relevant biological information or not remains an 
-% open empirical question.
-%
-% Here we use 5-fold cross validation in each of 15 datasets to establish
-% whether within study predictive accuracy is improved or harmed by any of
-% these three scaling procedures. The presumption is that within study the
-% statistical design is invariant, and any change in performance due to
-% these scaling procedures can therefore be attributed to a loss of
-% sensitivity for biologically meaningful consequences of the experimental
-% design. By examining 15 datasets we can informally differentiate 
-% variantion in performance due to chance, vs. systematic differences due
-% to scaling choices, and thereby inform application of these scaling
-% procedures to future MVPA decoding methods.
-%
-% We use SVR as a method of MVPA based brain decoding, but similar results
-% would be expected with many other linear machine learning algorithms
-% (e.g. PCR). SVR is simply used for its performance advantage.
-
-close all; clear all;
-
-t99 = tic;
-
-warning('off','all');
-
-addpath(genpath('/projects/bope9760/CanlabCore/CanlabCore'));
-addpath(genpath('/projects/bope9760/spm12'));
-addpath(genpath('/projects/bope9760/single_trials_overview/repo')); % single_trials repo
-addpath('/work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/'); % single trial data on blanca
-
-st_datasets = {'nsf','bmrk3pain','bmrk3warm','bmrk4','bmrk5pain',...
-        'bmrk5snd','remi','scebl','ie2','ie','exp','levoderm','stephan',...
-        'romantic','ilcp'};
-
-% import studies, suppressing output to minimize clutter (it's long and 
-% redundant with more detailed information we provide below)
-cmd = 'all_dat = load_image_set(''all_single_trials'')';
-fprintf('cmd: %s\n',cmd);
-evalc(cmd);
-
-n_studies = length(st_datasets);
-study_id = all_dat.metadata_table.study_id;
-[uniq_study_id, ~, study_id] = unique(study_id,'rows','stable');
-
-%% Study descriptive statistics
-% notice how across studies each subject shows different mean (circle) and
-% standard deviations (whiskers). Note the x-axis scales. For a model fit 
-% to one of these studies to make accurate prediction in a different study
-% with a different \beta domain, the model would need to successfully
-% extrapolate to that different \beta domain outside of its training space.
-% This has very low probability of success, since our models are all linear
-% approximations of the brain response, which is in all likelihood
-% intrinsically nonlinear.
-%
-% Thus, we have little hope of obtaining accurate absolute predictions in 
-% any other study if these \beta effects are task relevant and biologically 
-% meaningful. If they are artifacts of statistical design then it should 
-% be possible to approximately correct for them using rescaling procedures.
-
-%% Raw data
-
-figure;
-for i = 1:n_studies
-    this_idx = find(i == study_id);
-    this_dat = all_dat.get_wh_image(this_idx);
-    
-    subject_id = this_dat.metadata_table.subject_id;
-    [uniq_subject_id, ~, subject_id] = unique(subject_id,'rows','stable');
-    
-    subplot(ceil(sqrt(n_studies)), ceil(n_studies/ceil(sqrt(n_studies))), i);
-    hold off
-    for j = 1:length(uniq_subject_id)
-        subj_idx = j == subject_id;
-        this_subj_dat = this_dat.dat(:,subj_idx);
-        q(j,:) = quantile(this_subj_dat(:),[0.025,0.5,0.975]);
-        mu = mean(mean(this_subj_dat(:)));
-        sd = std(this_subj_dat(:));
-        h1 = plot([mu-sd, mu+sd],[j,j],'-');
-        hold on;
-        h2 = plot(mu,j,'o');
-        h2.Color = h1.Color;
-    end
-    box off
-    title(['Distribution of ', uniq_study_id{i}]);
-    xlabel('\beta');
-    ylabel('Subj');
-end
-p = get(gcf,'Position');
-set(gcf,'Position',[p(1:2),1024,2048]);
-
-%% METHODS
-% compute raw data, centered, l2normed and zscored images for continuous 
-% outcome prediction statistics. Fit SVR models to each, and compute
-% 5-fold cross validated predictions of outcomes. See RESULTS comments for 
-% subsequent statistical design methodology.
-
-% we don't have the memory to keep all studies in RAM at once for this next
-% step, so we clear them and will process one study at a time
-clear all_dat
-
-n_studies = length(st_datasets);
-
-[d_cverr, c_cverr, l2_cverr, z_cverr,...
-    d_t, c_t, l2_t, z_t] = deal(zeros(n_studies,1));
-[d_stats, d_optout, ...
-    c_stats, c_optout, ...
-    l2_stats, l2_optout, ...
-    z_stats, z_optout] = deal(cell(n_studies,1));
-
-if ~isempty(gcp('nocreate'))
-    delete(gcp('nocreate'));
-end
-parpool(4)
-% run each algorithm on each study and save results
-parfor i = 1:n_studies
-    warning('off','all');
-    fprintf('Evaluating study %s\n',st_datasets{i});
-    this_study = st_datasets{i};
-    
-    this_dat = load_image_set(this_study,'verbose', 0);
-    
-    % for completion datasets retain trials with invalid responses, so
-    % remove them
-    this_dat = this_dat.get_wh_image(~isnan(this_dat.Y));
-    % this can be removed after dataset update
-    this_dat = this_dat.remove_empty;
-    for j = 1:size(this_dat.dat,2)
-        this_dat.dat(isnan(this_dat.dat(:,j)),1) = 0;
-    end
-    
-    % this is where you quartile the data if you want that
-    
-    % zscore outcome for more interpretable values of prediction MSE
-    % and for easier comparison across studies (which use different outcome
-    % scales otherwise)
-    this_dat.Y = zscore(this_dat.Y);
-    
-    % manually select CV folds to
-    %   a) ensure subjects aren't split across test folds (required for
-    %       independence assumptions to be satisifed in CV)
-    %   b) keep folds the same across algorithms (to reduce slicing
-    %       related variance)
-    [~,~,subject_id] = unique(char(this_dat.metadata_table.subject_id),'rows','stable');
-    cv = cvpartition2(ones(size(this_dat.dat,2),1), 'KFOLD', 5, 'Stratify', subject_id);
-    fold_labels = zeros(size(this_dat.dat,2),1);
-    for j = 1:cv.NumTestSets
-        fold_labels(cv.test(j)) = j;
-    end
-    
-    this_dat_c = this_dat.rescale('centerimages');
-    this_dat_l2 = this_dat.rescale('l2norm_images');
-    this_dat_z = this_dat.rescale('zscoreimages');
-    
-    % default
-    t0 = tic;
-    [d_cverr(i), d_stats{i}, d_optout{i}] = predict(this_dat, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
-    d_t(i) = toc(t0);
-        
-    % centered
-    t0 = tic;
-    [c_cverr(i), c_stats{i}, c_optout{i}] = predict(this_dat_c, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
-    c_t(i) = toc(t0);
-    
-    % l2normed
-    t0 = tic;
-    [l2_cverr(i), l2_stats{i}, l2_optout{i}] = predict(this_dat_l2, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
-    l2_t(i) = toc(t0);
-    
-    % zscored
-    t0 = tic;
-    [z_cverr(i), z_stats{i}, z_optout{i}] = predict(this_dat_z, 'algorithm_name', 'cv_svr', ...
-        'nfolds', fold_labels, 'error_type', 'mse', 'useparallel', 0, 'verbose', 0);    
-    z_t(i) = toc(t0);
-end
+[Output suppressed, it's long and not interesting]
     
 %% RESULTS
 % MSE, correlation between predicted and aboserved and run time for cross
