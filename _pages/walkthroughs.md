@@ -42,9 +42,9 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | Mediation analysis          
 | ------------       |
 | [4.1. Mediation and M3 Toolbox basics](tutorials/html/mediation_1_basics.html) | [Download Matlab Live Script](tutorials/matlab/mediation_1_basics.mlx) |  
-| [4.2. Single-level Mediation Effect Parametric Mapping (fMRI)](mediation_example_script_1/mediation_example_script_1.html) | Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |
-| [4.3. additional single-level MEPM output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html) |
-| [4.4. Multilevel Mediation Effect Mapping (fMRI)](tutorials/html/mediation_brain_multilevel_walkthrough1.html) | [Download Matlab Live Script](tutorials/matlab/mediation_brain_multilevel_walkthrough1.mlx) | 
+| [4.2. Single-level Mediation Effect Parametric Mapping (fMRI)](mediation_example_script_1/mediation_example_script_1.html) | [Download Matlab Script 1](tutorials/matlab/mediation_brain_single_level_walkthrough1.m) [Script 2](tutorials/matlab/mediation_brain_single_level_walkthrough2.m) |
+| [4.3. additional single-level MEPM output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html) |  |
+| [4.4. Multilevel Mediation Effect Mapping (fMRI)](tutorials/html/mediation_brain_multilevel_walkthrough1.html) | [Download Matlab Live Script](tutorials/matlab/mediation_brain_multilevel_walkthrough1.mlx) |
 
 | Coordinate-based Meta-analysis          
 | ------------       |
