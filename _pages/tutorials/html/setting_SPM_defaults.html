@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2020b"><title>Setting SPM defaults</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(213, 80, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S2 { margin: 20px 10px 5px 4px; padding: 0px; line-height: 20px; min-height: 0px; white-space: pre-wrap; color: rgb(60, 60, 60); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.S3 { margin: 10px 0px 20px; padding-left: 0px; font-family: Helvetica, Arial, sans-serif; font-size: 14px;  }
+.S4 { margin-left: 56px; line-height: 21px; min-height: 0px; text-align: left; white-space: pre-wrap;  }
+.CodeBlock { background-color: #F7F7F7; margin: 10px 0 10px 0;}
+.S5 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 1px solid rgb(233, 233, 233); border-bottom: 0px none rgb(0, 0, 0); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S6 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 0px none rgb(0, 0, 0); border-bottom: 1px solid rgb(233, 233, 233); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S7 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S8 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 0px none rgb(0, 0, 0); border-bottom: 0px none rgb(0, 0, 0); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S9 { margin: 15px 10px 5px 4px; padding: 0px; line-height: 18px; min-height: 0px; white-space: pre-wrap; color: rgb(60, 60, 60); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 17px; font-weight: 700; text-align: left;  }
+.S10 { border-left: 1px solid rgb(233, 233, 233); border-right: 1px solid rgb(233, 233, 233); border-top: 1px solid rgb(233, 233, 233); border-bottom: 1px solid rgb(233, 233, 233); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 17.234px; min-height: 18px; white-space: nowrap; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }</style></head><body><div class = rtcContent><h1  class = 'S0'><span>Setting SPM defaults</span></h1><div  class = 'S1'><span>This tutorial is about running first-level (single-subject) fMRI analyses with </span><a href = "https://www.fil.ion.ucl.ac.uk/spm/"><span>Statstical Parametric Mapping (SPM) software</span></a><span>. </span></div><div  class = 'S1'><span>SPM has many default options, and mostly they're sensible. There are a few places where you can go very wrong by using the default values without thinking of them, however!  We'll go through a few that are important to consider.</span></div><h2  class = 'S2'><span style=' font-weight: bold;'>General Recommendations</span></h2><ul  class = 'S3'><li  class = 'S4'><span>Standardize the default options for your analysis group (i.e., lab)</span></li><li  class = 'S4'><span>Make sure that all computers used for analysis use the same defaults, to avoid unexpected results</span></li><li  class = 'S4'><span>Don't rely solely on the defaults - some studies will require different choices, or selection of choices based on characteristics of the experimental design and data.</span></li><li  class = 'S4'><span>Check the output of your SPM models, especially the mask of which voxels are analyzed and the filtering/autocorrelation options saved in the SPM.mat file in your first-level model output.</span></li></ul><h2  class = 'S2'><span>Which files to edit</span></h2><div  class = 'S1'><span>There are a couple of options for setting defaults. First, you can edit the file </span><span style=' font-weight: bold; font-family: monospace;'>spm_defaults.m</span><span> in the copy of SPM you're running. Try:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre;"><span>which </span><span style="color: rgb(170, 4, 249);">spm_defaults</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'><span style="white-space: pre;"><span>edit </span><span style="color: rgb(170, 4, 249);">spm_defaults</span></span></div></div></div><div  class = 'S7'><span>Second, you can create a file called </span><span style=' font-weight: bold; font-family: monospace;'>spm_my_defaults.m</span><span> somewhere on your Matlab path.</span></div><h2  class = 'S2'><span>What to change</span></h2><div  class = 'S1'><span>Here is an overview of what we recommend changing. You'd edit these lines in </span><span style=' font-weight: bold; font-family: monospace;'>spm_defaults.m</span><span>, or include them in </span><span style=' font-weight: bold; font-family: monospace;'>spm_my_defaults.m. </span><span>We'll cover </span><span style=' font-style: italic; text-decoration: underline;'>why</span><span> to do this below.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(14, 0, 255);">global </span><span class="nonlocalVariableHighlighting">defaults</span><span>                         </span><span style="color: rgb(2, 128, 9);">% only need to add for the spm_my_defaults.m option </span></span></div></div><div class="inlineWrapper"><div  class = 'S8'></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">% fMRI design defaults</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%==========================================================================</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.fmri.hpf = 180;          </span><span style="color: rgb(2, 128, 9);">% tor changed; 128 can be too low; should choose yourself % 128;</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.fmri.cvi = </span><span style="color: rgb(170, 4, 249);">'None'</span><span>;       </span><span style="color: rgb(2, 128, 9);">% tor changed. 'AR(1)', 'None', 'FAST'</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">% Mask defaults</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%==========================================================================</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.mask.thresh = -Inf; </span><span style="color: rgb(2, 128, 9);">% tor changed; Was 0.8.&nbsp; 0.8 performed implicit masking and made explicit masking impossible (may be fixed?)</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'></div></div><div class="inlineWrapper"><div  class = 'S8'></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">% Stats defaults</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%==========================================================================</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.maxmem    = 2^33; </span><span style="color: rgb(2, 128, 9);">% tor modified. 2^33 = 8.59 GB. Was 2^28; depends on your memory.</span></span></div></div><div class="inlineWrapper"><div  class = 'S8'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.topoFDR   = 0;    </span><span style="color: rgb(2, 128, 9);">% tor modified.&nbsp; Was 1 for "topological FDR" on peaks. &nbsp;</span></span></div></div><div class="inlineWrapper"><div  class = 'S6'></div></div></div><h2  class = 'S2'><span>Why?</span></h2><div  class = 'S1'><span>Let's go through line by line and discuss why.</span></div><h3  class = 'S9'><span>High-pass filtering</span></h3><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S10'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.fmri.hpf = 180;          </span><span style="color: rgb(2, 128, 9);">% tor changed; 128 can be too low; should choose yourself % 128;</span></span></div></div></div><div  class = 'S7'><span>The default is 128-sec high pass filter, which means that any design-related variance (aka "real signal") that is slower than 1/128 Hz = 0.0078 Hz will be filtered out.  If you have a block design with 25 sec on/off alternating periodicity, this is fine.  But if you have:</span></div><ul  class = 'S3'><li  class = 'S4'><span> on/off blocks that are 40 sec long (80 sec periodicity)</span></li><li  class = 'S4'><span>3 blocks that are 20 sec long and alternate pseudorandomly, so that 2 blocks of the same type may appear next to each other</span></li><li  class = 'S4'><span>Long trials, e.g., a working memory study with a 20+ sec delay interval and a response probe like </span><a href = "https://www.sciencedirect.com/science/article/pii/S1053811903006840"><span>this one</span></a><span>, or pain epochs separated by 30-60 sec like those included in </span><a href = "https://www.sciencedirect.com/science/article/pii/S1053811915009982"><span>this study</span></a><span> </span></li><li  class = 'S4'><span>Other designs with energy (variance) at slower periodicities (&gt; about 50-60 sec)</span></li></ul><div  class = 'S1'><span>...then </span><span style=' font-weight: bold;'>a substantial proportion of your true signal will be filtered out!!</span></div><div  class = 'S1'><span>If you have a randomized event-related design in which multiple events may be clumped together, the default may be problematic!  You can check this by looking at the cumulartive variance in your design at different frequencies and comparing it to the energy of the noise at those frequencies (e.g., </span><span style=' font-weight: bold; font-family: monospace;'>scn_spm_design_check.m</span><span> in CANlab Core Tools). </span></div><div  class = 'S1'><span>...but in general, 180 sec is a safer default.</span></div><h3  class = 'S9'><span>Autocorrelation estimation</span></h3><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S10'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.fmri.cvi = </span><span style="color: rgb(170, 4, 249);">'None'</span><span>;       </span><span style="color: rgb(2, 128, 9);">% tor changed. 'AR(1)', 'None', 'FAST'</span></span></div></div></div><div  class = 'S7'><span>Estimating the autocorrelation using a noise AR model or similar can improve efficiency (i.e., power) if the noise model is accurate. But if the noise model is misspecified (inaccurate) or its parameters are poorly estimated (imprecise), then it can be worse than doing nothing.</span></div><div  class = 'S1'><span>The default AR(1) model in SPM is a linear approximation of an AR(1) model that assumes autocorrelation is uniform everywhere in the brain  (at least in regions that count as important). It's not. And short, noisy time series are not well suited to precisely estimating AR-model parameters.  </span></div><div  class = 'S1'><span>In our experience, we've seen AR models perform very poorly in fMRI data. </span></div><div  class = 'S1'><span>The good news is that group analyses are valid and unbiased even if no autocorrelation model is used at the first level. This is because the betas (regression slopes) are unbiased estimators -- i.e., they are not systematically "wrong", and your group model will thus not be wrong. They simply lose efficiency (are more variable) in the absence of a good noise model.</span></div><div  class = 'S1'><span>Our default choice for SPM AR modeling is "none" (don't do it). You might consider using it if you:</span></div><ul  class = 'S3'><li  class = 'S4'><span>Want to make inferences about single subjects' activation and need to do this to have a hope of obtaining valid single-subject P-values</span></li><li  class = 'S4'><span>Have lots of high-quality time series data per person (e.g., lots of within-peson data)</span></li></ul><div  class = 'S1'><span>...but in these cases, consider using diferent software for this, like FSL.</span></div><h3  class = 'S9'><span>Masking</span></h3><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S10'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.mask.thresh = -Inf; </span><span style="color: rgb(2, 128, 9);">% tor changed; Was 0.8.&nbsp; 0.8 performed implicit masking and made explicit masking impossible (may be fixed?)</span></span></div></div></div><div  class = 'S7'><span>By default, SPM masks out voxels that are below 20% of the global mean image value for a given subject -- that is, values that are not very intense in the images.</span></div><div  class = 'S1'><span>However, inhomogeneity in the raw values of fMRI images exists for lots of reasons. For example, some sequences tend to produce brighter values in the center of the brain (e.g., spiral sequences). </span></div><div  class = 'S1'><span>And even if overall signal intesity is low (e.g., in areas subject to susceptibility artifacts like the ventromedial prefrontal cortex, medial temporal lobes, and amygdala), if it correlates meaningfully with your task design in a way that is consistent across participants, there might be important true effects there. Low overall intensity makes it less likely you'll obtain strong statistical results, but does not invalidate positive statistical findings.</span></div><div  class = 'S1'><span>In SPM, voxels that are missing (not analyzed) for one subject are also missing in any SPM group analysis containing that subject. If different subjects have different missing voxels, you can end up failing to even analyze important parts of the brain in your group analysis. We've seen cases where the entire cortex was missing from analysis!</span></div><div  class = 'S1'><span>Some toolboxes don't have this problem and analyze available subjects at each voxel, like the </span><a href = "https://github.com/canlab/RobustToolbox"><span>CANlab robust regression</span></a><span> (see also </span><a href = "https://www.sciencedirect.com/science/article/pii/S1053811905000364"><span>here</span></a><span>) and </span><a href = "https://github.com/canlab/MediationToolbox"><span>mediation</span></a><span> toolboxes. But even so, it's not a good idea to exclude participants based on low overall signal intensity. The covariation with your task is what counts.</span></div><div  class = 'S1'><span>You can examine which voxels you analyzed by looking at the mask.nii image in the SPM first-level model output.</span></div><h3  class = 'S9'><span>Memory usage</span></h3><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S10'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.maxmem    = 2^33; </span><span style="color: rgb(2, 128, 9);">% tor modified. 2^33 = 8.59 GB. Was 2^28; depends on your memory.</span></span></div></div></div><div  class = 'S7'><span>SPM was created when very little memory was available, so only part of a slice was loaded into memory at once. Now, we can easily load a whole subject's time series into memory on a standard laptop. Increase this to load more data in at once and speed up anaysis. Set it so that it uses much, but not all, of your computer's RAM.</span></div><h3  class = 'S9'><span>False discovery rate correction type</span></h3><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S10'><span style="white-space: pre;"><span class="nonlocalVariableHighlighting">defaults</span><span>.stats.topoFDR   = 0;    </span><span style="color: rgb(2, 128, 9);">% tor modified.&nbsp; Was 1 for "topological FDR" on peaks. &nbsp;</span></span></div></div></div><div  class = 'S7'><span>False discovery rate control is a great and simple way to eliminate most false positives while preserving sensitivity. It is always as liberal or more liberal than familywise error rate correaction, and provides a better picture of the overall pattern of what is active and what is not by reducing Type II errors.</span></div><div  class = 'S1'><span>The original formulation was voxel-wise FDR, which provides a voxel-level P-value threshold. This is straightforward. Later, </span><a href = "https://www.sciencedirect.com/science/article/pii/S1053811909012245"><span>Chumbley and Friston</span></a><span> proposed topological FDR control (see also </span><a href = "https://www.sciencedirect.com/science/article/pii/S1053811908006472"><span>here</span></a><span>), which controls the false discovery rate of "peaks". The basic idea is that signal is </span><span style=' font-style: italic; text-decoration: underline;'>everywhere</span><span> (a continuous field over brain space, with no truly null voxels), so the question is not which voxels are active, but which local "peaks" (topological high-points) are significant. ("Peaks" are different from "clusters" or blobs). </span></div><div  class = 'S1'><span>Consider a mountain-peak analogy, where statistical strength is elevation and geographical location is brain space. Suppose that condition A is "pre-earthquake" and condition B is "post-earthquake". The topological question becomes "is there a mountain peak in condition A that is higher than in condition B". This is compared with the standard voxel-wise question of "is the ground higher in condition A than condition B". </span></div><div  class = 'S1'><span>Chumbley and Friston take an interesting philosophical stance; but if the premise that "signal is everywhere and there are no false positives" is accepted, it's unclear what the value is of assessing local activation peaks at all.  It is also less straightforward in terms of interpreting which of a series of measures (voxels) passes a given statistical threshold. So, being pragmatists who prefer to stick to inferences about local signal strength rather than inferred topological features (at least for standard brain mapping purposes), we prefer to use the voxel-wise method.</span></div><div  class = 'S1'></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% Setting SPM defaults
+% This tutorial is about running first-level (single-subject) fMRI analyses 
+% with <https://www.fil.ion.ucl.ac.uk/spm/ Statstical Parametric Mapping (SPM) 
+% software>. 
+% 
+% SPM has many default options, and mostly they're sensible. There are a few 
+% places where you can go very wrong by using the default values without thinking 
+% of them, however!  We'll go through a few that are important to consider.
+%% *General Recommendations*
+%% 
+% * Standardize the default options for your analysis group (i.e., lab)
+% * Make sure that all computers used for analysis use the same defaults, to 
+% avoid unexpected results
+% * Don't rely solely on the defaults - some studies will require different 
+% choices, or selection of choices based on characteristics of the experimental 
+% design and data.
+% * Check the output of your SPM models, especially the mask of which voxels 
+% are analyzed and the filtering/autocorrelation options saved in the SPM.mat 
+% file in your first-level model output.
+%% Which files to edit
+% There are a couple of options for setting defaults. First, you can edit the 
+% file |*spm_defaults.m*| in the copy of SPM you're running. Try:
+
+which spm_defaults
+edit spm_defaults
+%% 
+% Second, you can create a file called |*spm_my_defaults.m*| somewhere on your 
+% Matlab path.
+%% What to change
+% Here is an overview of what we recommend changing. You'd edit these lines 
+% in |*spm_defaults.m*|, or include them in |*spm_my_defaults.m.*| We'll cover 
+% _why_ to do this below.
+
+global defaults                         % only need to add for the spm_my_defaults.m option 
+
+% fMRI design defaults
+%==========================================================================
+
+defaults.stats.fmri.hpf = 180;          % tor changed; 128 can be too low; should choose yourself % 128;
+defaults.stats.fmri.cvi = 'None';       % tor changed. 'AR(1)', 'None', 'FAST'
+
+% Mask defaults
+%==========================================================================
+defaults.mask.thresh = -Inf; % tor changed; Was 0.8.  0.8 performed implicit masking and made explicit masking impossible (may be fixed?)
+
+
+% Stats defaults
+%==========================================================================
+defaults.stats.maxmem    = 2^33; % tor modified. 2^33 = 8.59 GB. Was 2^28; depends on your memory.
+defaults.stats.topoFDR   = 0;    % tor modified.  Was 1 for "topological FDR" on peaks.  
+
+%% Why?
+% Let's go through line by line and discuss why.
+% High-pass filtering
+
+defaults.stats.fmri.hpf = 180;          % tor changed; 128 can be too low; should choose yourself % 128;
+%% 
+% The default is 128-sec high pass filter, which means that any design-related 
+% variance (aka "real signal") that is slower than 1/128 Hz = 0.0078 Hz will be 
+% filtered out.  If you have a block design with 25 sec on/off alternating periodicity, 
+% this is fine.  But if you have:
+%% 
+% * on/off blocks that are 40 sec long (80 sec periodicity)
+% * 3 blocks that are 20 sec long and alternate pseudorandomly, so that 2 blocks 
+% of the same type may appear next to each other
+% * Long trials, e.g., a working memory study with a 20+ sec delay interval 
+% and a response probe like <https://www.sciencedirect.com/science/article/pii/S1053811903006840 
+% this one>, or pain epochs separated by 30-60 sec like those included in <https://www.sciencedirect.com/science/article/pii/S1053811915009982 
+% this study> 
+% * Other designs with energy (variance) at slower periodicities (> about 50-60 
+% sec)
+%% 
+% ...then *a substantial proportion of your true signal will be filtered out!!*
+% 
+% If you have a randomized event-related design in which multiple events may 
+% be clumped together, the default may be problematic!  You can check this by 
+% looking at the cumulartive variance in your design at different frequencies 
+% and comparing it to the energy of the noise at those frequencies (e.g., |*scn_spm_design_check.m*| 
+% in CANlab Core Tools). 
+% 
+% ...but in general, 180 sec is a safer default.
+% Autocorrelation estimation
+
+defaults.stats.fmri.cvi = 'None';       % tor changed. 'AR(1)', 'None', 'FAST'
+%% 
+% Estimating the autocorrelation using a noise AR model or similar can improve 
+% efficiency (i.e., power) if the noise model is accurate. But if the noise model 
+% is misspecified (inaccurate) or its parameters are poorly estimated (imprecise), 
+% then it can be worse than doing nothing.
+% 
+% The default AR(1) model in SPM is a linear approximation of an AR(1) model 
+% that assumes autocorrelation is uniform everywhere in the brain  (at least in 
+% regions that count as important). It's not. And short, noisy time series are 
+% not well suited to precisely estimating AR-model parameters.  
+% 
+% In our experience, we've seen AR models perform very poorly in fMRI data. 
+% 
+% The good news is that group analyses are valid and unbiased even if no autocorrelation 
+% model is used at the first level. This is because the betas (regression slopes) 
+% are unbiased estimators REPLACE_WITH_DASH_DASH i.e., they are not systematically "wrong", and your 
+% group model will thus not be wrong. They simply lose efficiency (are more variable) 
+% in the absence of a good noise model.
+% 
+% Our default choice for SPM AR modeling is "none" (don't do it). You might 
+% consider using it if you:
+%% 
+% * Want to make inferences about single subjects' activation and need to do 
+% this to have a hope of obtaining valid single-subject P-values
+% * Have lots of high-quality time series data per person (e.g., lots of within-peson 
+% data)
+%% 
+% ...but in these cases, consider using diferent software for this, like FSL.
+% Masking
+
+defaults.mask.thresh = -Inf; % tor changed; Was 0.8.  0.8 performed implicit masking and made explicit masking impossible (may be fixed?)
+%% 
+% By default, SPM masks out voxels that are below 20% of the global mean image 
+% value for a given subject REPLACE_WITH_DASH_DASH that is, values that are not very intense in the 
+% images.
+% 
+% However, inhomogeneity in the raw values of fMRI images exists for lots of 
+% reasons. For example, some sequences tend to produce brighter values in the 
+% center of the brain (e.g., spiral sequences). 
+% 
+% And even if overall signal intesity is low (e.g., in areas subject to susceptibility 
+% artifacts like the ventromedial prefrontal cortex, medial temporal lobes, and 
+% amygdala), if it correlates meaningfully with your task design in a way that 
+% is consistent across participants, there might be important true effects there. 
+% Low overall intensity makes it less likely you'll obtain strong statistical 
+% results, but does not invalidate positive statistical findings.
+% 
+% In SPM, voxels that are missing (not analyzed) for one subject are also missing 
+% in any SPM group analysis containing that subject. If different subjects have 
+% different missing voxels, you can end up failing to even analyze important parts 
+% of the brain in your group analysis. We've seen cases where the entire cortex 
+% was missing from analysis!
+% 
+% Some toolboxes don't have this problem and analyze available subjects at each 
+% voxel, like the <https://github.com/canlab/RobustToolbox CANlab robust regression> 
+% (see also <https://www.sciencedirect.com/science/article/pii/S1053811905000364 
+% here>) and <https://github.com/canlab/MediationToolbox mediation> toolboxes. 
+% But even so, it's not a good idea to exclude participants based on low overall 
+% signal intensity. The covariation with your task is what counts.
+% 
+% You can examine which voxels you analyzed by looking at the mask.nii image 
+% in the SPM first-level model output.
+% Memory usage
+
+defaults.stats.maxmem    = 2^33; % tor modified. 2^33 = 8.59 GB. Was 2^28; depends on your memory.
+%% 
+% SPM was created when very little memory was available, so only part of a slice 
+% was loaded into memory at once. Now, we can easily load a whole subject's time 
+% series into memory on a standard laptop. Increase this to load more data in 
+% at once and speed up anaysis. Set it so that it uses much, but not all, of your 
+% computer's RAM.
+% False discovery rate correction type
+
+defaults.stats.topoFDR   = 0;    % tor modified.  Was 1 for "topological FDR" on peaks.  
+%% 
+% False discovery rate control is a great and simple way to eliminate most false 
+% positives while preserving sensitivity. It is always as liberal or more liberal 
+% than familywise error rate correaction, and provides a better picture of the 
+% overall pattern of what is active and what is not by reducing Type II errors.
+% 
+% The original formulation was voxel-wise FDR, which provides a voxel-level 
+% P-value threshold. This is straightforward. Later, <https://www.sciencedirect.com/science/article/pii/S1053811909012245 
+% Chumbley and Friston> proposed topological FDR control (see also <https://www.sciencedirect.com/science/article/pii/S1053811908006472 
+% here>), which controls the false discovery rate of "peaks". The basic idea is 
+% that signal is _everywhere_ (a continuous field over brain space, with no truly 
+% null voxels), so the question is not which voxels are active, but which local 
+% "peaks" (topological high-points) are significant. ("Peaks" are different from 
+% "clusters" or blobs). 
+% 
+% Consider a mountain-peak analogy, where statistical strength is elevation 
+% and geographical location is brain space. Suppose that condition A is "pre-earthquake" 
+% and condition B is "post-earthquake". The topological question becomes "is there 
+% a mountain peak in condition A that is higher than in condition B". This is 
+% compared with the standard voxel-wise question of "is the ground higher in condition 
+% A than condition B". 
+% 
+% Chumbley and Friston take an interesting philosophical stance; but if the 
+% premise that "signal is everywhere and there are no false positives" is accepted, 
+% it's unclear what the value is of assessing local activation peaks at all.  
+% It is also less straightforward in terms of interpreting which of a series of 
+% measures (voxels) passes a given statistical threshold. So, being pragmatists 
+% who prefer to stick to inferences about local signal strength rather than inferred 
+% topological features (at least for standard brain mapping purposes), we prefer 
+% to use the voxel-wise method.
+% 
+%
+##### SOURCE END #####
+--></body></html>
