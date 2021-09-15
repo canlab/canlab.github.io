@@ -37,7 +37,7 @@ These are didactic tutorials using Matlab live scripts. There is also a compleme
 | First-level models with whole-brain data               
 | ------------       |
 | [3.1. Setting SPM defaults](tutorials/html/setting_SPM_defaults.html) | [Download Matlab Live Script](tutorials/matlab/setting_SPM_defaults.mlx) |
-| Get the Pinel localizer dataset used [here](https://dartbrains.org/content/Download_Data.html) or on Dropbox [here (Neurospin version)(https://www.dropbox.com/sh/fmw6gy7dzhzcnh5/AAA3OsHvRXUKUKCyl18SCxpQa?dl=0) or [here (BIDS)(https://www.dropbox.com/sh/wly58x4r0bqneb2/AADeE6AVHGcJMrClqHzX9GMFa?dl=0)|  |
+| Get the Pinel localizer dataset used [here](https://dartbrains.org/content/Download_Data.html) or on Dropbox [here (Neurospin version)](https://www.dropbox.com/sh/fmw6gy7dzhzcnh5/AAA3OsHvRXUKUKCyl18SCxpQa?dl=0) or [here (BIDS)](https://www.dropbox.com/sh/wly58x4r0bqneb2/AADeE6AVHGcJMrClqHzX9GMFa?dl=0)|  |
 | [3.2. Preprocessing basics using SPM](tutorials/html/preproc_basics_spm12.html) | [Download Matlab Live Script](tutorials/matlab/preproc_basics_spm12.mlx) |
 | [3.3. First-level model using the SPM GUI](tutorials/html/first_level_spm12.html) | [Download Matlab Live Script](tutorials/matlab/first_level_spm12.mlx) |
 | [3.4. First-level model using CANlab regress()](tutorials/html/first_level_canlab.html) | [Download Matlab Live Script](tutorials/matlab/first_level_canlab.mlx) |
@@ -48,11 +48,11 @@ These are didactic tutorials using Matlab live scripts. There is also a compleme
 
 | Multivariate predictive models           
 | ------------       |
-| Datasets | (On Dropbox; See also links in tutorials)   |
+| Datasets (On Dropbox; See also links in tutorials)| Paper links   |
 | [Kragel270 fmri_data object](https://www.dropbox.com/s/k8zxio26cfx0uv3/kragel_2018_nat_neurosci_270_subjects_test_images.mat?dl=0) | [Paper](https://www.nature.com/articles/s41593-017-0051-7) |
 | [BMRK3 pain dataset fmri_data object](https://www.dropbox.com/s/i7wnvzph4n1wdwt/bmrk3_6levels_pain_dataset.mat?dl=0) | [Paper](https://www.nejm.org/doi/full/10.1056/nejmoa1204471) |
 | [Rejection vs Pain dataset](https://www.dropbox.com/sh/zryqei5o7j1e2gj/AAAj4XDhwCuSI25QC94w4LT0a?dl=0) | [Paper](https://www.nature.com/articles/ncomms6380?origin=ppub) and [this](https://www.pnas.org/content/108/15/6270.short) |
-| | |
+| Tutorials | |
 | [3.1. SVM on unpaired data using predict()](tutorials/html/canlab_SVM_on_unpaired_data_Kragel270.html) | [Download Matlab Live Script](tutorials/matlab/canlab_SVM_on_unpaired_data_Kragel270.mlx) |
 | [3.2. multivariate prediction with continuous outcomes](canlab_help_7_multivariate_prediction_basics/canlab_help_7_multivariate_prediction_basics.html)
 
