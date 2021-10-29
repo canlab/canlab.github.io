@@ -1,0 +1,921 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>estimateBestRegionPerformance</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-06-24"><meta name="DC.source" content="estimateBestRegionPerformance.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">import libraries and their dependencies</a></li><li><a href="#3">parameters you should modify</a></li><li><a href="#4">load data and masks</a></li><li><a href="#5">configure inner cross validation loop</a></li><li><a href="#6">configure region selection loop</a></li><li><a href="#7">Evaluate overall model performance</a></li><li><a href="#8">plot best region</a></li><li><a href="#9">test on new data</a></li><li><a href="#10">apply model performance estimator to new data</a></li><li><a href="#11">Additional comments</a></li><li><a href="#12">utility functions</a></li></ul></div><pre class="codeinput"><span class="comment">% this script identifies the most predictive region, and estimates its</span>
+<span class="comment">% performance for a single dataset</span>
+<span class="comment">% The model is then tested on a second dataset</span>
+<span class="comment">%</span>
+<span class="comment">% We use MSE as our performance metric throughout, but given how noisy fMRI</span>
+<span class="comment">% data is at the between subject level, this may not be the best choice.</span>
+<span class="comment">% Look in the scorers folder of ooFmriDataPredictML for other options and</span>
+<span class="comment">% examples of how you might go about designing your own. I kind of suspect</span>
+<span class="comment">% a random slope, random intercept mixed model likelihood function would be</span>
+<span class="comment">% best, however it would be much slower to evaluate.</span>
+
+close <span class="string">all</span>; clear <span class="string">all</span>;
+</pre><h2 id="2">import libraries and their dependencies</h2><pre class="codeinput">addpath(<span class="string">'/projects/bope9760/spm12'</span>); <span class="comment">% canlabCore dep</span>
+
+addpath(genpath(<span class="string">'/projects/bope9760/software/canlab/CanlabCore'</span>)); <span class="comment">% canlab_single_trails* and ooFmriDataObjML dep</span>
+addpath(genpath(<span class="string">'/projects/bope9760/software/canlab/Neuroimaging_Pattern_Masks'</span>)); <span class="comment">% canlab_single_trails* and ooFmriDataObjML dep</span>
+addpath(genpath(<span class="string">'/projects/bope9760/software/canlab/MasksPrivate'</span>)); <span class="comment">% canlab_single_trails* and ooFmriDataObjML dep</span>
+
+addpath(genpath(<span class="string">'/projects/bope9760/software/canlab/CanlabPrivate'</span>)); <span class="comment">% canlab_single_trails* and ooFmriDataObjML dep</span>
+
+addpath(genpath(<span class="string">'/work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/'</span>)); <span class="comment">% canlab_single_trials dep</span>
+addpath(genpath(<span class="string">'/projects/bope9760/software/canlab/canlab_single_trials'</span>)); <span class="comment">% data repo</span>
+addpath(genpath(<span class="string">'/projects/bope9760/software/canlab/canlab_single_trials_private'</span>)); <span class="comment">% data repo</span>
+
+addpath(<span class="string">'/projects/bope9760/software/combat/ComBatHarmonization/Matlab/scripts'</span>); <span class="comment">% ooFmriDataObjML dep</span>
+addpath(genpath(<span class="string">'/projects/bope9760/software/canlab/ooFmriDataObjML'</span>)); <span class="comment">% an MVPA modeling framework</span>
+
+<span class="keyword">if</span> ~isempty(gcp(<span class="string">'nocreate'</span>))
+    delete(gcp(<span class="string">'nocreate'</span>));
+<span class="keyword">end</span>
+</pre><h2 id="3">parameters you should modify</h2><p>update this to match whatever your parallel pool is. Don't count hyperthreads, only physical cores.</p><pre class="codeinput">parpool(8)
+</pre><pre class="codeoutput">Starting parallel pool (parpool) using the 'local' profile ...
+connected to 8 workers.
+
+ans = 
+
+ Pool with properties: 
+
+            Connected: true
+           NumWorkers: 8
+              Cluster: local
+        AttachedFiles: {}
+    AutoAddClientPath: true
+          IdleTimeout: 360 minutes (360 minutes remaining)
+          SpmdEnabled: true
+
+</pre><h2 id="4">load data and masks</h2><pre class="codeinput">nsf = load_image_set(<span class="string">'nsf'</span>);
+nsfStim = avgByStimLvl2(nsf, double(categorical(nsf.metadata_table.subject_id)), nsf.metadata_table.T); <span class="comment">% not the same as single trial predictions, but faster so good for a demo</span>
+
+nsfStim = nsfStim.apply_mask(fmri_mask_image(which(<span class="string">'gray_matter_mask.img'</span>)));
+
+buckner = load_atlas(<span class="string">'buckner'</span>);
+buckner.probability_maps = []; <span class="comment">% these break resample space right now, so let's drop them</span>
+buckner = buckner.resample_space(nsf); <span class="comment">% this will allow for a speed up in fmri2VxlFeatTransformer</span>
+buckner = buckner.apply_mask(fmri_mask_image(which(<span class="string">'gray_matter_mask.img'</span>)));
+
+nsfStim = nsfStim.apply_mask(buckner); <span class="comment">% this will drop subcortical and cerebellar regions that buckner doesn't have</span>
+</pre><pre class="codeoutput">Loading: /work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/nsf_data.mat
+Number of unique values in dataset: 136162681  Bit rate: 27.02 bits
+Number of unique values in dataset: 329041  Bit rate: 18.33 bits
+Number of unique values in dataset: 329041  Bit rate: 18.33 bits
+ 
+Source: NSF data aggregated from Tor Wager's single trials Google Drive
+ 
+
+____________________________________________________________________________________________________________________________________________
+Wager, et al. (2013) New England Journal of Medicine
+Atlas, et al. (2014) Pain
+____________________________________________________________________________________________________________________________________________
+ 
+Summary of dataset
+______________________________________________________
+Images: 1149	Nonempty: 1149	Complete: 1149
+Voxels: 329694	Nonempty: 329694	Complete: 328249
+Unique data values: 136162680
+ 
+Min: -1312.863	Max: 888.306	Mean: -0.351	Std: 21.183
+ 
+    Percentiles      Values  
+    ___________    __________
+
+        0.1           -134.41
+        0.5           -81.216
+          1           -63.577
+          5           -31.933
+         25           -8.2459
+         50        3.1861e-06
+         75             8.286
+         95            29.963
+         99            56.493
+       99.5            70.713
+       99.9            112.42
+
+ 
+Pain ratings in image_obj.Y
+Additional metadata in image_obj.additional_info struct
+Loaded images:
+</pre><h2 id="5">configure inner cross validation loop</h2><p>this estimates the performance of a region we will use PLS with Bayesian Optimization of dimensions. Other algorithms are available, and gridSearchCV is also available for hyperparam selection. It's usage will be demonstrated subsequently.</p><pre class="codeinput">alg = plsRegressor();
+inner_cv = @(X,Y) cvpartition2(length(Y), <span class="string">'GroupKFold'</span>, 5, <span class="string">'Group'</span>, X.metadata); <span class="comment">% this is modeled after the native matlab cvpartition object.</span>
+<span class="comment">% notice that inner_cv is a function, not a cvpartition2 object. Calling</span>
+<span class="comment">% inner_cv on some data will return a appropriately constructed</span>
+<span class="comment">% cvpartition2 object. This is important because crossValidator objects</span>
+<span class="comment">% need instructions on how to generate these things, not specific instances</span>
+<span class="comment">% of them.</span>
+
+<span class="comment">% next two lines are basically the same as if you were invoking the</span>
+<span class="comment">% bayesopt native matlab function. Notice however that we're only</span>
+<span class="comment">% evaluating 15 points. Default is 30, and typically I wouldn't assume 15</span>
+<span class="comment">% is enough. We also restrict the dimensionality to 30 dims though under</span>
+<span class="comment">% the assumption that PLS will find a solution in the lower dimensions, so</span>
+<span class="comment">% it may be sufficient here. Either way, this is only a demo so it hardly</span>
+<span class="comment">% matters.</span>
+dims = optimizableVariable(<span class="string">'numcomponents'</span>,[1,30], <span class="string">'Type'</span>, <span class="string">'integer'</span>, <span class="string">'Transform'</span>, <span class="string">'log'</span>);
+bayesOptOpts = {dims, <span class="string">'AcquisitionFunctionName'</span>, <span class="string">'expected-improvement-plus'</span>, <span class="keyword">...</span>
+     <span class="string">'MaxObjectiveEvaluations'</span>, 15, <span class="string">'UseParallel'</span> true, <span class="string">'verbose'</span>, 0, <span class="string">'PlotFcn'</span>, {}};
+
+bo_alg = bayesOptCV(alg, inner_cv, @get_mse, bayesOptOpts);
+
+<span class="comment">% test algorithm</span>
+dat = features(nsfStim.dat', nsfStim.metadata_table.subject_id); <span class="comment">% this is an "extended double" that is just a double with metadata in the dat.metadata field</span>
+bo_alg.fit(dat, nsfStim.metadata_table.T); <span class="comment">% note handle invocation doesn't use assignment operator.</span>
+</pre><h2 id="6">configure region selection loop</h2><p>this selects a best region. Here we will use gridSearchCV to test all regions exhaustively, and we will demonstrate the use of a pipeline for the first time.</p><pre class="codeinput">mid_cv = @(X,Y) cvpartition2(length(Y), <span class="string">'GroupKFold'</span>, 5, <span class="string">'Group'</span>, X.metadata_table.subject_id); <span class="comment">% similar to inner_cv but with different metadata field because input is type fmri_data now, not features</span>
+
+<span class="comment">% this is a transformer with an 'atlasRegion' hyper parameter</span>
+<span class="comment">% mask2Region.transform(fmri_data) will return an fmri_data object that has</span>
+<span class="comment">% been masked to the region from mask2Region.atlas that matches the named</span>
+<span class="comment">% in 'atlasRegion'. mask2Region.atlas is set in the constructor, and we set</span>
+<span class="comment">% it here to canlab2018</span>
+mask2Region = getAtlasRegion(buckner, <span class="string">'verbose'</span>, false);
+
+<span class="comment">% mask2Region may take fmri_data objects as input, but our bayes optimized</span>
+<span class="comment">% PLS does not, so we also need a transformer that takes fmri_data objects</span>
+<span class="comment">% as inputs and returns a features object.</span>
+<span class="comment">% This object saves a bunch of metadata on fmri_data objects in its</span>
+<span class="comment">% brainModel property, which is useful if you want to project your patterns</span>
+<span class="comment">% back into brain space later.</span>
+<span class="comment">% note how the metadataconstructor_funhan defines what metadata gets</span>
+<span class="comment">% packaged into the features.metadata field. The invocation here is</span>
+<span class="comment">% trivial, but when you have multiple items you need in your features</span>
+<span class="comment">% metadata (e.g. subject_ids and study_ids), it can be helpful to insert a</span>
+<span class="comment">% table constructor object in there instead so that your data is labeled.</span>
+fmriDat2Feat = fmri2VxlFeatTransformer(<span class="string">'metadataConstructor_funhan'</span>, @(X) X.metadata_table.subject_id);
+
+<span class="comment">% the next line creates a meta algorithm that combines mask2Region and</span>
+<span class="comment">% bayes optimized PLS into a single pipeline. The syntax is pretty similar</span>
+<span class="comment">% to scikit learn's here, although I think scikit-learn might not</span>
+<span class="comment">% interleave names and elements but, rather sort them sequentially instead.</span>
+bo_alg_region = pipeline({{<span class="string">'mask'</span>, mask2Region}, {<span class="string">'fmriDat2Feat'</span>, fmriDat2Feat}, {<span class="string">'bayesOptPLS'</span>, bo_alg}});
+
+<span class="comment">% we now define our hyperparameter search space, but our grid search</span>
+<span class="comment">% algorithm needs to know which component of the pipeline a hyperparameter</span>
+<span class="comment">% belongs to, so the syntax also indicates this by prefixing the pipeline</span>
+<span class="comment">% elements name with the double underscore. This follows the scikit-learn</span>
+<span class="comment">% convention.</span>
+<span class="comment">% optimizers should throw an error when initialized if these variables are</span>
+<span class="comment">% misnamed.</span>
+gridPoints = table(buckner.labels', <span class="string">'VariableNames'</span>, {<span class="string">'mask__atlasRegion'</span>});
+
+<span class="comment">% parallellizing here is often helpful. Normally parallelizing at the top</span>
+<span class="comment">% level is most efficient, but the top level will only have 5 threads for</span>
+<span class="comment">% 5-fold CV, while the gridSearch will have as many threads as there are</span>
+<span class="comment">% candidate atlas regions, often many, so you can get many more parallel</span>
+<span class="comment">% jobs running if you parallelize here. In this case we're using a very</span>
+<span class="comment">% basic atlas that only has 7 regions, so parallelization is still more</span>
+<span class="comment">% efficient at the next level down where we have 15 loops. You can control</span>
+<span class="comment">% parallelization with the n_parallel argument though. Just bear in mind</span>
+<span class="comment">% that you can't parallelize at more than one level.</span>
+gs_alg = gridSearchCV(bo_alg_region, gridPoints, mid_cv, @get_mse, <span class="string">'verbose'</span>, true, <span class="string">'n_parallel'</span>, 1);
+
+<span class="comment">% we don't need to run this here, but this is a helpful test that the code</span>
+<span class="comment">% thus far works as intended. This is also the function who's performance</span>
+<span class="comment">% we want to ultimately estimate, so we'd need to fit it later to test on</span>
+<span class="comment">% bmrk3pain anyway.</span>
+gs_alg.fit(nsfStim, nsfStim.metadata_table.T)
+
+<span class="comment">% check which region was best</span>
+fprintf(<span class="string">'best region: %s\n'</span>, gs_alg.estimator.transformers{1}.atlasRegion{1});
+</pre><pre class="codeoutput">mask__atlasRegion	|	Loss	|	
+    'Visual'    [8.8590]
+
+    'Somatomotor'    [6.2587]
+
+    'dAttention'    [7.8906]
+
+    'vAttention'    [6.5006]
+
+    'Limbic'    [7.8037]
+
+    'Frontoparietal'    [8.8330]
+
+    'Default'    [7.4855]
+
+
+ans = 
+
+  gridSearchCV with properties:
+
+     estimator: [1&times;1 pipeline]
+            cv: [function_handle]
+        scorer: @get_mse
+       verbose: 1
+    n_parallel: 1
+    gridPoints: [7&times;1 table]
+      group_id: []
+      isFitted: 1
+       fitTime: 338.8566
+
+best region: Somatomotor
+</pre><h2 id="7">Evaluate overall model performance</h2><pre class="codeinput">outer_cv = @(X,Y) cvpartition2(length(Y), <span class="string">'GroupKFold'</span>, 5, <span class="string">'Group'</span>, X.metadata_table.subject_id);
+cv = crossValScore(gs_alg, outer_cv, @get_mse, <span class="string">'verbose'</span>, true);
+
+cv.do(nsfStim,nsfStim.metadata_table.T)
+cv.do_null(); <span class="comment">% this tests the null performance given our partitioning scheme</span>
+cv.plot(); <span class="comment">% this will only work if outer_cv partitions are non-overlapping.</span>
+</pre><pre class="codeoutput">Evaluating fold 1/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [9.6391]
+
+    'Somatomotor'    [8.1060]
+
+    'dAttention'    [7.6492]
+
+    'vAttention'    [9.1493]
+
+    'Limbic'    [10.1919]
+
+    'Frontoparietal'    [11.6275]
+
+    'Default'    [7.5171]
+
+Evaluating fold 2/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [8.4125]
+
+    'Somatomotor'    [6.9943]
+
+    'dAttention'    [7.7065]
+
+    'vAttention'    [7.6386]
+
+    'Limbic'    [9.7326]
+
+    'Frontoparietal'    [9.5646]
+
+    'Default'    [8.1155]
+
+Evaluating fold 3/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [9.4139]
+
+    'Somatomotor'    [7.8796]
+
+    'dAttention'    [6.8374]
+
+    'vAttention'    [6.8757]
+
+    'Limbic'    [8.8621]
+
+    'Frontoparietal'    [7.1591]
+
+    'Default'    [8.6208]
+
+Evaluating fold 4/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [8.8925]
+
+    'Somatomotor'    [4.7373]
+
+    'dAttention'    [5.2810]
+
+    'vAttention'    [6.9254]
+
+    'Limbic'    [6.1984]
+
+    'Frontoparietal'    [7.3140]
+
+    'Default'    [6.2748]
+
+Evaluating fold 5/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [9.4190]
+
+    'Somatomotor'    [7.8616]
+
+    'dAttention'    [8.5115]
+
+    'vAttention'    [8.4604]
+
+    'Limbic'    [9.7653]
+
+    'Frontoparietal'    [12.6825]
+
+    'Default'    [7.6837]
+
+
+ans = 
+
+  crossValScore with properties:
+
+            cvpart: [1&times;1 cvpartition2]
+            scorer: @get_mse
+            scores: [5&times;1 double]
+       scores_null: []
+    evalTimeScorer: 0.0043
+      evalTimeFits: 1.5977e+03
+              yfit: {1&times;5 cell}
+          yfit_raw: {1&times;5 cell}
+         yfit_null: []
+                 Y: {1&times;5 cell}
+       repartOnFit: 0
+                cv: [function_handle]
+        n_parallel: 1
+         estimator: [1&times;1 gridSearchCV]
+     foldEstimator: {5&times;1 cell}
+           verbose: 1
+          evalTime: 1.5977e+03
+           is_done: 1
+         fold_lbls: [104&times;1 double]
+       classLabels: {1&times;5 cell}
+
+</pre><img vspace="5" hspace="5" src="estimateBestRegionPerformance_01.png" alt=""> <h2 id="8">plot best region</h2><pre class="codeinput">figure;
+brain = gs_alg.estimator.transformers{2}.brainModel;
+brain.dat = gs_alg.getBaseEstimator.B(:);
+brain.montage();
+</pre><pre class="codeoutput">Setting up fmridisplay objects
+sagittal montage: 318 voxels displayed, 19062 not displayed on these slices
+sagittal montage: 305 voxels displayed, 19075 not displayed on these slices
+sagittal montage: 157 voxels displayed, 19223 not displayed on these slices
+axial montage: 1941 voxels displayed, 17439 not displayed on these slices
+axial montage: 2095 voxels displayed, 17285 not displayed on these slices
+</pre><img vspace="5" hspace="5" src="estimateBestRegionPerformance_02.png" alt=""> <h2 id="9">test on new data</h2><p>since we've already run gs_alg.fit() all that's left is to run gs_alg.predict();</p><pre class="codeinput">test_dat = load_image_set(<span class="string">'bmrk3pain'</span>);
+test_dat = avgByStimLvl2(test_dat, double(categorical(test_dat.metadata_table.subject_id)), test_dat.metadata_table.T);
+
+yfit = gs_alg.predict(test_dat);
+
+subjid = double(categorical(test_dat.metadata_table.subject_id)); <span class="comment">% ensures type 'double'</span>
+
+figure;
+subplot(1,2,1);
+line_plot_multisubject(test_dat.Y, yfit, <span class="string">'subjid'</span>, subjid);
+title(<span class="string">'BMRK3 Pain Best ROI PLS Predictions'</span>);
+ylabel(<span class="string">'Predicted'</span>);
+xlabel(<span class="string">'Observed'</span>);
+
+subplot(1,2,2);
+line_plot_multisubject(test_dat.Y, yfit, <span class="string">'subjid'</span>, subjid, <span class="string">'center'</span>);
+title(<span class="string">'BMRK3 Pain Best ROI PLS Predictions (Centered)'</span>);
+ylabel(<span class="string">'Predicted'</span>);
+xlabel(<span class="string">'Observed'</span>);
+
+set(gcf,<span class="string">'Position'</span>, [1000,814,1149,467])
+</pre><pre class="codeoutput">Loading: /work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/bmrk3pain_data.mat
+Number of unique values in dataset: 135864813  Bit rate: 27.02 bits
+Number of unique values in dataset: 328117  Bit rate: 18.32 bits
+Number of unique values in dataset: 328117  Bit rate: 18.32 bits
+ 
+Source: bmrk3pain img data from Tor Wager's single trials Google Drive. Metadata also from wagerlab/labdata/current/BMRK3/ HPC storage
+ 
+
+____________________________________________________________________________________________________________________________________________
+Wager,  et al. (2013) New England Journal of Medicine
+Woo et al. (2015) PLoS Biology
+____________________________________________________________________________________________________________________________________________
+ 
+Summary of dataset
+______________________________________________________
+Images: 1699	Nonempty: 1699	Complete: 1699
+Voxels: 328798	Nonempty: 328798	Complete: 327472
+Unique data values: 135864812
+ 
+Min: -133.823	Max: 84.093	Mean: -0.006	Std: 0.545
+ 
+    Percentiles      Values   
+    ___________    ___________
+
+        0.1             -3.469
+        0.5            -1.9328
+          1            -1.4777
+          5           -0.72485
+         25           -0.20535
+         50        -0.00043151
+         75            0.19939
+         95            0.69711
+         99             1.3839
+       99.5             1.7974
+       99.9             3.2719
+
+ 
+Pain ratings in image_obj.Y
+Additional metadata in image_obj.additional_info struct
+Loaded images:
+Warnings:
+
+____________________________________________________________________________________________________________________________________________
+X: input cells with low varability:
+27 33
+Y: input cells with low varability:
+9 32
+____________________________________________________________________________________________________________________________________________
+
+____________________________________________________________________________________________________________________________________________
+Input data:
+X scaling: No centering or z-scoring
+Y scaling: No centering or z-scoring
+                
+Transformations:
+No data transformations before plot
+                                                                   
+Correlations:                                                      
+r = 0.31 across all observations, based on untransformed input data
+                                                                
+Stats on slopes after transformation, subject is random effect: 
+Mean b = 0.00, t( 32) = 2.76, p = 0.009448, num. missing:   0   
+                                                                
+Average within-person r = 0.48 +- 0.51 (std)
+ 
+Between-person r (across subject means) = 0.12, p = 0.509710
+____________________________________________________________________________________________________________________________________________
+Warnings:
+
+____________________________________________________________________________________________________________________________________________
+X: input cells with low varability:
+27 33
+Y: input cells with low varability:
+9 32
+____________________________________________________________________________________________________________________________________________
+
+____________________________________________________________________________________________________________________________________________
+Input data:
+X scaling: No centering or z-scoring
+Y scaling: No centering or z-scoring
+                
+Transformations:
+X and Y centered (forced mean-zero) before plot
+                                                                              
+Correlations:                                                                 
+r = 0.50 across all observations, removing subject mean (X and Y are centered)
+                                                                
+Stats on slopes after transformation, subject is random effect: 
+Mean b = 0.00, t( 32) = 2.76, p = 0.009448, num. missing:   0   
+                                                                
+Average within-person r = 0.48 +- 0.51 (std)
+* Note that the overall r and average within-person r may be similar because subject mean is removed
+                                                                                                    
+Between-person r (across subject means) = 0.12, p = 0.509710
+____________________________________________________________________________________________________________________________________________
+</pre><img vspace="5" hspace="5" src="estimateBestRegionPerformance_03.png" alt=""> <h2 id="10">apply model performance estimator to new data</h2><p>there were a lot of lines of code to produce the above cross validated performance estimator, but reusing it is simple.</p><p>because crossValidators are handles, we have to invoke the copy method to copy by value instead of the default for handles which is copy by reference. We want to copy it so that we don't overwrite the old performance metrics.</p><pre class="codeinput">cv2 = copy(cv);
+cv2.do(test_dat, test_dat.metadata_table.T);
+cv2.do_null()
+cv2.plot();
+</pre><pre class="codeoutput">Evaluating fold 1/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [3.8085]
+
+    'Somatomotor'    [2.2128]
+
+    'dAttention'    [2.6484]
+
+    'vAttention'    [2.1840]
+
+    'Limbic'    [2.2833]
+
+    'Frontoparietal'    [2.0114]
+
+    'Default'    [1.8529]
+
+Evaluating fold 2/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [3.2722]
+
+    'Somatomotor'    [2.1354]
+
+    'dAttention'    [2.6467]
+
+    'vAttention'    [1.9771]
+
+    'Limbic'    [2.7473]
+
+    'Frontoparietal'    [3.1128]
+
+    'Default'    [2.8714]
+
+Evaluating fold 3/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [3.4331]
+
+    'Somatomotor'    [2.5211]
+
+    'dAttention'    [3.0798]
+
+    'vAttention'    [2.0920]
+
+    'Limbic'    [3.5775]
+
+    'Frontoparietal'    [2.2912]
+
+    'Default'    [2.8309]
+
+Evaluating fold 4/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [3.2877]
+
+    'Somatomotor'    [2.1860]
+
+    'dAttention'    [4.5253]
+
+    'vAttention'    [2.1662]
+
+    'Limbic'    [2.3981]
+
+    'Frontoparietal'    [2.5722]
+
+    'Default'    [2.6325]
+
+Evaluating fold 5/5
+mask__atlasRegion	|	Loss	|	
+    'Visual'    [3.2233]
+
+    'Somatomotor'    [2.7997]
+
+    'dAttention'    [3.4289]
+
+    'vAttention'    [2.3544]
+
+    'Limbic'    [3.4389]
+
+    'Frontoparietal'    [2.7438]
+
+    'Default'    [2.7539]
+
+
+ans = 
+
+  crossValScore with properties:
+
+            cvpart: [1&times;1 cvpartition2]
+            scorer: @get_mse
+            scores: [5&times;1 double]
+       scores_null: [4.3080 2.4942 2.2985 3.4264 2.3668]
+    evalTimeScorer: 0.0058
+      evalTimeFits: 1.6001e+03
+              yfit: {1&times;5 cell}
+          yfit_raw: {1&times;5 cell}
+         yfit_null: {1&times;5 cell}
+                 Y: {1&times;5 cell}
+       repartOnFit: 0
+                cv: [function_handle]
+        n_parallel: 1
+         estimator: [1&times;1 gridSearchCV]
+     foldEstimator: {5&times;1 cell}
+           verbose: 1
+          evalTime: 1.6001e+03
+           is_done: 1
+         fold_lbls: [104&times;1 double]
+       classLabels: {1&times;5 cell}
+
+</pre> <img vspace="5" hspace="5" src="estimateBestRegionPerformance_04.png" alt=""> <h2 id="11">Additional comments</h2><p>notice that there's a scale problem when applying this data to a new dataset. Data harmonization procedures would be helpful to address this, and might also improve within study performance. That exceeds the scope of this demo, but it would be fairly straightforward to incorporate some additional transformers into the gs_alg pipeline to handle data harmonization. A couple are in the ooFmriDataPredictML/transformers folder already if you would like to use them, or you can write your own that extend baseTransformer.</p><h2 id="12">utility functions</h2><p>function [dat, study_id] = avgByStimLvl2(dat, study_id)</p><p>dat	   - canlab fmridata_obj sid	   - subject ids stimLvl  - stimulus level indicator variable</p><pre class="codeinput"><span class="keyword">function</span> [dat, newsid, newstimLvl] = avgByStimLvl2(dat, sid, stimLvl)
+    Y = stimLvl;
+    [~,~,num_sid] = unique(sid,<span class="string">'stable'</span>);
+    X = dat.dat';
+
+    [~, newOrder] = sortrows([num_sid, Y]);
+    [~,origOrder] = sort(newOrder);
+
+    X = X(newOrder,:);
+    Y = Y(newOrder);
+    num_sid = num_sid(newOrder);
+
+    [~,exp,grp] = unique([num_sid, Y],<span class="string">'rows'</span>,<span class="string">'stable'</span>);
+    uniq_grp = unique(grp);
+
+    <span class="comment">% get centering matrix</span>
+    n_grp = length(uniq_grp);
+    cmat = cell(1,n_grp);
+    <span class="keyword">for</span> i = 1:n_grp
+        this_grp = uniq_grp(i);
+        this_n = sum(this_grp == grp);
+        cmat{i} = eye(this_n) - 1/this_n;
+    <span class="keyword">end</span>
+    cmat = blkdiag(cmat{:});
+
+    X = X - cmat*X;
+    Y = Y - cmat*Y;
+
+    newsid = num_sid(exp);
+    newstimLvl = Y(exp);
+
+    dat = dat.get_wh_image(newOrder(exp));
+    dat.dat = X(exp,:)';
+
+    dat.history{end+1} = [<span class="string">'averaged over stimulus level within subject'</span>];
+    dat.source_notes = [];
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Direct calls to spm_defauts are deprecated.
+Please use spm('Defaults',modality) or spm_get_defaults instead.
+Loading atlas: buckner_networks_atlas_object.mat
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% this script identifies the most predictive region, and estimates its 
+% performance for a single dataset
+% The model is then tested on a second dataset
+%
+% We use MSE as our performance metric throughout, but given how noisy fMRI
+% data is at the between subject level, this may not be the best choice.
+% Look in the scorers folder of ooFmriDataPredictML for other options and
+% examples of how you might go about designing your own. I kind of suspect
+% a random slope, random intercept mixed model likelihood function would be
+% best, however it would be much slower to evaluate.
+
+close all; clear all;
+
+%% import libraries and their dependencies
+
+addpath('/projects/bope9760/spm12'); % canlabCore dep
+
+addpath(genpath('/projects/bope9760/software/canlab/CanlabCore')); % canlab_single_trails* and ooFmriDataObjML dep
+addpath(genpath('/projects/bope9760/software/canlab/Neuroimaging_Pattern_Masks')); % canlab_single_trails* and ooFmriDataObjML dep
+addpath(genpath('/projects/bope9760/software/canlab/MasksPrivate')); % canlab_single_trails* and ooFmriDataObjML dep
+
+addpath(genpath('/projects/bope9760/software/canlab/CanlabPrivate')); % canlab_single_trails* and ooFmriDataObjML dep
+
+addpath(genpath('/work/ics/data/projects/wagerlab/labdata/projects/canlab_single_trials_for_git_repo/')); % canlab_single_trials dep
+addpath(genpath('/projects/bope9760/software/canlab/canlab_single_trials')); % data repo
+addpath(genpath('/projects/bope9760/software/canlab/canlab_single_trials_private')); % data repo
+
+addpath('/projects/bope9760/software/combat/ComBatHarmonization/Matlab/scripts'); % ooFmriDataObjML dep
+addpath(genpath('/projects/bope9760/software/canlab/ooFmriDataObjML')); % an MVPA modeling framework
+
+if ~isempty(gcp('nocreate'))
+    delete(gcp('nocreate'));
+end
+
+%% parameters you should modify
+% update this to match whatever your parallel pool is. Don't count
+% hyperthreads, only physical cores.
+parpool(8)
+
+%% load data and masks
+
+nsf = load_image_set('nsf');
+nsfStim = avgByStimLvl2(nsf, double(categorical(nsf.metadata_table.subject_id)), nsf.metadata_table.T); % not the same as single trial predictions, but faster so good for a demo
+
+nsfStim = nsfStim.apply_mask(fmri_mask_image(which('gray_matter_mask.img')));
+
+buckner = load_atlas('buckner');
+buckner.probability_maps = []; % these break resample space right now, so let's drop them
+buckner = buckner.resample_space(nsf); % this will allow for a speed up in fmri2VxlFeatTransformer
+buckner = buckner.apply_mask(fmri_mask_image(which('gray_matter_mask.img')));
+
+nsfStim = nsfStim.apply_mask(buckner); % this will drop subcortical and cerebellar regions that buckner doesn't have
+
+%% configure inner cross validation loop
+% this estimates the performance of a region
+% we will use PLS with Bayesian Optimization of dimensions. Other
+% algorithms are available, and gridSearchCV is also available for
+% hyperparam selection. It's usage will be demonstrated subsequently.
+
+alg = plsRegressor();
+inner_cv = @(X,Y) cvpartition2(length(Y), 'GroupKFold', 5, 'Group', X.metadata); % this is modeled after the native matlab cvpartition object.
+% notice that inner_cv is a function, not a cvpartition2 object. Calling
+% inner_cv on some data will return a appropriately constructed
+% cvpartition2 object. This is important because crossValidator objects
+% need instructions on how to generate these things, not specific instances
+% of them.
+
+% next two lines are basically the same as if you were invoking the
+% bayesopt native matlab function. Notice however that we're only
+% evaluating 15 points. Default is 30, and typically I wouldn't assume 15
+% is enough. We also restrict the dimensionality to 30 dims though under
+% the assumption that PLS will find a solution in the lower dimensions, so
+% it may be sufficient here. Either way, this is only a demo so it hardly
+% matters.
+dims = optimizableVariable('numcomponents',[1,30], 'Type', 'integer', 'Transform', 'log');
+bayesOptOpts = {dims, 'AcquisitionFunctionName', 'expected-improvement-plus', ...
+     'MaxObjectiveEvaluations', 15, 'UseParallel' true, 'verbose', 0, 'PlotFcn', {}};
+
+bo_alg = bayesOptCV(alg, inner_cv, @get_mse, bayesOptOpts);
+
+% test algorithm
+dat = features(nsfStim.dat', nsfStim.metadata_table.subject_id); % this is an "extended double" that is just a double with metadata in the dat.metadata field
+bo_alg.fit(dat, nsfStim.metadata_table.T); % note handle invocation doesn't use assignment operator.
+
+%% configure region selection loop
+% this selects a best region. Here we will use gridSearchCV to test all
+% regions exhaustively, and we will demonstrate the use of a pipeline for
+% the first time.
+
+mid_cv = @(X,Y) cvpartition2(length(Y), 'GroupKFold', 5, 'Group', X.metadata_table.subject_id); % similar to inner_cv but with different metadata field because input is type fmri_data now, not features
+
+% this is a transformer with an 'atlasRegion' hyper parameter
+% mask2Region.transform(fmri_data) will return an fmri_data object that has
+% been masked to the region from mask2Region.atlas that matches the named 
+% in 'atlasRegion'. mask2Region.atlas is set in the constructor, and we set
+% it here to canlab2018
+mask2Region = getAtlasRegion(buckner, 'verbose', false);
+
+% mask2Region may take fmri_data objects as input, but our bayes optimized
+% PLS does not, so we also need a transformer that takes fmri_data objects
+% as inputs and returns a features object.
+% This object saves a bunch of metadata on fmri_data objects in its
+% brainModel property, which is useful if you want to project your patterns
+% back into brain space later.
+% note how the metadataconstructor_funhan defines what metadata gets
+% packaged into the features.metadata field. The invocation here is
+% trivial, but when you have multiple items you need in your features
+% metadata (e.g. subject_ids and study_ids), it can be helpful to insert a 
+% table constructor object in there instead so that your data is labeled.
+fmriDat2Feat = fmri2VxlFeatTransformer('metadataConstructor_funhan', @(X) X.metadata_table.subject_id);
+
+% the next line creates a meta algorithm that combines mask2Region and
+% bayes optimized PLS into a single pipeline. The syntax is pretty similar
+% to scikit learn's here, although I think scikit-learn might not 
+% interleave names and elements but, rather sort them sequentially instead.
+bo_alg_region = pipeline({{'mask', mask2Region}, {'fmriDat2Feat', fmriDat2Feat}, {'bayesOptPLS', bo_alg}});
+
+% we now define our hyperparameter search space, but our grid search
+% algorithm needs to know which component of the pipeline a hyperparameter
+% belongs to, so the syntax also indicates this by prefixing the pipeline
+% elements name with the double underscore. This follows the scikit-learn
+% convention.
+% optimizers should throw an error when initialized if these variables are
+% misnamed.
+gridPoints = table(buckner.labels', 'VariableNames', {'mask__atlasRegion'});
+
+% parallellizing here is often helpful. Normally parallelizing at the top
+% level is most efficient, but the top level will only have 5 threads for
+% 5-fold CV, while the gridSearch will have as many threads as there are
+% candidate atlas regions, often many, so you can get many more parallel
+% jobs running if you parallelize here. In this case we're using a very
+% basic atlas that only has 7 regions, so parallelization is still more
+% efficient at the next level down where we have 15 loops. You can control
+% parallelization with the n_parallel argument though. Just bear in mind
+% that you can't parallelize at more than one level.
+gs_alg = gridSearchCV(bo_alg_region, gridPoints, mid_cv, @get_mse, 'verbose', true, 'n_parallel', 1);
+
+% we don't need to run this here, but this is a helpful test that the code 
+% thus far works as intended. This is also the function who's performance 
+% we want to ultimately estimate, so we'd need to fit it later to test on
+% bmrk3pain anyway.
+gs_alg.fit(nsfStim, nsfStim.metadata_table.T)
+
+% check which region was best
+fprintf('best region: %s\n', gs_alg.estimator.transformers{1}.atlasRegion{1});
+
+%% Evaluate overall model performance
+outer_cv = @(X,Y) cvpartition2(length(Y), 'GroupKFold', 5, 'Group', X.metadata_table.subject_id);
+cv = crossValScore(gs_alg, outer_cv, @get_mse, 'verbose', true);
+
+cv.do(nsfStim,nsfStim.metadata_table.T)
+cv.do_null(); % this tests the null performance given our partitioning scheme
+cv.plot(); % this will only work if outer_cv partitions are non-overlapping.
+
+%% plot best region
+figure;
+brain = gs_alg.estimator.transformers{2}.brainModel;
+brain.dat = gs_alg.getBaseEstimator.B(:);
+brain.montage();
+
+%% test on new data
+% since we've already run gs_alg.fit() all that's left is to run
+% gs_alg.predict();
+
+test_dat = load_image_set('bmrk3pain');
+test_dat = avgByStimLvl2(test_dat, double(categorical(test_dat.metadata_table.subject_id)), test_dat.metadata_table.T);
+
+yfit = gs_alg.predict(test_dat);
+
+subjid = double(categorical(test_dat.metadata_table.subject_id)); % ensures type 'double'
+
+figure;
+subplot(1,2,1);
+line_plot_multisubject(test_dat.Y, yfit, 'subjid', subjid);
+title('BMRK3 Pain Best ROI PLS Predictions');
+ylabel('Predicted');
+xlabel('Observed');
+
+subplot(1,2,2);
+line_plot_multisubject(test_dat.Y, yfit, 'subjid', subjid, 'center');
+title('BMRK3 Pain Best ROI PLS Predictions (Centered)');
+ylabel('Predicted');
+xlabel('Observed');
+
+set(gcf,'Position', [1000,814,1149,467])
+
+%% apply model performance estimator to new data
+% there were a lot of lines of code to produce the above cross validated
+% performance estimator, but reusing it is simple.
+%
+% because crossValidators are handles, we have to invoke the copy method to
+% copy by value instead of the default for handles which is copy by
+% reference. We want to copy it so that we don't overwrite the old
+% performance metrics.
+cv2 = copy(cv);
+cv2.do(test_dat, test_dat.metadata_table.T);
+cv2.do_null()
+cv2.plot();
+
+%% Additional comments
+% notice that there's a scale problem when applying this data to a new
+% dataset. Data harmonization procedures would be helpful to address this,
+% and might also improve within study performance. That exceeds the scope
+% of this demo, but it would be fairly straightforward to incorporate some
+% additional transformers into the gs_alg pipeline to handle data
+% harmonization. A couple are in the ooFmriDataPredictML/transformers
+% folder already if you would like to use them, or you can write your own
+% that extend baseTransformer.
+
+%% utility functions
+% function [dat, study_id] = avgByStimLvl2(dat, study_id)
+%
+% dat	   - canlab fmridata_obj
+% sid	   - subject ids
+% stimLvl  - stimulus level indicator variable
+
+function [dat, newsid, newstimLvl] = avgByStimLvl2(dat, sid, stimLvl)
+    Y = stimLvl;
+    [~,~,num_sid] = unique(sid,'stable');
+    X = dat.dat';
+
+    [~, newOrder] = sortrows([num_sid, Y]);
+    [~,origOrder] = sort(newOrder);
+
+    X = X(newOrder,:);
+    Y = Y(newOrder);
+    num_sid = num_sid(newOrder);
+
+    [~,exp,grp] = unique([num_sid, Y],'rows','stable');
+    uniq_grp = unique(grp);
+
+    % get centering matrix
+    n_grp = length(uniq_grp);
+    cmat = cell(1,n_grp);
+    for i = 1:n_grp
+        this_grp = uniq_grp(i);
+        this_n = sum(this_grp == grp);
+        cmat{i} = eye(this_n) - 1/this_n;
+    end
+    cmat = blkdiag(cmat{:});
+
+    X = X - cmat*X;
+    Y = Y - cmat*Y;
+
+    newsid = num_sid(exp);
+    newstimLvl = Y(exp);
+
+    dat = dat.get_wh_image(newOrder(exp));
+    dat.dat = X(exp,:)';
+
+    dat.history{end+1} = ['averaged over stimulus level within subject'];
+    dat.source_notes = [];
+end
+##### SOURCE END #####
+--></body></html>

@@ -44,7 +44,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | [4.1. Mediation and M3 Toolbox basics](tutorials/html/mediation_1_basics.html) | [Download Matlab Live Script](tutorials/matlab/mediation_1_basics.mlx) |  
 | [4.2. Single-level Mediation Effect Parametric Mapping (fMRI)](tutorials/html/mediation_brain_single_level_walkthrough1.html) | [Download Matlab Live Script](tutorials/matlab/mediation_brain_single_level_walkthrough1.mlx) |  
 | [   additional single-level MEPM output report from publish_mediation_report.m](mediation_brain_sample_report/mediation_brain_results_report.html) |  |
-| [4.4. Multilevel Mediation Effect Mapping (fMRI)](tutorials/html/mediation_brain_multilevel_walkthrough1.html) | [Download Matlab Live Script](tutorials/matlab/mediation_brain_multilevel_walkthrough1.mlx) |
+| [4.3. Multilevel Mediation Effect Mapping (fMRI)](tutorials/html/mediation_brain_multilevel_walkthrough1.html) | [Download Matlab Live Script](tutorials/matlab/mediation_brain_multilevel_walkthrough1.mlx) |
 
 | Coordinate-based Meta-analysis          
 | ------------       |
@@ -68,3 +68,5 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 Please note that the tutorials which follow are works in progress and of primary interest to advanced users.
 
 [Interpreting within and between subject components of PCR models](mlpcr_demo/mlpcr_demo.html)
+
+[Building and using ML pipelines using Canlab tools](canlab_pipelines_walkthrough/estimateBestRegionPerformance.html)
