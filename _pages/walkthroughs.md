@@ -20,7 +20,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | [1.4.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html)
 | [1.5.  Publishing results reports](canlab_help_2d_publish_a_report/canlab_help_2d_publish_a_report.html)
 | [1.6.  Basic Matlab debugging (live script)](/tutorials/matlab/basic_matlab_debugging.mlx)
-| [1.7.  Voxel and image spaces in CANlab fmri_data objects (Voxel_and_image_spaces_in_CANlab_fmri_data_objects.html)] [live script(Voxel_and_image_spaces_in_CANlab_fmri_data_objects.mlx)]
+| [1.7.  Voxel and image spaces in CANlab fmri_data objects](Voxel_and_image_spaces_in_CANlab_fmri_data_objects.html) [live script](Voxel_and_image_spaces_in_CANlab_fmri_data_objects.mlx)
 
 | Basic analyses             
 | ------------       |
