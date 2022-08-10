@@ -44,9 +44,7 @@ These are didactic tutorials using Matlab live scripts. There is also a compleme
 
 | Second-level models with CANlab tools            
 | ------------       |
-
 | [4.1. Second-level model using CANlab robust regression toolbox](tutorials/html/robust_regression_walkthrough_toolbox.html) | [Download Matlab Live Script](tutorials/matlab/robust_regression_walkthrough_toolbox.mlx) |
-|  |
 | See also [walkthroughs](/walkthroughs) |
 
 | Multivariate predictive models           
