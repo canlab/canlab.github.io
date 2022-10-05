@@ -15,7 +15,7 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | Getting started             
 | ------------       |
 | [1.1. Installing tools](canlab_help_1_installing_tools/canlab_help_1_installing_tools.html)
-| [1.2. Getting help](canlab_help_1b_getting_help/canlab_help_1b_getting_help.html) <> Matlab Live Script](canlab_help_1b_getting_help/canlab_help_1b_getting_help.mlx)
+| [1.2. Getting help](canlab_help_1b_getting_help/canlab_help_1b_getting_help.html) <> [Matlab Live Script](canlab_help_1b_getting_help/canlab_help_1b_getting_help.mlx)
 | [1.3. Load a sample dataset](canlab_help_2_load_a_sample_dataset/canlab_help_2_load_a_sample_dataset.html)
 | [1.4.  basic image visualization](canlab_help_2b_basic_image_visualization/canlab_help_2b_basic_image_visualization.html)
 | [1.5.  Loading some datasets used in tutorials](canlab_help_2c_loading_datasets/canlab_help_2c_loading_datasets.html)
