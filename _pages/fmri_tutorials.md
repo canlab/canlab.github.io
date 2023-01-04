@@ -24,7 +24,7 @@ These are didactic tutorials using Matlab live scripts. There is also a compleme
 | Basic signal processing             
 | ------------       |
 | [1.1. T1 decay and basic Matlab orientation](tutorials/html/Lab1_T1_decay_and_basic_matlab.html) | [Download Matlab Live Script](tutorials/matlab/Lab1_T1_decay_and_basic_matlab.mlx) |  
-| [1.2. Sine waves and the Fourier Transform](tutorials/html/sin_cos_fft.html) | [Download Matlab Live Script](tutorials/matlab/sin_cos_fft.mlx) |
+| [1.2. Sine waves, aliasing, and the Fourier Transform](tutorials/html/sin_cos_fft.html) | [Download Matlab Live Script](tutorials/matlab/sin_cos_fft.mlx) |
 
 | The General Linear Model and fMRI designs             
 | ------------       |
