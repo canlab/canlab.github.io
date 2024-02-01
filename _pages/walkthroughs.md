@@ -72,3 +72,5 @@ Please note that the tutorials which follow are works in progress and of primary
 [Interpreting within and between subject components of PCR models](mlpcr_demo/mlpcr_demo.html)
 
 [Building and using ML pipelines using Canlab tools](canlab_pipelines_walkthrough/estimateBestRegionPerformance.html)
+
+[Understanding the CANLAb atlases objects](using_canlab_atlases/using_canlab_atlases.html)
