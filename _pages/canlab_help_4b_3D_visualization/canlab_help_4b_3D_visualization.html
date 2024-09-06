@@ -126,7 +126,41 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <p>For this walkthrough, we'll use the "Pain, Cognition, Emotion balanced N = 270 dataset" from Kragel et al. 2018, Nature Neuroscience. More information about this dataset and how to download it is in an earlier walkthrough on "loading datasets"</p>
 <p>The code below loads it; but you could also use any other brain dataset for this purpose (e.g., the 'emotionreg' dataset in load_image_set.</p>
 <p>Our goal is to select subject-level images corresponding to a particular task type and do a t-test on these, and visualize the results in various 3-D ways.</p>
-<pre class="codeinput">[test_images,names]=load_image_set(<span class="string">'kragel18_alldata'</span>,<span class="string">'noverbose'</span>);<span class="comment">% This field contains a table object with metadata for each image:</span>metadata=test_images.metadata_table;metadata(1:5,:)<span class="comment">% Show the first 5 rows</span><span class="comment">% Here are the 3 domains:</span>disp(unique(metadata.Domain))<span class="comment">% Find all the images of "Neg_Emotion" and pull those into a separate</span><span class="comment">% fmri_data object:</span>wh=find(strcmp(metadata.Domain,<span class="string">'Neg_Emotion'</span>));neg_emo=get_wh_image(test_images,wh);<span class="comment">% Do a t-test on these images, and store the results in a statistic_image</span><span class="comment">% object called "t". Threshold at q &lt; 0.001 FDR. This is an unusual</span><span class="comment">% threshold, but we have lots of power here, and want to restrict the</span><span class="comment">% number of significant voxels for display purposes below.</span>t=ttest(neg_emo,.001,<span class="string">'fdr'</span>);<span class="comment">% Find the images for other conditions and save them for later:</span>t_emo=t;wh=find(strcmp(metadata.Domain,<span class="string">'Cog_control'</span>));cog_control=get_wh_image(test_images,wh);t_cog=ttest(cog_control,.001,<span class="string">'fdr'</span>);wh=find(strcmp(metadata.Domain,<span class="string">'Pain'</span>));pain=get_wh_image(test_images,wh);t_pain=ttest(pain,.001,<span class="string">'fdr'</span>);
+<pre class="codeinput">[test_images, names] = load_image_set(<span class="string">'kragel18_alldata'</span>, <span class="string">'noverbose'</span>);
+
+<span class="comment">% This field contains a table object with metadata for each image:</span>
+
+metadata = test_images.metadata_table;
+metadata(1:5, :)                        <span class="comment">% Show the first 5 rows</span>
+
+<span class="comment">% Here are the 3 domains:</span>
+
+disp(unique(metadata.Domain))
+
+<span class="comment">% Find all the images of "Neg_Emotion" and pull those into a separate</span>
+<span class="comment">% fmri_data object:</span>
+
+wh = find(strcmp(metadata.Domain, <span class="string">'Neg_Emotion'</span>));
+neg_emo = get_wh_image(test_images, wh);
+
+<span class="comment">% Do a t-test on these images, and store the results in a statistic_image</span>
+<span class="comment">% object called "t". Threshold at q &lt; 0.001 FDR. This is an unusual</span>
+<span class="comment">% threshold, but we have lots of power here, and want to restrict the</span>
+<span class="comment">% number of significant voxels for display purposes below.</span>
+
+t = ttest(neg_emo, .001, <span class="string">'fdr'</span>);
+
+<span class="comment">% Find the images for other conditions and save them for later:</span>
+
+t_emo = t;
+
+wh = find(strcmp(metadata.Domain, <span class="string">'Cog_control'</span>));
+cog_control = get_wh_image(test_images, wh);
+t_cog = ttest(cog_control, .001, <span class="string">'fdr'</span>);
+
+wh = find(strcmp(metadata.Domain, <span class="string">'Pain'</span>));
+pain = get_wh_image(test_images, wh);
+t_pain = ttest(pain, .001, <span class="string">'fdr'</span>);
 </pre>
 <pre class="codeoutput">Loading /home/bogdan/.matlab/canlab/CANlab_help_examples/example_help_files/kragel_2018_nat_neurosci_270_subjects_test_images.mat
 
@@ -176,7 +210,25 @@ Negative effect: 4481 voxels, min p-value: 0.00000000
 <p>Most data objects, including fmri_data, statistic_image, and region objects, have a surface() method. Entering it with no arguments creates a surface or series of surfaces (depending on the object)</p>
 <p>The surface() method lets you easily render blobs on a number of pre-set choices for brain surfaces or 3-D cutaway surfaces.</p>
 <pre class="codeinput">
-<span class="comment">% This generates a series of 6 surfaces of different types, including a</span><span class="comment">% subcortical cutaway</span>surface(t);drawnow,snapnow<span class="comment">% This generates a different plot</span>create_figure(<span class="string">'lateral surfaces'</span>);surface_handles=surface(t,<span class="string">'foursurfaces'</span>,<span class="string">'noverbose'</span>);snapnow<span class="comment">% You can see more options with:</span><span class="comment">% |help statistic_image.surface| or |help t.surface|</span><span class="comment">% You can also use the |render_on_surface()| to method to change the colormap:</span>render_on_surface(t,surface_handles,<span class="string">'colormap'</span>,<span class="string">'summer'</span>);snapnow
+<span class="comment">% This generates a series of 6 surfaces of different types, including a</span>
+<span class="comment">% subcortical cutaway</span>
+
+surface(t);
+drawnow, snapnow
+
+<span class="comment">% This generates a different plot</span>
+
+create_figure(<span class="string">'lateral surfaces'</span>);
+surface_handles = surface(t, <span class="string">'foursurfaces'</span>, <span class="string">'noverbose'</span>);
+snapnow
+
+<span class="comment">% You can see more options with:</span>
+<span class="comment">% |help statistic_image.surface| or |help t.surface|</span>
+
+<span class="comment">% You can also use the |render_on_surface()| to method to change the colormap:</span>
+
+render_on_surface(t, surface_handles, <span class="string">'colormap'</span>, <span class="string">'summer'</span>);
+snapnow
 </pre>
 <pre class="codeoutput">Anatomical image: Adapted from the 7T high-resolution atlas of Keuken, Forstmann et al.                                                                                                                                             
 Keuken et al. (2014). Quantifying inter-individual anatomical variability in the subcortex using 7T structural MRI.                                                                                                                 
@@ -186,7 +238,28 @@ Forstmann, Birte U., Max C. Keuken, Andreas Schafer, Pierre-Louis Bazin, Anneke 
 <p>The above plots are rendered by cross referencing the coordinates of voxels in MNI space with the coordinates of vertices in a brain surface object, "BigBrain" in this case. These vertices of corresponding anatomy does not in general coincide across these volume and surface formats. For instance, the coordinates of the cortical gray matter mantel in a brain registered to the MNI152NLin2009cAsym volumetric template may fall at a greater radial distance from the center of the brain than the cortical mantel in bigbrain or vice versa resulting incorrect rendering of deep cortical signals from the volumetric data to superficial locations in the surface template.</p>
 <p>To address this issue we've run segmentations of MNI templates using freesurfer to obtain template specific cortical surfaces. These template specific surfaces were then registered and resampled to a couple surface templates, initially HCP's fsLR 32k and freesurfer's fsaverage 164k, although more may be added in the future. These are then used to establish voxel-to-surface interpolation maps which will generalize to a particular surface (e.g. HCP's fsLR 32k) at any particular level of inflation from uninflated to flat maps. In order to take advantage of this functionality you simply need to specify the source space (a MNI template) and a target surface (fsLR_32k or fsaverage164k)</p>
 <pre class="codeinput">
-<span class="comment">% Here is an example of the above data projected to the inflated fsLR 32k</span><span class="comment">% surface used by HCP grayordinate formats.</span>create_figure(<span class="string">'lateral surfaces'</span>);surface_handles=surface(t,<span class="string">'hcp inflated left'</span>)<span class="comment">% Here is an example of the same data remapped with source and target</span><span class="comment">% awareness</span>create_figure(<span class="string">'lateral surfaces'</span>);surface_handles=surface(t,<span class="string">'hcp inflated left'</span>,<span class="string">'sourcespace'</span>,<span class="string">'MNI152NLin2009cAsym'</span>,<span class="string">'targetsurface'</span>,<span class="string">'fsLR_32k'</span>)<span class="comment">% Although we do not in this case know precisely which sourcespace to use</span><span class="comment">% (the kragel dataset is a multistudy aggregate that likely was registered</span><span class="comment">% to multiple different MNI templates), you can still see what an impact</span><span class="comment">% using MNISurf projection can have. Notably, there is no MNISurf</span><span class="comment">% projection for the bigbrain surfaces. In some cases, the targetsurface</span><span class="comment">% may be detected automatically (e.g. if using canlab_results_fmridisplay()</span><span class="comment">% presets), and can be ommitted, but if needed you will be prompted by a</span><span class="comment">% warning and available options are enumerated. However, you must always</span><span class="comment">% specify a sourcespace manually so pay attention to what templates your</span><span class="comment">% volumetric data are registered too to be able to use this functionality</span><span class="comment">% correctly.</span>
+<span class="comment">% Here is an example of the above data projected to the inflated fsLR 32k</span>
+<span class="comment">% surface used by HCP grayordinate formats.</span>
+
+create_figure(<span class="string">'lateral surfaces'</span>);
+surface_handles = surface(t, <span class="string">'hcp inflated left'</span>)
+
+<span class="comment">% Here is an example of the same data remapped with source and target</span>
+<span class="comment">% awareness</span>
+create_figure(<span class="string">'lateral surfaces'</span>);
+surface_handles = surface(t, <span class="string">'hcp inflated left'</span>, <span class="string">'sourcespace'</span>, <span class="string">'MNI152NLin2009cAsym'</span>, <span class="string">'targetsurface'</span>, <span class="string">'fsLR_32k'</span>)
+
+<span class="comment">% Although we do not in this case know precisely which sourcespace to use</span>
+<span class="comment">% (the kragel dataset is a multistudy aggregate that likely was registered</span>
+<span class="comment">% to multiple different MNI templates), you can still see what an impact</span>
+<span class="comment">% using MNISurf projection can have. Notably, there is no MNISurf</span>
+<span class="comment">% projection for the bigbrain surfaces. In some cases, the targetsurface</span>
+<span class="comment">% may be detected automatically (e.g. if using canlab_results_fmridisplay()</span>
+<span class="comment">% presets), and can be ommitted, but if needed you will be prompted by a</span>
+<span class="comment">% warning and available options are enumerated. However, you must always</span>
+<span class="comment">% specify a sourcespace manually so pay attention to what templates your</span>
+<span class="comment">% volumetric data are registered too to be able to use this functionality</span>
+<span class="comment">% correctly.</span>
 </pre>
 <pre class="codeoutput">
 surface_handles = 
@@ -225,7 +298,9 @@ surface_handles =
 <p>You can use this to render activations on a whole set of slices/surfaces at once. You can create your own custom views, or use pre-packaged sets of montages/surfaces created by the function <tt>canlab_results_fmridisplay</tt>
 </p>
 <p>The code snippet below displays our t-map on a relatively complete series of slices and surfaces, so you can see the "whole picture".</p>
-<pre class="codeinput">my_display_obj=canlab_results_fmridisplay([],<span class="string">'montagetype'</span>,<span class="string">'full'</span>);my_display_obj=addblobs(my_display_obj,region(t));snapnow
+<pre class="codeinput">my_display_obj = canlab_results_fmridisplay([], <span class="string">'montagetype'</span>, <span class="string">'full'</span>);
+my_display_obj = addblobs(my_display_obj, region(t));
+snapnow
 </pre>
 <pre class="codeoutput">Setting up fmridisplay objects
 Compressed NIfTI files are not supported.
@@ -239,7 +314,7 @@ axial montage: 5517 voxels displayed, 17686 not displayed on these slices
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_06.png" alt=""> <p>You can see some prepackaged sets in <tt>help canlab_results_fmridisplay</tt> These include: 'full' Axial, coronal, and saggital slices, 4 cortical surfaces 'compact' Midline saggital and two rows of axial slices [the default] 'compact2' A single row showing midline saggital and axial slices 'multirow' A series of 'compact2' displays in one figure for comparing different images/maps side by side 'regioncenters' A series of separate axes, each focused on one region</p>
 <p>In addition, you can pass in a series of optional keywords that will be passed onto the <tt>addblobs</tt> object method that controls rendering of the blobs on slices. (They don't all work for surfaces). These control colors, inclusion of an <b>outline</b> around each activation blob/region, and more. See <tt>help fmridisplay.addblobs</tt> for more information. Here is an example using a few of the options.</p>
-<pre class="codeinput">my_display_obj=canlab_results_fmridisplay(t,<span class="string">'compact2'</span>,<span class="string">'color'</span>,[100],<span class="string">'nooutline'</span>,<span class="string">'trans'</span>);
+<pre class="codeinput">my_display_obj = canlab_results_fmridisplay(t, <span class="string">'compact2'</span>, <span class="string">'color'</span>, [1 0 0], <span class="string">'nooutline'</span>, <span class="string">'trans'</span>);
 </pre>
 <pre class="codeoutput">Grouping contiguous voxels:  92 regions
 Setting up fmridisplay objects
@@ -248,14 +323,27 @@ axial montage: 5570 voxels displayed, 17633 not displayed on these slices
 sagittal montage: 427 voxels displayed, 22776 not displayed on these slices
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_07.png" alt=""> <p>After creating the display, other maps can be added. The addblobs() method requires a region object, so we use region(t) to convert to a region object. This shows us regions activated during negative emotion in red and pain in blue.</p>
-<pre class="codeinput">my_display_obj=addblobs(my_display_obj,region(t_pain),<span class="string">'color'</span>,[001],<span class="string">'nooutline'</span>,<span class="string">'trans'</span>);snapnow
+<pre class="codeinput">my_display_obj = addblobs(my_display_obj, region(t_pain), <span class="string">'color'</span>, [0 0 1], <span class="string">'nooutline'</span>, <span class="string">'trans'</span>);
+snapnow
 </pre>
 <pre class="codeoutput">Grouping contiguous voxels:  97 regions
 axial montage: 2814 voxels displayed, 8673 not displayed on these slices
 sagittal montage: 495 voxels displayed, 10992 not displayed on these slices
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_08.png" alt=""> <p>my_display_obj is an fmridisplay-class object. It has its own methods:</p>
-<pre class="codeinput">methods(my_display_obj)<span class="comment">% One particularly useful feature is that you can add or _remove_ activation blobs.</span><span class="comment">% This allows you to create a canonical set of views and then render one</span><span class="comment">% activation map on them, remove the blobs, and render other maps on the</span><span class="comment">% same set of display items. You can add points, spheres (e.g., from</span><span class="comment">% different studies), and more.</span><span class="comment">%</span><span class="comment">% When you operate on an fmridisplay object, pass it back out as an output</span><span class="comment">% argument so that the information you updated will be available.</span>my_display_obj=removeblobs(my_display_obj);snapnow
+<pre class="codeinput">methods(my_display_obj)
+
+<span class="comment">% One particularly useful feature is that you can add or _remove_ activation blobs.</span>
+<span class="comment">% This allows you to create a canonical set of views and then render one</span>
+<span class="comment">% activation map on them, remove the blobs, and render other maps on the</span>
+<span class="comment">% same set of display items. You can add points, spheres (e.g., from</span>
+<span class="comment">% different studies), and more.</span>
+<span class="comment">%</span>
+<span class="comment">% When you operate on an fmridisplay object, pass it back out as an output</span>
+<span class="comment">% argument so that the information you updated will be available.</span>
+
+my_display_obj = removeblobs(my_display_obj);
+snapnow
 </pre>
 <pre class="codeoutput">
 Methods for class fmridisplay:
@@ -275,22 +363,59 @@ fmridisplay          surface
 <p>Try <tt>help addbrain</tt> for a list of surfaces, and <tt>help cluster_surf</tt> for other color/display/scaling options.</p>
 <p>Note: this step requires access to the MasksPrivate repo</p>
 <pre class="codeinput">
-<span class="comment">% Let's build a surface by starting with a group of thalamic nuclei, and</span><span class="comment">% adding the parabrachial complex and the red nucleus.</span><span class="comment">% Then, we'll render our t-statistics in colors onto those surfaces.</span>create_figure(<span class="string">'cutaways'</span>);axis<span class="string">off</span>surface_handles=addbrain(<span class="string">'thalamus_group'</span>);surface_handles=[surface_handlesaddbrain(<span class="string">'pbn'</span>)];surface_handles=[surface_handlesaddbrain(<span class="string">'rn'</span>)];surface_handles=[surface_handlesaddbrain(<span class="string">'pag'</span>)];drawnow,snapnow
+<span class="comment">% Let's build a surface by starting with a group of thalamic nuclei, and</span>
+<span class="comment">% adding the parabrachial complex and the red nucleus.</span>
+<span class="comment">% Then, we'll render our t-statistics in colors onto those surfaces.</span>
+
+create_figure(<span class="string">'cutaways'</span>); axis <span class="string">off</span>
+surface_handles = addbrain(<span class="string">'thalamus_group'</span>);
+
+surface_handles = [surface_handles addbrain(<span class="string">'pbn'</span>)];
+surface_handles = [surface_handles addbrain(<span class="string">'rn'</span>)];
+surface_handles = [surface_handles addbrain(<span class="string">'pag'</span>)];
+
+drawnow, snapnow
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_10.png" alt=""> <p>Now render the statistic image stored in <i>t</i> onto those surfaces. All non-activated areas turn gray.</p>
-<pre class="codeinput">render_on_surface(t,surface_handles,<span class="string">'colormap'</span>,<span class="string">'summer'</span>);set(surface_handles,<span class="string">'FaceAlpha'</span>,.85);set(surface_handles(5:6),<span class="string">'FaceAlpha'</span>,.15);<span class="comment">% Make brainstem and thalamus shell more transparent</span>drawnow,snapnow<span class="comment">% Emphasize positive values, in a hot colormap</span>render_on_surface(t,surface_handles,<span class="string">'clim'</span>,[0.013]);drawnow,snapnow<span class="comment">% Show positive and negative values, in a hot colormap</span>render_on_surface(t,surface_handles,<span class="string">'clim'</span>,[-33]);drawnow,snapnow
+<pre class="codeinput">render_on_surface(t, surface_handles, <span class="string">'colormap'</span>, <span class="string">'summer'</span>);
+set(surface_handles, <span class="string">'FaceAlpha'</span>, .85);
+set(surface_handles(5:6), <span class="string">'FaceAlpha'</span>, .15);   <span class="comment">% Make brainstem and thalamus shell more transparent</span>
+drawnow, snapnow
+
+<span class="comment">% Emphasize positive values, in a hot colormap</span>
+render_on_surface(t, surface_handles, <span class="string">'clim'</span>, [0.01 3]);
+drawnow, snapnow
+
+<span class="comment">% Show positive and negative values, in a hot colormap</span>
+render_on_surface(t, surface_handles, <span class="string">'clim'</span>, [-3 3]);
+drawnow, snapnow
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_11.png" alt=""> <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_12.png" alt=""> <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_13.png" alt=""> <p>Now render the statistic image stored in <i>t</i> onto those surfaces. All non-activated areas turn gray.</p>
-<pre class="codeinput">t.surface(<span class="string">'surface_handles'</span>,surface_handles,<span class="string">'noverbose'</span>);drawnow,snapnow
+<pre class="codeinput">t.surface(<span class="string">'surface_handles'</span>, surface_handles, <span class="string">'noverbose'</span>);
+drawnow, snapnow
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_14.png" alt=""> <p>Transparent surfaces are a little hard to see. We can use Matlab's powerful handle graphics system to inspect and change all kinds of properties. See the Matlab documentation for more details. Let's just make the surfaces solid:</p>
-<pre class="codeinput">set(surface_handles,<span class="string">'FaceAlpha'</span>,1);drawnow,snapnow
+<pre class="codeinput">set(surface_handles, <span class="string">'FaceAlpha'</span>, 1);
+drawnow, snapnow
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_15.png" alt=""> <p>These surfaces can be rotated too (or zoom in/out, pan, set lighting, etc.) Let's shift the angle.</p>
-<pre class="codeinput">axes(get(surface_handles(1),<span class="string">'Parent'</span>));view(222,15);<span class="comment">% rotate</span>camzoom(0.8);<span class="comment">% zoom out</span><span class="comment">% A helpful CANlab function to re-set the lighting after rotating is:</span>lightRestoreSingle;drawnow,snapnow
+<pre class="codeinput">axes(get(surface_handles(1),<span class="string">'Parent'</span>));
+
+view(222, 15);          <span class="comment">% rotate</span>
+camzoom(0.8);           <span class="comment">% zoom out</span>
+
+<span class="comment">% A helpful CANlab function to re-set the lighting after rotating is:</span>
+
+lightRestoreSingle;
+
+drawnow, snapnow
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_16.png" alt=""> <p>addbrain also has keywords for composites of multiple surfaces</p>
-<pre class="codeinput">create_figure(<span class="string">'cutaways'</span>);axis<span class="string">off</span>surface_handles=addbrain(<span class="string">'limbic'</span>);ax=gcaax.Position(1)=ax.Position(1)-0.1;<span class="comment">% to avoid colorbar overlap</span>t.surface(<span class="string">'surface_handles'</span>,surface_handles,<span class="string">'noverbose'</span>);
+<pre class="codeinput">create_figure(<span class="string">'cutaways'</span>); axis <span class="string">off</span>
+surface_handles = addbrain(<span class="string">'limbic'</span>);
+ax = gca
+ax.Position(1) = ax.Position(1) - 0.1; <span class="comment">% to avoid colorbar overlap</span>
+t.surface(<span class="string">'surface_handles'</span>, surface_handles, <span class="string">'noverbose'</span>);
 </pre>
 <pre class="codeoutput">
 ax = 
@@ -310,7 +435,26 @@ ax =
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_17.png" alt=""> <h2 id="15">Removing blobs and re-adding new colors</h2>
 <p>There is a special command to re-set the surface colors to gray. Then we can add a t-test for different contrasts without re-drawing surfaces.</p>
-<pre class="codeinput">surface_handles=addbrain(<span class="string">'eraseblobs'</span>,surface_handles);title(<span class="string">'Cognitive Control'</span>);t=ttest(cog_control,.001,<span class="string">'unc'</span>);t.surface(<span class="string">'surface_handles'</span>,surface_handles,<span class="string">'noverbose'</span>);drawnow,snapnowsurface_handles=addbrain(<span class="string">'eraseblobs'</span>,surface_handles);title(<span class="string">'Pain'</span>);t=ttest(pain,.001,<span class="string">'unc'</span>);t.surface(<span class="string">'surface_handles'</span>,surface_handles,<span class="string">'noverbose'</span>);drawnow,snapnowsurface_handles=addbrain(<span class="string">'eraseblobs'</span>,surface_handles);title(<span class="string">'Negative Emotion'</span>);t=ttest(neg_emo,.001,<span class="string">'unc'</span>);t.surface(<span class="string">'surface_handles'</span>,surface_handles,<span class="string">'noverbose'</span>);drawnow,snapnow
+<pre class="codeinput">surface_handles = addbrain(<span class="string">'eraseblobs'</span>,surface_handles);
+
+title(<span class="string">'Cognitive Control'</span>);
+t = ttest(cog_control, .001, <span class="string">'unc'</span>);
+t.surface(<span class="string">'surface_handles'</span>, surface_handles, <span class="string">'noverbose'</span>);
+drawnow, snapnow
+
+surface_handles = addbrain(<span class="string">'eraseblobs'</span>,surface_handles);
+
+title(<span class="string">'Pain'</span>);
+t = ttest(pain, .001, <span class="string">'unc'</span>);
+t.surface(<span class="string">'surface_handles'</span>, surface_handles, <span class="string">'noverbose'</span>);
+drawnow, snapnow
+
+surface_handles = addbrain(<span class="string">'eraseblobs'</span>,surface_handles);
+
+title(<span class="string">'Negative Emotion'</span>);
+t = ttest(neg_emo, .001, <span class="string">'unc'</span>);
+t.surface(<span class="string">'surface_handles'</span>, surface_handles, <span class="string">'noverbose'</span>);
+drawnow, snapnow
 </pre>
 <pre class="codeoutput">One-sample t-test
 Calculating t-statistics and p-values
@@ -339,7 +483,29 @@ Negative effect: 6758 voxels, min p-value: 0.00000000
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_20.png" alt=""> <h2 id="16">Prepackaged cutaway surfaces</h2>
 <p>Addbrain has many 3-D surfaces, including cutaways that show various 3-D sections. The code below visualizes the various options for cutaways.</p>
 <p>You can also pass any of these keywords into surface() to generate the surface and render colored blobs. Let's render these with and without an unthresholded pain map</p>
-<pre class="codeinput">t=ttest(pain,1,<span class="string">'unc'</span>);t_thr=threshold(t,.05,<span class="string">'fdr'</span>);keywords={<span class="string">'left_cutaway'</span><span class="string">'right_cutaway'</span><span class="string">'left_insula_slab'</span><span class="string">'right_insula_slab'</span><span class="string">'accumbens_slab'</span><span class="string">'coronal_slabs'</span><span class="string">'coronal_slabs_4'</span><span class="string">'coronal_slabs_5'</span>};<span class="keyword">for</span>i=1:length(keywords)create_figure(<span class="string">'cutaways'</span>);axis<span class="string">off</span>surface_handles=surface(t_thr,keywords{i});<span class="comment">% This essentially runs the code below:</span><span class="comment">% surface_handles = addbrain(keywords{i}, 'noverbose');</span><span class="comment">% render_on_surface(t, surface_handles, 'clim', [-7 7]);</span><span class="comment">% Alternative: This command creates the same surfaces:</span><span class="comment">% surface_handles = canlab_canonical_brain_surface_cutaways(keywords{i});</span><span class="comment">% render_on_surface(t, surface_handles, 'clim', [-7 7]);</span>drawnow,snapnow<span class="keyword">end</span>
+<pre class="codeinput">t = ttest(pain, 1, <span class="string">'unc'</span>);
+t_thr = threshold(t, .05, <span class="string">'fdr'</span>);
+
+keywords = {<span class="string">'left_cutaway'</span> <span class="string">'right_cutaway'</span> <span class="string">'left_insula_slab'</span> <span class="string">'right_insula_slab'</span> <span class="string">'accumbens_slab'</span> <span class="string">'coronal_slabs'</span> <span class="string">'coronal_slabs_4'</span> <span class="string">'coronal_slabs_5'</span>};
+
+<span class="keyword">for</span> i = 1:length(keywords)
+
+    create_figure(<span class="string">'cutaways'</span>); axis <span class="string">off</span>
+
+    surface_handles = surface(t_thr, keywords{i});
+
+    <span class="comment">% This essentially runs the code below:</span>
+
+    <span class="comment">% surface_handles = addbrain(keywords{i}, 'noverbose');</span>
+    <span class="comment">% render_on_surface(t, surface_handles, 'clim', [-7 7]);</span>
+
+    <span class="comment">% Alternative: This command creates the same surfaces:</span>
+    <span class="comment">% surface_handles = canlab_canonical_brain_surface_cutaways(keywords{i});</span>
+    <span class="comment">% render_on_surface(t, surface_handles, 'clim', [-7 7]);</span>
+
+    drawnow, snapnow
+
+<span class="keyword">end</span>
 </pre>
 <pre class="codeoutput">One-sample t-test
 Calculating t-statistics and p-values
@@ -387,7 +553,16 @@ Keuken et al. (2014). Quantifying inter-individual anatomical variability in the
 Forstmann, Birte U., Max C. Keuken, Andreas Schafer, Pierre-Louis Bazin, Anneke Alkemade, and Robert Turner. 2014. ?Multi-Modal Ultra-High Resolution Structural 7-Tesla MRI Data Repository.? Scientific Data 1 (December): 140050.
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_28.png" alt=""> <p>Plot thresholded and unthresholded maps side by side</p>
-<pre class="codeinput">create_figure(<span class="string">'cutaways'</span>,1,2);axis<span class="string">off</span>surface_handles=surface(t,<span class="string">'right_cutaway'</span>);title(<span class="string">'Pain, Unthresholded'</span>)subplot(1,2,2);surface_handles=surface(t_thr,<span class="string">'right_cutaway'</span>);title(<span class="string">'Pain, thresholded'</span>)drawnow,snapnow
+<pre class="codeinput">create_figure(<span class="string">'cutaways'</span>,1, 2); axis <span class="string">off</span>
+
+surface_handles = surface(t, <span class="string">'right_cutaway'</span>);
+title(<span class="string">'Pain, Unthresholded'</span>)
+
+subplot(1, 2, 2);
+surface_handles = surface(t_thr, <span class="string">'right_cutaway'</span>);
+title(<span class="string">'Pain, thresholded'</span>)
+
+drawnow, snapnow
 </pre>
 <pre class="codeoutput">Anatomical image: Adapted from the 7T high-resolution atlas of Keuken, Forstmann et al.                                                                                                                                             
 Keuken et al. (2014). Quantifying inter-individual anatomical variability in the subcortex using 7T structural MRI.                                                                                                                 
@@ -400,7 +575,22 @@ Forstmann, Birte U., Max C. Keuken, Andreas Schafer, Pierre-Louis Bazin, Anneke 
 <b>Controlling options in render_on_surface()</b>
 </p>
 <p>When the t map has positive and negative values, render_on_surface creates a special bicolor split colormap that has warm colors for positive vals, and cool colors for negative vals. You can set the color limits (here, in t-values)</p>
-<pre class="codeinput">create_figure(<span class="string">'cutaways'</span>);axis<span class="string">off</span>surface_handles=surface(t_thr,<span class="string">'coronal_slabs'</span>);render_on_surface(t_thr,surface_handles,<span class="string">'clim'</span>,[-44]);drawnow,snapnow<span class="comment">% You can set the colormap to any Matlab colormap:</span>render_on_surface(t_thr,surface_handles,<span class="string">'colormap'</span>,<span class="string">'summer'</span>);drawnow,snapnow<span class="comment">% If your image is positive-valued only (or negative-valued only), a</span><span class="comment">% bicolor split map will not be created:</span>t=threshold(t_thr,[2Inf],<span class="string">'raw-between'</span>);surface_handles=surface(t,<span class="string">'coronal_slabs'</span>);drawnow,snapnow
+<pre class="codeinput">create_figure(<span class="string">'cutaways'</span>); axis <span class="string">off</span>
+surface_handles = surface(t_thr, <span class="string">'coronal_slabs'</span>);
+
+render_on_surface(t_thr, surface_handles, <span class="string">'clim'</span>, [-4 4]);
+drawnow, snapnow
+
+<span class="comment">% You can set the colormap to any Matlab colormap:</span>
+render_on_surface(t_thr, surface_handles, <span class="string">'colormap'</span>, <span class="string">'summer'</span>);
+drawnow, snapnow
+
+<span class="comment">% If your image is positive-valued only (or negative-valued only), a</span>
+<span class="comment">% bicolor split map will not be created:</span>
+
+t = threshold(t_thr, [2 Inf], <span class="string">'raw-between'</span>);
+surface_handles = surface(t, <span class="string">'coronal_slabs'</span>);
+drawnow, snapnow
 </pre>
 <pre class="codeoutput">Anatomical image: Adapted from the 7T high-resolution atlas of Keuken, Forstmann et al.                                                                                                                                             
 Keuken et al. (2014). Quantifying inter-individual anatomical variability in the subcortex using 7T structural MRI.                                                                                                                 
@@ -415,7 +605,25 @@ Forstmann, Birte U., Max C. Keuken, Andreas Schafer, Pierre-Louis Bazin, Anneke 
 <p>The fmri_data.isosurface() method allows you to create and save isosurfaces for any image, parcel, or blob.</p>
 <p>You can also save the meshgrid output and surface structure that lets you render this surface easily in the future.</p>
 <p>Here's a simple example visualizing all of the parcels in an atlas as 3-D blobs:</p>
-<pre class="codeinput">t=ttest(pain,.01,<span class="string">'unc'</span>);atlas_obj=load_atlas(<span class="string">'thalamus'</span>);create_figure(<span class="string">'isosurface'</span>);surface_handles=isosurface(atlas_obj);<span class="comment">% Now we'll set some lighting and figure properties</span>axis<span class="string">image</span><span class="string">vis3d</span><span class="string">off</span>material<span class="string">dull</span>view(210,20);lightRestoreSingledrawnow,snapnow<span class="comment">% You can render blobs on these surfaces too.</span>render_on_surface(t,surface_handles,<span class="string">'colormap'</span>,<span class="string">'hot'</span>);drawnow,snapnow
+<pre class="codeinput">t = ttest(pain, .01, <span class="string">'unc'</span>);
+
+atlas_obj = load_atlas(<span class="string">'thalamus'</span>);
+
+create_figure(<span class="string">'isosurface'</span>);
+surface_handles = isosurface(atlas_obj);
+
+<span class="comment">% Now we'll set some lighting and figure properties</span>
+axis <span class="string">image</span> <span class="string">vis3d</span> <span class="string">off</span>
+material <span class="string">dull</span>
+view(210, 20);
+lightRestoreSingle
+
+drawnow, snapnow
+
+<span class="comment">% You can render blobs on these surfaces too.</span>
+
+render_on_surface(t, surface_handles, <span class="string">'colormap'</span>, <span class="string">'hot'</span>);
+drawnow, snapnow
 </pre>
 <pre class="codeoutput">One-sample t-test
 Calculating t-statistics and p-values
@@ -441,7 +649,26 @@ ans =
 
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_33.png" alt=""> <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_34.png" alt=""> <p>Let's load another atlas, and pull out all the "default mode" regions We'll use isosurface to visualize these</p>
-<pre class="codeinput">atlas_obj=load_atlas(<span class="string">'canlab2018_2mm'</span>);atlas_obj=select_atlas_subset(atlas_obj,{<span class="string">'Def'</span>},<span class="string">'labels_2'</span>);create_figure(<span class="string">'isosurface'</span>);surface_handles=isosurface(atlas_obj);<span class="comment">% let's add a cortical surface for context</span><span class="comment">% We'll make the back surface (right) opaque, and the front (left) transparent</span>han=addbrain(<span class="string">'hires right'</span>);set(han,<span class="string">'FaceAlpha'</span>,1);han2=addbrain(<span class="string">'hires left'</span>);set(han2,<span class="string">'FaceAlpha'</span>,0.1);axis<span class="string">image</span><span class="string">vis3d</span><span class="string">off</span>material<span class="string">dull</span>view(-88,31);lightRestoreSingledrawnow,snapnow
+<pre class="codeinput">atlas_obj = load_atlas(<span class="string">'canlab2018_2mm'</span>);
+atlas_obj = select_atlas_subset(atlas_obj, {<span class="string">'Def'</span>}, <span class="string">'labels_2'</span>);
+
+create_figure(<span class="string">'isosurface'</span>);
+surface_handles = isosurface(atlas_obj);
+
+<span class="comment">% let's add a cortical surface for context</span>
+<span class="comment">% We'll make the back surface (right) opaque, and the front (left) transparent</span>
+han = addbrain(<span class="string">'hires right'</span>);
+set(han, <span class="string">'FaceAlpha'</span>, 1);
+
+han2 = addbrain(<span class="string">'hires left'</span>);
+set(han2, <span class="string">'FaceAlpha'</span>, 0.1);
+
+axis <span class="string">image</span> <span class="string">vis3d</span> <span class="string">off</span>
+material <span class="string">dull</span>
+view(-88, 31);
+lightRestoreSingle
+
+drawnow, snapnow
 </pre>
 <pre class="codeoutput">Loading atlas: CANlab_combined_atlas_object_2018_2mm.mat
 
@@ -459,7 +686,19 @@ ans =
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_35.png" alt=""> <h2 id="21">Using isosurface to create a custom surface</h2>
 <p>You can build a cutaway surface or a series of them with the isosurface method, from any suitable image. The image used here is a mean anatomical image that renders nicely. As always, you can use Matlab's rendering to change the look of the surfaces</p>
-<pre class="codeinput">anat=fmri_data(which(<span class="string">'keuken_2014_enhanced_for_underlay.img'</span>),<span class="string">'noverbose'</span>);create_figure(<span class="string">'cutaways'</span>);axis<span class="string">off</span>surface_handles=isosurface(anat,<span class="string">'thresh'</span>,140,<span class="string">'nosmooth'</span>,<span class="string">'xlim'</span>,[-Inf0],<span class="string">'YLim'</span>,[-30Inf],<span class="string">'ZLim'</span>,[-Inf40]);axes(get(surface_handles(1),<span class="string">'Parent'</span>))view(-127,33);set(surface_handles,<span class="string">'FaceAlpha'</span>,.85);render_on_surface(t,surface_handles);snapnow
+<pre class="codeinput">anat = fmri_data(which(<span class="string">'keuken_2014_enhanced_for_underlay.img'</span>), <span class="string">'noverbose'</span>);
+
+create_figure(<span class="string">'cutaways'</span>); axis <span class="string">off</span>
+
+surface_handles = isosurface(anat, <span class="string">'thresh'</span>, 140, <span class="string">'nosmooth'</span>, <span class="string">'xlim'</span>, [-Inf 0], <span class="string">'YLim'</span>, [-30 Inf], <span class="string">'ZLim'</span>, [-Inf 40]);
+
+axes(get(surface_handles(1),<span class="string">'Parent'</span>))
+view(-127, 33);
+set(surface_handles, <span class="string">'FaceAlpha'</span>, .85);
+
+render_on_surface(t, surface_handles);
+
+snapnow
 </pre>
 <img vspace="5" hspace="5" src="canlab_help_4b_3D_visualization_36.png" alt=""> <h2 id="22">Explore on your own</h2>
 <p>1. Try to create your own custom brain surface to visualize one of the 3 statistic image maps we've been working on. Can you make a plot that really shows the important results in a clear way?</p>
@@ -549,10 +788,12 @@ ans =
 [test_images, names] = load_image_set('kragel18_alldata', 'noverbose');
 
 % This field contains a table object with metadata for each image:
+
 metadata = test_images.metadata_table;
 metadata(1:5, :)                        % Show the first 5 rows
 
 % Here are the 3 domains:
+
 disp(unique(metadata.Domain))
 
 % Find all the images of "Neg_Emotion" and pull those into a separate
@@ -591,10 +832,12 @@ t_pain = ttest(pain, .001, 'fdr');
 
 % This generates a series of 6 surfaces of different types, including a
 % subcortical cutaway
+
 surface(t);
 drawnow, snapnow
 
 % This generates a different plot 
+
 create_figure('lateral surfaces');
 surface_handles = surface(t, 'foursurfaces', 'noverbose');
 snapnow
