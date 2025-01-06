@@ -41,6 +41,7 @@ These are didactic tutorials using Matlab live scripts. There is also a compleme
 | [3.2. Preprocessing basics using SPM](tutorials/html/preproc_basics_spm12.html) | [Download Matlab Live Script](tutorials/matlab/preproc_basics_spm12.mlx) |
 | [3.3. First-level model using the SPM GUI](tutorials/html/first_level_spm12.html) | [Download Matlab Live Script](tutorials/matlab/first_level_spm12.mlx) |
 | [3.4. First-level model using CANlab regress()](tutorials/html/first_level_canlab.html) | [Download Matlab Live Script](tutorials/matlab/first_level_canlab.mlx) |
+| [3.5. Parametric modulators with variable event durations](tutorials/html/variable_dur_and_param_mod_example_code.html) | [Download Matlab Live Script](tutorials/matlab/variable_dur_and_param_mod_example_code.mlx) |
 
 | Second-level models with CANlab tools            
 | ------------       |
