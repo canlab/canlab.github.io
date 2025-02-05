@@ -19,7 +19,7 @@ Interactive analysis using objects has a number of advantages. See the main [CAN
 
 ## Locations of walkthroughs and batch scripts
 
-[install](canlab_help_1_installing_tools.html). How to install the tools.
+[install](canlab_help_1_installing_tools/canlab_help_1_installing_tools.html). How to install the tools.
 
 Other step-by-step analysis walkthroughs are in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `example_help_files` folder.
 
