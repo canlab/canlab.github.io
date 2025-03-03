@@ -32,6 +32,8 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | [2.5. Create and explore 1st-level design matrices](first_level_design_matrix_exploration/first_level_design_matrix_exploration.html)
 | [2.6. regression, interactive analysis](canlab_help_5_regression_walkthrough/canlab_help_5_regression_walkthrough.html)
 | [2.7. Interpreting maps with Neurosynth topic similarity and wedge plots](neurosynth_topic_similarity_and_wedge_plot/neurosynth_topic_similarity_and_wedge_plot.html)
+| [2.8. Annotating a results map with transmodal and transcriptomic gradients, neurochemical maps, resting-state networks, and Neurosynth topics](canlab_help_annotate_thresholded_results_map/canlab_help_annotate_thresholded_results_map.html)
+
 
 | Multivariate predictive models           
 | ------------       |
@@ -51,6 +53,12 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 | Coordinate-based Meta-analysis          
 | ------------       |
 | [5.1. MKDA meta-analysis 1](canlab_meta_analysis_walkthrough1.m/canlab_meta_analysis_walkthrough1.html)
+
+| Multivariate Pathway Identification (MPathI) and connectivity       
+| ------------       |
+| [6.1. Prep time series data for connectivity](tutorials/html/canlab_help_prep_for_connectivity.html) | [Download Matlab Live Script](tutorials/matlab/canlab_help_prep_for_connectivity.mlx) |  
+| [6.2. MPathI pathway dissociation](tutorials/html/canlab_help_MPathI_multivariate_pathway.html) | [Download Matlab Live Script](tutorials/matlab/canlab_help_MPathI_multivariate_pathway.mlx) |  
+
 
 ## Other tutorials
 
