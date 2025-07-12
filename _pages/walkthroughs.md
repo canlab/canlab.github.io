@@ -64,15 +64,17 @@ Code to run each walkthrough is included in the CANlab core toolbox or on Neurov
 
 [13. more visualization](visualize_neuroimaging_data/visualize_neuroimaging_data.html)
 
-[14. CANLab single trials demo](canlab_single_trials_demo/demo_norming_comparison.html)
+[14. more visualization: surface rendering](canlab_help_surface_projection/mnisurf_projection_tutorial.html)
+
+[15. CANLab single trials demo](canlab_single_trials_demo/demo_norming_comparison.html)
 
 ## Behavioral data and Plots
 
-[15. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
+[16. the canlab_dataset object](canlab_dataset_basic_usage/canlab_dataset_basic_usage.html)
 
-[16. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
+[17. time series and bar plots](atlas_2012_behavioral_plot_example_figure/atlas_2012_behavioral_plot_example_figure.html)
 
-[17. mixed effects models in Matlab and CANLab glmfit_multilevel](canlab_mixed_model_example/canlab_mixed_model_example.html)
+[18. mixed effects models in Matlab and CANLab glmfit_multilevel](canlab_mixed_model_example/canlab_mixed_model_example.html)
 
 ## Tutorials in progress
 Please note that the tutorials which follow are works in progress and of primary interest to advanced users.
