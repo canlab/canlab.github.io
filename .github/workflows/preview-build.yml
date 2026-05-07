@@ -33,6 +33,9 @@ jobs:
         run: bundle exec jekyll build --trace
         env:
           JEKYLL_ENV: production
+          # github-pages gem needs the owner/repo when not running inside the
+          # official GitHub Pages builder.
+          PAGES_REPO_NWO: ${{ github.repository }}
 
       - name: Upload built site as artifact
         uses: actions/upload-artifact@v4
