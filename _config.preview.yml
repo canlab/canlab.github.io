@@ -1,0 +1,9 @@
+# Overrides used only by the preview build workflow.
+# Empty url + baseurl makes all generated links root-relative so the site
+# works when served from any local web server (e.g. python3 -m http.server).
+
+url: ""
+baseurl: ""
+
+analytics:
+  provider: false

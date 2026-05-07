@@ -30,7 +30,9 @@ jobs:
           bundler-cache: true
 
       - name: Build site with Jekyll
-        run: bundle exec jekyll build --trace
+        # Stack _config.preview.yml on top of _config.yml so generated links
+        # are root-relative (work when served from a local http server).
+        run: bundle exec jekyll build --trace --config _config.yml,_config.preview.yml
         env:
           JEKYLL_ENV: production
           # github-pages gem needs the owner/repo when not running inside the
