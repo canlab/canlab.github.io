@@ -39,6 +39,11 @@ jobs:
           # official GitHub Pages builder.
           PAGES_REPO_NWO: ${{ github.repository }}
 
+      # Future improvement: add an internal-link checker step here (e.g.
+      # lycheeverse/lychee-action) once the existing site is clean enough
+      # not to fail every build. Run locally with htmlproofer first to
+      # establish a baseline.
+
       - name: Upload built site as artifact
         uses: actions/upload-artifact@v4
         with:
