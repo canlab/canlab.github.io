@@ -1,0 +1,52 @@
+name: Preview build
+
+# Builds the site on every push to a non-master branch and uploads the rendered
+# _site/ folder as a downloadable artifact you can preview locally. The live
+# canlab.github.io site (served from master) is not affected.
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - main
+  workflow_dispatch: # also allows running manually from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+
+      # The committed Gemfile.lock is from 2018 and pins gems that don't resolve
+      # on modern Ruby. For previews we re-resolve from the Gemfile.
+      - name: Refresh Gemfile.lock
+        run: rm -f Gemfile.lock
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+
+      - name: Build site with Jekyll
+        # Stack _config.preview.yml on top of _config.yml so generated links
+        # are root-relative (work when served from a local http server).
+        run: bundle exec jekyll build --trace --config _config.yml,_config.preview.yml
+        env:
+          JEKYLL_ENV: production
+          # github-pages gem needs the owner/repo when not running inside the
+          # official GitHub Pages builder.
+          PAGES_REPO_NWO: ${{ github.repository }}
+
+      # Future improvement: add an internal-link checker step here (e.g.
+      # lycheeverse/lychee-action) once the existing site is clean enough
+      # not to fail every build. Run locally with htmlproofer first to
+      # establish a baseline.
+
+      - name: Upload built site as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-${{ github.ref_name }}-${{ github.sha }}
+          path: _site
+          retention-days: 14

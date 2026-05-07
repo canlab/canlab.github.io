@@ -2,7 +2,10 @@
 permalink: /tutorials/
 title: "fMRI tutorials with Matlab Live Scripts"
 excerpt: "Code to run each walkthrough is included in the CANlab Core toolbox, and datasets are included or downloaded from Neurovault."
-author_profile: true
+author_profile: false
+toc: true
+toc_label: "Tutorials"
+toc_sticky: true
 # redirect_from:
 #  * /objectoriented/
 #  * /objectoriented.md

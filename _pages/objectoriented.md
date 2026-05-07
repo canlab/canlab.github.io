@@ -1,64 +1,54 @@
 ---
 permalink: /objectoriented/
 title: "Object-oriented analysis"
-excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. This site serves as the point of entry for using these tools."
-author_profile: true
+excerpt: "Interactive fMRI analysis using a small set of CANlab data objects and their methods."
+author_profile: false
+toc: true
+toc_label: "On this page"
+toc_sticky: true
 # redirect_from:
 #  * /objectoriented/
 #  * /objectoriented.md
 ---
 {% include base_path %}
 
-The CANlab imaging analysis tools consist of a set of linked [Github repositories](/repositories.md).
+The CANlab tools enable interactive analysis of fMRI and other neuroimaging data through a small set of objects with simple, high-level methods (commands) tailored to neuroimaging. The toolboxes are distributed across linked [GitHub repositories](/repositories/).
 
-They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.
+For the broader rationale behind interactive analysis, see the [home page](/) and the [philosophy section](/#interactive-analysis-philosophy-and-principles).
 
-## Interactive analysis: Philosophy and principles
+## Where to find walkthroughs and batch scripts
 
-Interactive analysis using objects has a number of advantages. See the main [CANlab intro page](/) for more on the philosophy behind this approach.
+- **Walkthroughs:** the [walkthroughs index](/walkthroughs/) is the main entry point. Source `.m` files are in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples) under `example_help_files`; the rendered HTML reports are under `published_html`.
+- **Batch scripts:** the second-level analysis batch system lives in the same repository under `Second_level_analysis_template_scripts`. See the [batch system page](/batch/) for an overview.
 
-## Locations of walkthroughs and batch scripts
-
-[install](canlab_help_1_installing_tools/canlab_help_1_installing_tools.html). How to install the tools.
-
-Other step-by-step analysis walkthroughs are in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `example_help_files` folder.
-
-These are executable Matlab files (.m files) that can be run. They can also be published to HTML files (see canlab_help_publish.m). A set of HTML files with figures and printouts of these help examples is in the `published_html` folder.
-
-A system of batch scripts is in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `Second_level_analysis_template_scripts` folder. See [batch workflow](canlab_second_level_batch_scripts.html) for a walkthrough of the batch scripts.
-
-
-## types of objects
+## Types of objects
 
 | Object            | Description                                                                 |
-| --------          | --------------------------------------------------------------------------- |
-| fmri_data         | Stores neuroimaging datasets; operate on datasets by calling object methods |
-| statistic_image   | Stores statistic images with stats and P-values                             |
-| atlas             | Stores atlas data with probability maps and integers for unique regions     |
-| region            | Stores data grouped by region/network, treating region as a unit of analysis|
-| fmridisplay       | Container for handles for brain slices and surfaces, allowing visualization |
+| ----------------- | --------------------------------------------------------------------------- |
+| `fmri_data`       | Stores neuroimaging datasets; you operate on a dataset by calling object methods |
+| `statistic_image` | Stores statistic images with stats and P-values                             |
+| `atlas`           | Stores atlas data with probability maps and integers for unique regions     |
+| `region`          | Stores data grouped by region/network, treating each region as a unit of analysis |
+| `fmridisplay`     | Container for handles to brain slices and surfaces, used for visualization  |
 
-![object types flowchart image](/images/CANlab_object_types_flowchart.png)
+![object types flowchart](/images/CANlab_object_types_flowchart.png)
 
-## fmri_data object features and philosophy
+## `fmri_data` object: features and philosophy
 
-  * **Flat format:** Store image data in a flat (2-d), space-efficient voxels x images matrix
-  * **Save space:** Tools to remove out-of-image voxels and empty (zero/NaN) voxels, store data in single-precision format
-  * **Analysis-friendly:** 2-d matrices can be read and analyzed in multiple packages/algorithms
-  * Meta-data included to convert back to 3-d image volume space,
-    with easy tools (methods) to reconstruct and visualize images
-    Built-in resampling makes it easy to compare/combine datasets with different voxel sizes and image bounding boxes. Reduces overhead for statisticians/data scientists unfamiliar with neuroimaging to apply their algorithms.
-  * Multiple images can be stored in a single object
-  * Methods have short, intuitive names, and perform high-level functions specialized for neuroimaging. e.g., some example methods are:
-  * **Visualization** (plot, orthviews, surface, montage, histogram, isosurface methods)
-  * **Image manipulation** (apply_mask, get_wh_image, resample_space, compare_space, flip, threshold methods)
-  * **Data extraction** (apply_atlas, apply_parcellation, extract_gray_white_csf, extract_roi_averages)
-  * **Analysis** (ica, mahal, image_math, and many more in the fmri_data subclass)
-  * **Provenance:** Ability to track and update history of changes to objects
-  * **Documentation:** In Matlab, type `doc object_class` name (e.g., `doc fmri_data`) for properties, methods, and examples.  
+- **Flat format.** Image data lives in a 2-D voxels × images matrix that's space-efficient and easy to feed into any other analysis package.
+- **Compact storage.** Out-of-image and empty voxels are removed, and data are kept in single precision.
+- **Reversible.** Metadata is retained so you can reconstruct the 3-D image volume at any time. Built-in resampling makes it easy to combine datasets with different voxel sizes and bounding boxes.
+- **Multi-image.** A single object can hold many images.
+- **Short, intuitive method names** specialized for neuroimaging:
+  - **Visualization** — `plot`, `orthviews`, `surface`, `montage`, `histogram`, `isosurface`
+  - **Image manipulation** — `apply_mask`, `get_wh_image`, `resample_space`, `compare_space`, `flip`, `threshold`
+  - **Data extraction** — `apply_atlas`, `apply_parcellation`, `extract_gray_white_csf`, `extract_roi_averages`
+  - **Analysis** — `ica`, `mahal`, `image_math`, and many more in the `fmri_data` subclass
+- **Provenance.** History of changes to an object is tracked and updated.
+- **Documentation.** In Matlab, `doc <class_name>` (e.g. `doc fmri_data`) shows properties, methods, and examples.
 
-## flowchart for a simple Analysis
+## A simple analysis flow
 
-The diagram below shows a flowchart for a simple group analysis, starting by loading a set of images (.nii or .img, one per subject) into an fmri_data object. A few simple commands can perform a t-test (or other analysis), threshold the resulting statistic map (a statistic_image object), and display interactive views, slice montages, tables with automatically labeled regions, and more.
+The diagram below shows a flowchart for a simple group analysis: load a set of images (`.nii` or `.img`, one per subject) into an `fmri_data` object, then a few commands perform a t-test (or other analysis), threshold the resulting statistic map (a `statistic_image` object), and display interactive views, slice montages, region tables with automatic anatomical labels, and more.
 
-![object types flowchart image](/images/CANlab_ttest_flowchart.png)
+![simple t-test flowchart](/images/CANlab_ttest_flowchart.png)
