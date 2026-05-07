@@ -1,0 +1,20 @@
+---
+layout: null
+permalink: /search.json
+sitemap: false
+---
+[
+  {% assign items = site.pages | concat: site.posts | concat: site.teaching | concat: site.publications | concat: site.portfolio | concat: site.talks %}
+  {% for item in items %}
+    {% if item.title and item.permalink %}
+    {
+      "title"   : {{ item.title | jsonify }},
+      "excerpt" : {{ item.excerpt | default: item.description | strip_html | normalize_whitespace | truncatewords: 50 | jsonify }},
+      "category": {{ item.categories | join: ", " | jsonify }},
+      "tags"    : {{ item.tags | join: ", " | jsonify }},
+      "url"     : "{{ item.url | relative_url }}",
+      "content" : {{ item.content | strip_html | strip_newlines | normalize_whitespace | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endif %}
+  {% endfor %}
+]

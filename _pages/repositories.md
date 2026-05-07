@@ -2,7 +2,7 @@
 permalink: /repositories/
 title: "CANlab toolbox repositories"
 excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. Here is a list"
-author_profile: true
+author_profile: false
 
 ---
 {% include base_path %}

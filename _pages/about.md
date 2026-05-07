@@ -9,9 +9,21 @@ author_profile: true
 ---
 {% include base_path %}
 
-The CANlab imaging analysis tools consist of a set of linked [Github repositories](/repositories.md).
+The CANlab imaging analysis tools consist of a set of linked [Github repositories](/repositories/).
 
-They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.  
+They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.
+
+> **New here?** Start with the [Setup page]({{ "/setup/" | relative_url }}) and the [Quick-start walkthrough]({{ "/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html" | relative_url }}). Looking for something specific? Try the [search page]({{ "/search/" | relative_url }}).
+
+## What's new
+
+A short, hand-maintained log of notable updates. For full history, see the [commit log](https://github.com/canlab/canlab.github.io/commits/master).
+
+- **2025** — Surface-rendering tutorial added (`mnisurf_projection_tutorial`). See [walkthrough 7.2]({{ "/walkthroughs/" | relative_url }}#7-visualization-extras).
+- **2025** — `prep_for_connectivity` updated and MPathI walkthrough added. See [section 6]({{ "/walkthroughs/" | relative_url }}#6-multivariate-pathway-identification-mpathi-and-connectivity).
+- **2025** — New "annotate thresholded results map" walkthrough (gradients, neurochemical maps, networks, Neurosynth topics). See [walkthrough 2.8]({{ "/walkthroughs/" | relative_url }}#2-basic-analyses).
+- **2025** — Site-wide search added. Use the magnifying-glass link in the top nav.
+
 
 ## Interactive analysis: Philosophy and principles
 

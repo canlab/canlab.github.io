@@ -1,0 +1,42 @@
+name: Preview build
+
+# Builds the site on every push to a non-master branch and uploads the rendered
+# _site/ folder as a downloadable artifact you can preview locally. The live
+# canlab.github.io site (served from master) is not affected.
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - main
+  workflow_dispatch: # also allows running manually from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+
+      # The committed Gemfile.lock is from 2018 and pins gems that don't resolve
+      # on modern Ruby. For previews we re-resolve from the Gemfile.
+      - name: Refresh Gemfile.lock
+        run: rm -f Gemfile.lock
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+
+      - name: Build site with Jekyll
+        run: bundle exec jekyll build --trace
+        env:
+          JEKYLL_ENV: production
+
+      - name: Upload built site as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-${{ github.ref_name }}-${{ github.sha }}
+          path: _site
+          retention-days: 14

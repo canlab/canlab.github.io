@@ -2,7 +2,10 @@
 permalink: /batch/
 title: "CANlab Second-level analysis batch system"
 excerpt: "The CANlab imaging analysis tools consist of a set of linked Github repositories. This site serves as the point of entry for using these tools."
-author_profile: true
+author_profile: false
+toc: true
+toc_label: "On this page"
+toc_sticky: true
 #redirect_from:
 #  * /about/
 #  * /about.html

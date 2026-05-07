@@ -70,10 +70,17 @@ social:
 
 
 # Analytics
+# Set provider to "google-universal" or "google" and add a tracking_id below to enable.
+# Currently disabled because no tracking ID has been configured (the previous setting
+# loaded the analytics include with no ID, which silently did nothing).
 analytics:
-  provider               :  "google-universal" # false (default), "google", "google-universal", "custom"
+  provider               : false # false (default), "google", "google-universal", "custom"
   google:
-    tracking_id          :
+    tracking_id          : # e.g. "UA-XXXXXXXX-X" or "G-XXXXXXXXXX"
+
+# SEO: to surface this site in search engines, also submit the sitemap (auto-generated
+# at /sitemap.xml by jekyll-sitemap) to Google Search Console at
+# https://search.google.com/search-console — and add the verification token below.
 
 
 # Site Author
