@@ -22,7 +22,7 @@ The CANlab imaging analysis tools consist of a set of linked [Github repositorie
 
 They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.
 
-> **New here?** Start with the [Setup page]({{ "/setup/" | relative_url }}) and the [Quick-start walkthrough]({{ "/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html" | relative_url }}). Looking for something specific? Try the [search page]({{ "/search/" | relative_url }}).
+> **New here?** Start with the [Setup page]({{ "/setup/" | relative_url }}) and the [Quick-start walkthrough]({{ "/_pages/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html" | relative_url }}). Looking for something specific? Try the [search page]({{ "/search/" | relative_url }}).
 
 ## Interactive analysis: Philosophy and principles
 

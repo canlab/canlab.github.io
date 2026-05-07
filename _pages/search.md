@@ -17,7 +17,7 @@ author_profile: false
   <ul id="results-container"></ul>
 </div>
 
-<script src="https://unpkg.com/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+<script src="{{ "/assets/js/simple-jekyll-search.min.js" | relative_url }}"></script>
 <script>
   (function () {
     var sjs = SimpleJekyllSearch({

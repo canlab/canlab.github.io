@@ -12,7 +12,7 @@ redirect_from:
 
 This page walks through Matlab and GitHub setup and gives a fast on-ramp to the CANlab object-oriented tools.
 
-If you just want to start, jump to the [Quick-start walkthrough](/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html). The sections below explain the underlying requirements.
+If you just want to start, jump to the [Quick-start walkthrough](/_pages/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html). The sections below explain the underlying requirements.
 
 ## Requirements at a glance
 
@@ -62,7 +62,7 @@ Use the green **Code** button to either download a zip or copy a clone URL. You 
 
 There is a Matlab script in the [CanlabCore repository](https://github.com/canlab/CanlabCore) that downloads the repositories you need and adds them to your Matlab path. The walkthrough shows you how to use it:
 
-[Setup walkthrough →](/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html)
+[Setup walkthrough →](/_pages/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html)
 
 ## Repositories
 
