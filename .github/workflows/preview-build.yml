@@ -1,18 +1,22 @@
-name: Preview build
+name: Preview build & link check
 
-# Builds the site on every push to a non-master branch and uploads the rendered
-# _site/ folder as a downloadable artifact you can preview locally. The live
-# canlab.github.io site (served from master) is not affected.
+# Two jobs:
+#  * build      — on non-master pushes, uploads the rendered _site/ as a
+#                 downloadable preview artifact. The live site (master) is served
+#                 by GitHub Pages itself and is not affected by this artifact.
+#  * link-check — on every push (including master) and pull request, builds the
+#                 site and fails on broken *internal* links; external links are
+#                 reported but never fail the build.
 
 on:
   push:
-    branches-ignore:
-      - master
-      - main
+  pull_request:
   workflow_dispatch: # also allows running manually from the Actions tab
 
 jobs:
   build:
+    # Preview artifact only for work on non-master branches.
+    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Check out branch
@@ -29,6 +33,12 @@ jobs:
           ruby-version: "3.1"
           bundler-cache: true
 
+      # Rebuild the full-text index for the published HTML walkthroughs so the
+      # preview reflects current content. On the live (master) site this file is
+      # the committed copy; re-run the script locally when walkthroughs change.
+      - name: Rebuild walkthrough search index
+        run: python3 markdown_generator/build_search_extra.py
+
       - name: Build site with Jekyll
         # Stack _config.preview.yml on top of _config.yml so generated links
         # are root-relative (work when served from a local http server).
@@ -39,14 +49,57 @@ jobs:
           # official GitHub Pages builder.
           PAGES_REPO_NWO: ${{ github.repository }}
 
-      # Future improvement: add an internal-link checker step here (e.g.
-      # lycheeverse/lychee-action) once the existing site is clean enough
-      # not to fail every build. Run locally with htmlproofer first to
-      # establish a baseline.
-
       - name: Upload built site as artifact
         uses: actions/upload-artifact@v4
         with:
           name: site-${{ github.ref_name }}-${{ github.sha }}
           path: _site
           retention-days: 14
+
+  # Internal-link checker: fails the build on broken links *within* the site.
+  # External links are checked but do not fail the build (they go stale / rate-limit).
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+
+      - name: Refresh Gemfile.lock
+        run: rm -f Gemfile.lock
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+
+      - name: Rebuild walkthrough search index
+        run: python3 markdown_generator/build_search_extra.py
+
+      - name: Build site with Jekyll
+        run: bundle exec jekyll build --trace --config _config.yml,_config.preview.yml
+        env:
+          JEKYLL_ENV: production
+          PAGES_REPO_NWO: ${{ github.repository }}
+
+      - name: Check internal links (fails on broken internal links)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --offline
+            --no-progress
+            --include-fragments
+            _site
+          fail: true
+
+      - name: Check external links (report only, never fails)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-concurrency 8
+            --accept 200,206,429
+            --exclude-path _site/assets/niivue
+            "_site/**/*.html"
+          fail: false
+          jobSummary: true

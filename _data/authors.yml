@@ -1,18 +1,11 @@
 # Authors
 
-Name Name:
+Tor Wager:
   name        : "Tor Wager"
-  uri         : "http://wagerlab.colorado.edu"
-  email       : "tor.wager@colorado.edu"
-  bio         : "This is the first name."
+  uri         : "https://sites.dartmouth.edu/canlab/"
+  email       : "tor.d.wager@dartmouth.edu"
+  bio         : "Director, Cognitive and Affective Neuroscience Lab, Dartmouth College."
   avatar      : "bio-photo-2.jpg"
-  twitter     : "name"
-  google_plus : "Name"
-
-Name2 Name2:
-  name        : "Luke Slipski"
-  email       : "name2@name2.com"
-  bio         : "I ordered what?"
-  avatar      : "bio-photo.jpg"
-  twitter     : "name2"
-  google_plus : "Name"
+  twitter     : "torwager"
+  bluesky     : "torwager.bsky.social"
+  github      : "https://github.com/canlab"

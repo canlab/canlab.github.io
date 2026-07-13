@@ -66,7 +66,7 @@ There is a Matlab script in the [CanlabCore repository](https://github.com/canla
 
 ## Repositories
 
-The CANlab imaging analysis tools are a set of linked repositories. Links and descriptions are on the [repositories page](/repositories/).
+The CANlab imaging analysis tools are a set of linked repositories. Links and descriptions are on the [home page]({{ "/#repositories" | relative_url }}).
 
 ## Troubleshooting
 

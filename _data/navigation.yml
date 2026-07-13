@@ -3,11 +3,11 @@ main:
   - title: "Setup"
     url: /setup/
 
-  - title: "Repositories"
-    url: /repositories/
-
   - title: "Interactive fMRI"
     url: /objectoriented/
+
+  - title: "Docs"
+    url: /docs/
 
   - title: "Walkthroughs"
     url: /walkthroughs/

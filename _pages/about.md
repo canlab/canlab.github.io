@@ -6,72 +6,99 @@ author_profile: true
 sidebar:
   - title: "What's new"
     text: |
-      A short, hand-maintained log. Full history in the [commit log](https://github.com/canlab/canlab.github.io/commits/master).
+      A short, hand-maintained log. Full history in the [commit log](https://github.com/canlab/CanlabCore/commits/master).
 
-      - **2025** — Surface-rendering tutorial added. See [walkthrough 7.2](/walkthroughs/#7-visualization-extras).
-      - **2025** — `prep_for_connectivity` updated and MPathI walkthrough added. See [section 6](/walkthroughs/#6-multivariate-pathway-identification-mpathi-and-connectivity).
-      - **2025** — New "annotate thresholded results map" walkthrough. See [walkthrough 2.8](/walkthroughs/#2-basic-analyses).
-      - **2025** — Site-wide search added. Use the link in the top nav.
+      - **2026** — Interactive **volume and surface visualization**, including a portable [NiiVue web viewer](/docs/).
+      - **2026** — **scikit-learn-style predictive-modeling API** (`predictive_model`) for interactive multivariate prediction.
+      - **2026** — New **`glm_map`** object and interactive API for first- and second-level GLM analysis.
+      - **2026** — **CIFTI-style surface objects** (`fmri_surface_data`) — native CIFTI/GIFTI, no external toolbox.
+      - **2026** — **Unit tests** now run on every push and nightly.
+      - **2026** — **Updated documentation**: new [Docs page](/docs/) with object references, workflows, and visualization guides.
 #redirect_from:
 #  * /about/
 #  * /about.html
 ---
 {% include base_path %}
 
-The CANlab imaging analysis tools consist of a set of linked [Github repositories](/repositories/).
-
-They enable interactive data analysis for fMRI and other types of neuroimaging data using objects with simple methods (or commands) customized for neuroimaging data analysis.
+The CANlab imaging analysis tools are a set of linked [Github repositories](#repositories) that enable **interactive** analysis of fMRI and other neuroimaging data using objects with simple methods (commands) customized for neuroimaging. Take preprocessed data or single-subject results, load them into lightweight data objects, and explore with commands like `plot`, `predict`, `montage`, and `surface`.
 
 > **New here?** Start with the [Setup page]({{ "/setup/" | relative_url }}) and the [Quick-start walkthrough]({{ "/_pages/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html" | relative_url }}). Looking for something specific? Try the [search page]({{ "/search/" | relative_url }}).
 
-## Interactive analysis: Philosophy and principles
+## Interactive brain viewer
 
-Much of neuroimaging analysis, like other areas of science, has moved towards pipelines: Standardized processing streams that produce reliable results with optimized procedures. This is an essential part of any technology, and an important effort. At same time, however, there is a need for creativity and exploration of data and techniques in order to discover new ways of doing things. And there is a need to understand data — its characteristics, its quirks and outliers, and its behavior under different conditions — in order to avoid spurious results and understand what is true. Exploration and discovery require the ability to visualize data in a variety of ways, interact with it, and create analyses that fit the questions at hand.  
+Results objects render to a portable, self-contained web viewer with one command — `canlab_niivue(t)`. Try it below: switch **layouts**, recolor with the **Colormap** menu, outline the region at the crosshair with **Atlas region**, raise the **Threshold**, fade layers, and click to move the crosshair (its MNI coordinate, value, and atlas region print below the image).
 
-There are many established pipelines for neuroimaging analysis, but relatively few tools that provide flexibility and the ability to interact with data. The CANlab toolboxes were designed with interactive analysis in mind.  The tools provide a high-level language for interacting with neuroimaging data. The idea is to take preprocessed data or even the results of single-subject analyses—the output of established preprocessing pipelines—and import them into lightweight, flexible data objects specialized for neuroimaging visualization and analysis.  These objects allow for interactive analysis with simple commands, like “plot”, “predict”, and “montage”.  
+<iframe src="{{ "/assets/niivue/emotionreg_ttest.html" | relative_url }}"
+        width="100%" height="520"
+        style="border:1px solid #d4d8dd; border-radius:6px;"
+        loading="lazy"
+        title="Interactive CANlab NiiVue brain viewer — emotionreg t-test"></iframe>
 
-There are several advantages to this type of framework. We’re not saying the code is perfect — it’s necessarily a work in progress — but here are some of the values we aspire to:
+*One-sample t-test on the CANlab `emotionreg` sample dataset (p &lt; .005 uncorrected, k ≥ 10), warm/cool blobs over a 2&nbsp;mm MNI underlay. If the frame is blank, [open the demo directly]({{ "/assets/niivue/emotionreg_ttest.html" | relative_url }}). See the [NiiVue viewer guide](https://github.com/canlab/CanlabCore/blob/master/docs/canlab_niivue_guide.md).*
 
-* **Interactivity:** Complex operations can be done with simple commands. For example, single commands perform (a) stratified, cross validated multivariate prediction (b) rendering imaging results on brain slices or surfaces, and many other functions. This operations can thus be done interactively, allowing analysts to explore the distribution of data and the consequences of altering analysis choices.
+## Repositories
 
-* **Transparency:** Scripts that use these commands become simple to read, write, and interpret, increasing transparency and reducing coding errors. A basic group fMRI analysis, including generating publication-quality figures and tables of results, can be performed in only a few (about 5) lines of code.
+The tools are distributed across linked GitHub repositories. **`CanlabCore` and `Neuroimaging_Pattern_Masks` are the foundation and are meant to be used together** — the core object-oriented code plus the masks, signature patterns, and meta-analysis maps it operates on.
 
-Organization of the toolbox around a few core objects makes it easier to discover what they can do (their methods). A series of executable walkthroughs—and HTML reports with expected output—demonstrate some of the core functionality.
+| Core repository | Description |
+| --- | --- |
+| [**CanlabCore**](https://github.com/canlab/CanlabCore) | Object-oriented fMRI analysis tools used across all other toolboxes |
+| [**Neuroimaging_Pattern_Masks**](https://github.com/canlab/Neuroimaging_Pattern_Masks) | Masks, predictive signature patterns, atlases, and meta-analysis maps |
 
-* **Reproducibility:** The use of simple, transparent commands makes it easy to share the code needed to reproduce an analysis in a format that others can understand and use.
+Additional toolboxes are semi-stand-alone but require `CanlabCore`:
 
-* **Minimization of errors:** Core object functions are re-used and vetted across analyses and users, reducing coding errors. The walkthroughs serve as a basic unit test for many core functions, providing a test that analyses are running and producing expected results whatever platform and software versions are being used.  (A full unit test would be desirable, and is planned.)
+| Toolbox | Description |
+| --- | --- |
+| [M3 Multilevel Mediation Toolbox](https://github.com/canlab/MediationToolbox) | Single- and multi-level mediation for any data type, including brain images |
+| [CANlab Robust Regression Toolbox](https://github.com/canlab/RobustToolbox) | Robust regression for 2nd-level (group) analysis |
+| [MKDA Coordinate-Based Meta-Analysis Toolbox](https://github.com/canlab/Canlab_MKDA_MetaAnalysis) | Coordinate-based meta-analysis and multivariate tools |
+| [CANlab_help_examples](https://github.com/canlab/CANlab_help_examples) | Walkthroughs and the 2nd-level batch-script system |
 
-* **Efficiency:** A batch system built on simple object commands runs a variety of standard quality control checks and analyses, and saves date-stamped HTML reports with figures and statistics. This provides a base set of analyses that reduces coding time and reduces coding errors. This is good for archiving and reproducibility, and good for efficiently writing papers.
+Other CANlab repositories contain code and data for experiments and procedures:
 
-* **Shareability:** The data objects are designed to be space efficient, and store imaging data in a fraction of the disk space it takes to store full images.
+| Repository | Description |
+| --- | --- |
+| [Paradigms_Public](https://github.com/canlab/Paradigms_Public) | Experimental paradigms |
+| [FMRI_simulations](https://github.com/canlab/FMRI_simulations) | Brain movies, effect-size and power analyses |
+| [CANlab_data_public](https://github.com/canlab/CANlab_data_public) | Published datasets |
+| [DCC](https://github.com/canlab/Lindquist_Dynamic_Correlation) | Martin Lindquist's dynamic correlation toolbox |
+| [CanlabScripts](https://github.com/canlab/CanlabScripts) | In-lab Matlab / Python / bash utilities |
 
-In the batch system, standardized variable names make it easy to understand the structure of the folders and files, which promotes meaningful sharing. Date-stamped HTML reports provide a record of analyses, figures and statistics that can be archived and shared.
+## Why interactive analysis?
 
-* **Extensibility:** The object-oriented framework is extensible, allowing developers and data scientists to add new methods or object types.
+Much of neuroimaging has moved toward standardized pipelines — an essential foundation. But discovery also requires *exploring* data: visualizing it in many ways, understanding its quirks and outliers, and adapting analyses to the question at hand. The CANlab toolboxes were built for this. They provide a high-level language for neuroimaging data, so complex operations become single, readable commands. Some values we aspire to:
 
-New analytic techniques can be easily “plugged in”. The objects store images in a flat 2-D matrix (voxels x images) that is very familiar to data scientists from all fields, and can be subjected to custom analyses. Core object code handles the rendering of these results back into brain space, including visualization and anatomical labeling. This makes neuroimaging accessible to a variety of data scientists developing sophisticated new analyses.
+* **Interactivity & transparency** — cross-validated multivariate prediction, surface/slice rendering, and results tables are each one command. A basic group analysis, including publication-quality figures and tables, takes about five lines of readable code.
+* **Reproducibility & fewer errors** — simple, shared commands are easy to reproduce, and core object code is re-used and vetted across analyses and users. Executable walkthroughs and unit tests check that core functions still produce expected results.
+* **Efficiency** — a batch system runs standard QC and analyses and saves date-stamped HTML reports with figures and statistics, good for archiving, sharing, and writing papers.
+* **Extensibility** — the object framework is extensible: images are stored in a flat, space-efficient `voxels × images` matrix familiar to data scientists, and core code handles rendering results back into brain space with anatomical labeling.
 
-## Walkthroughs and batch scripts
+For the full rationale — the object model, storage design, and how new methods plug in — see the [**Interactive fMRI analysis page**](/objectoriented/).
 
-A series of step-by-step analysis walkthroughs are in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `example_help_files` folder.
+## Core objects
 
-These are executable Matlab files (.m files) that can be run. They can also be published to HTML files (see canlab_help_publish.m). A set of HTML files with figures and printouts of these help examples is in the `published_html` folder.
+Interactive analysis is organized around a small set of objects with simple, high-level methods. Click a class for its full documentation.
 
-A system of batch scripts is in the [CANlab_help_examples repository](https://github.com/canlab/CANlab_help_examples), in the `Second_level_analysis_template_scripts` folder.
+| Object | Description |
+| --- | --- |
+| [`fmri_data`](https://github.com/canlab/CanlabCore/blob/master/docs/fmri_data_methods.md) | The workhorse: holds images plus metadata; most analysis methods (`predict`, `regress`, `ica`, `ttest`) live here |
+| [`statistic_image`](https://github.com/canlab/CanlabCore/blob/master/docs/statistic_image_methods.md) | Statistic maps (t / p / effect size) with thresholding state |
+| [`atlas`](https://github.com/canlab/CanlabCore/blob/master/docs/atlas_methods.md) | Brain atlases / parcellations with labels and probability maps |
+| [`region`](https://github.com/canlab/CanlabCore/blob/master/docs/region_methods.md) | Data grouped by contiguous cluster / ROI as a unit of analysis |
+| [`fmri_surface_data`](https://github.com/canlab/CanlabCore/blob/master/docs/fmri_surface_data_methods.md) | *New.* CIFTI-style cortical-surface / grayordinate data — native CIFTI/GIFTI, no external toolbox |
+| [`fmridisplay`](https://github.com/canlab/CanlabCore/blob/master/docs/fmridisplay_methods.md) | Container for slice/surface figure handles, for layered visualization |
+| [`glm_map`](https://github.com/canlab/CanlabCore/blob/master/docs/glm_map_methods.md) | *New.* scikit-learn-style estimator for first- and second-level GLM / regression |
+| [`predictive_model`](https://github.com/canlab/CanlabCore/blob/master/docs/predictive_model_methods.md) | *New.* A fitted multivariate prediction model and its artifacts |
 
-## types of objects
+See the [Object methods index](https://github.com/canlab/CanlabCore/blob/master/docs/Object_methods.md) for the complete class list, and the [**Docs page**](/docs/) for all references, workflows, and visualization guides.
 
-See the [Interactive fMRI analysis page](/objectoriented/)
+## Learn more
 
-| Object            | Description                                                                 |
-| --------          | --------------------------------------------------------------------------- |
-| fmri_data         | Stores neuroimaging datasets; operate on datasets by calling object methods |
-| statistic_image   | Stores statistic images with stats and P-values                             |
-| atlas             | Stores atlas data with probability maps and integers for unique regions     |
-| region            | Stores data grouped by region/network, treating region as a unit of analysis|
-| fmridisplay       | Container for handles for brain slices and surfaces, allowing visualization |
+- [**Interactive fMRI analysis**](/objectoriented/) — the philosophy, object model, and a simple analysis flow.
+- [**Docs**](/docs/) — object references, workflows, visualization guides, walkthroughs, and tutorials.
+- [**Walkthroughs**](/walkthroughs/) — step-by-step, runnable analyses.
+- [**Setup**](/setup/) — install the toolboxes and dependencies.
 
 ## Issues and bugs
 
-Please raise issues or document errors by posting issues on the [CAN Lab Github page](https://github.com/canlab/CanlabCore/issues).
+Please raise issues or document errors on the [CANlab Github page](https://github.com/canlab/CanlabCore/issues).
